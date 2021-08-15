@@ -32,7 +32,8 @@ export const HomeScreen: React.FC = ({ }) => {
         (
             <>
                 <View style={{ flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK }}>
-                    <View style={{ flex: 0.3 }}></View>
+                    <View style={{ flex: 0.3 }} />]
+
                     <DashboardAmount />
                     <Transactions />
                     <ButtonQr onPress={() => navigation.navigate('QrScanner')} />

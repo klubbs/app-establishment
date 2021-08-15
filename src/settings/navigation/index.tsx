@@ -7,7 +7,7 @@ import { DrawerNavigation } from './drawer/drawer_stack';
 // import { Container } from './styles';
 
 export const Navigations: React.FC = () => {
-    const [logged, setLogged] = useState(true)
+    const [logged, setLogged] = useState(false)
 
 
 
