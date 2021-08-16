@@ -14,7 +14,7 @@ export const DrawerContent: React.FC = () => {
             <DrawerItem
                 label="Painel"
                 labelStyle={{ color: colors.COLOR_WHITE }}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => navigation.navigate({ name: 'Home' })}
             />
         </DrawerContentScrollView>
     );

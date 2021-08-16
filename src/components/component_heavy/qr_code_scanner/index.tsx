@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
 import { CenterWrapper, Focused, ScanSubtitle, SquareBottom, SquareLeft, SquareRight, SquareTop, ScanDescSubtitle } from './styles';
-
-// import { Container } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export const QrCodeScanner: React.FC = () => {
+
+    const navigation = useNavigation();
 
     const [hasPermission, setHasPermission] = useState<boolean>(false);
     const [scanned, setScanned] = useState(false);
@@ -26,7 +27,8 @@ export const QrCodeScanner: React.FC = () => {
     };
 
     if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+        //TODO: ALERTA QUE NÃO TEM PERMISSÃO DA CÂMERA
+        navigation.goBack();
     }
 
 

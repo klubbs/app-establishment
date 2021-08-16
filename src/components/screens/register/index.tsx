@@ -14,8 +14,12 @@ export const RegisterScreen: React.FC = () => {
     const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
         name: '',
         phone: '',
-        mail: '', description: '', cnpj: '', closedAt: new Date(Date.now()), openedAt: new Date(Date.now()),
-        ownerName: '', ownerCpf: '', modelBusinessId: ''
+        mail: '',
+        description: '',
+        cnpj: '', closedAt: new Date(Date.now()), openedAt: new Date(Date.now()),
+        ownerName: '',
+        ownerCpf: '',
+        modelBusinessId: ''
     })
 
     return (
@@ -57,7 +61,7 @@ export const RegisterScreen: React.FC = () => {
                     setValue={(e: string) => setEstablishment({ ...establishment, description: e })}
                 />
 
-                <CompleteButton onPress={() => navigation.navigate('Contract')} />
+                <CompleteButton onPress={() => navigation.navigate({ name: 'Contract' })} />
 
             </Container>
         </Wrapper>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Wrapper, Container, ContainerSwitch, Subtitle, SwitchContract, ButtonNext } from './styles';
 
 export const ContractScreen: React.FC = () => {
+
+    const navigation = useNavigation();
 
     const [accepted, setAccepted] = useState<boolean>(false)
 
@@ -16,7 +18,7 @@ export const ContractScreen: React.FC = () => {
                 <SwitchContract value={accepted} onValueChange={() => setAccepted(!accepted)} />
             </ContainerSwitch>
             {
-                accepted && <ButtonNext onPress={() => { }} />
+                accepted && <ButtonNext onPress={() => navigation.navigate({ name: 'RegisterCode' })} />
             }
 
         </Wrapper>

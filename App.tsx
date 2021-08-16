@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
 import './src/utils/extensions/date_extensions'
+import AuthProvider from './src/contexts/auth_context';
 
 export default function App() {
 
@@ -32,8 +33,11 @@ export default function App() {
     }
 
     return (
-        <NavigationContainer>
-            <Navigations />
-        </NavigationContainer>
+        <AuthProvider>
+            <NavigationContainer>
+                <Navigations />
+            </NavigationContainer>
+        </AuthProvider>
+
     );
 }

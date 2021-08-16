@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { IAppStackParams } from '../interfaces/IAppStackParams';
 import { HomeScreen } from '../../components/screens/home';
-import { DrawerNavigation } from './drawer/drawer_stack';
 import { QrCodeScanner } from '../../components/component_heavy/qr_code_scanner';
 import colors from '../../../assets/constants/colors';
 
