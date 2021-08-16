@@ -14,7 +14,7 @@ export const PickerTimeStartEnd: React.FC<{ startValue: any, endvalue: any }> = 
             </SubtitleContainer>
 
             <SubtitleContainer>
-                <TimePicker value={props.startValue ?? new Date(Date.now())} onChange={() => console.log('')} />
+                <TimePicker value={props.endvalue ?? new Date(Date.now())} onChange={() => console.log('')} />
                 <Subtitle>Fechamento</Subtitle>
             </SubtitleContainer>
         </Wrapper >

@@ -12,7 +12,7 @@ export const TimePicker = styled(DateTimePicker).attrs(() => ({
     textColor: colors.COLOR_SECUNDARY_BLACK
 }))`
     height: 80px;
-    width: 30%;
+    width: 60%;
 `
 
 export const Wrapper = styled.View`
@@ -31,7 +31,7 @@ export const Wrapper = styled.View`
 
 export const SubtitleContainer = styled.View`
     justify-content: space-evenly;
-    width:100%;
+    flex:1;
     align-items: center;
 `
 

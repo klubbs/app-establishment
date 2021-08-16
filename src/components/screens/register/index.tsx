@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
-import { InputWithIcon } from '../../component/input-with-icon';
 import { PickerTimeStartEnd } from '../../component/picker_time_start_end';
 import { IEstablishmentRegister } from './interfaces';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Constants } from 'expo-constants'
 
-import { Wrapper, Description, Phone, Mail, Cnpj, Name, Container, GooglePlaces, NameResponsible, Cpf } from './styles';
+import { Wrapper, Description, Phone, Mail, Cnpj, Name, Container, GooglePlaces, NameResponsible, Cpf, ArrowIcon, CompleteButton } from './styles';
+import colors from '../../../../assets/constants/colors';
+import { PickerModelBusiness } from '../../component/picker_model_business';
+import { useNavigation } from '@react-navigation/native';
 
 export const RegisterScreen: React.FC = () => {
 
-    const [establishment, setEstablishment] = useState<IEstablishmentRegister>({ name: '', phone: '', mail: '', description: '', cnpj: '', closedAt: new Date(Date.now()), openedAt: new Date(Date.now()), ownerName: '', ownerCpf: '' })
+    const navigation = useNavigation();
+
+    const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
+        name: '',
+        phone: '',
+        mail: '', description: '', cnpj: '', closedAt: new Date(Date.now()), openedAt: new Date(Date.now()),
+        ownerName: '', ownerCpf: '', modelBusinessId: ''
+    })
 
     return (
         <Wrapper >
@@ -32,19 +38,26 @@ export const RegisterScreen: React.FC = () => {
                 <Cpf
                     value={`${establishment.ownerCpf}`} setValue={(e: string) => setEstablishment({ ...establishment, ownerCpf: e })}
                 />
-            </Container>
 
+                <ArrowIcon />
+            </Container>
             <Container>
+                <ArrowIcon mode='up' />
 
                 <GooglePlaces onPress={(data, details = null) => null} />
 
                 <PickerTimeStartEnd startValue={establishment.openedAt} endvalue={establishment.closedAt} />
+
+                <PickerModelBusiness
+                    onChangeCb={(e: string) => setEstablishment({ ...establishment, modelBusinessId: e })}
+                />
 
                 <Description
                     value={establishment.description}
                     setValue={(e: string) => setEstablishment({ ...establishment, description: e })}
                 />
 
+                <CompleteButton onPress={() => navigation.navigate('Contract')} />
 
             </Container>
         </Wrapper>

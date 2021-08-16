@@ -8,5 +8,6 @@ export interface IEstablishmentRegister {
     closedAt: Date,
     description: string,
     ownerName: string,
-    ownerCpf: string
+    ownerCpf: string,
+    modelBusinessId: string,
 }
