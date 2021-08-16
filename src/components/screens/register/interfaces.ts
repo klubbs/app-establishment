@@ -4,7 +4,9 @@ export interface IEstablishmentRegister {
     cnpj: string,
     mail: string,
     phone: string,
-    openedAt: number,
-    closedAt: number,
-    description: string
+    openedAt: Date,
+    closedAt: Date,
+    description: string,
+    ownerName: string,
+    ownerCpf: string
 }
