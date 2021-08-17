@@ -7,24 +7,26 @@ import { Validator } from 'fluentvalidation-ts';
 export class RegisterService {
 
 
-    static async register(params: IEstablishmentRegister) {
+    static async register(params: IEstablishmentRegister, code: string): Promise<{}> {
+
         const entitie = this.contract(params);
 
-        const { data } = await api.post('');
+        const { data } = await api.post<{}>('');
+
+        return data;
     }
 
     static validate(params: IEstablishmentRegister): ValidationErrors<IEstablishmentRegister> {
 
         const validator = new RegisterValidator();
 
-        validator.validate(params)
-
-
+        return validator.validate(params)
     }
 
     static contract(params: IEstablishmentRegister): IRegisterRequest {
         return {
             name: params.name,
+            password: params.password,
             description: params.description,
             ownerName: params.ownerName,
             modelBusinessId: params.modelBusinessId,
@@ -78,8 +80,12 @@ class RegisterValidator extends Validator<IEstablishmentRegister> {
 
         this.ruleFor('cnpj')
             .notEmpty()
-            .matches(new RegExp(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/))
+            .matches(new RegExp(/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/))
             .withMessage('Preencha com um CNPJ válido.');
+
+        this.ruleFor('password')
+            .minLength(5)
+            .withMessage('Senha deve ter no mínimo 5 caracteres')
 
         this.ruleFor('phone')
             .notEmpty()

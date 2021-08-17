@@ -11,7 +11,7 @@ export const ContractScreen: React.FC<ContractScreenProps> = ({ route }) => {
     const [accepted, setAccepted] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log(route.params)
+
     }, [])
 
     return (
@@ -23,7 +23,7 @@ export const ContractScreen: React.FC<ContractScreenProps> = ({ route }) => {
                 <SwitchContract value={accepted} onValueChange={() => setAccepted(!accepted)} />
             </ContainerSwitch>
             {
-                accepted && <ButtonNext onPress={() => navigation.navigate("RegisterCode")} />
+                accepted && <ButtonNext onPress={() => navigation.navigate("RegisterCode", route.params)} />
             }
 
         </Wrapper>

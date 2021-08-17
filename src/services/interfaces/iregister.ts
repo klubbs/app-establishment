@@ -9,4 +9,6 @@ export interface IRegisterRequest {
     ownerName: string,
     ownerCpf: string,
     modelBusinessId: string,
+
+    password: string
 }

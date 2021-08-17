@@ -12,6 +12,20 @@ export const LoginScreen: React.FC = () => {
     const [login, setLogin] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
+    const onLogin = async () => {
+        try {
+            //TODO: LOADING
+
+            await signIn(login, password);
+
+
+        } catch (error) {
+            //TODO:VALIDAR ERROS API
+        } finally {
+
+        }
+    }
+
     return (
         <Wrapper>
             <WelcomeSubtitle>Vamos conectar você.</WelcomeSubtitle>
@@ -28,7 +42,7 @@ export const LoginScreen: React.FC = () => {
                 <ForgotPasswordSubtitle>Esqueceu sua senha ?</ForgotPasswordSubtitle>
             </ForgotPasswordTouch>
 
-            <ButtonLogin text={'Login'} onPress={() => signIn()} />
+            <ButtonLogin text={'Login'} onPress={() => onLogin()} />
         </Wrapper>
     );
 }

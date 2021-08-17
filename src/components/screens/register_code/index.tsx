@@ -5,8 +5,9 @@ import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmatio
 import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles';
 import { AuthContext } from '../../../contexts/auth_context';
 import { RegisterCodeScreenProps } from '../../../settings/interfaces/IAuthStackParams';
+import { RegisterService } from '../../../services/registerService';
 
-export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = () => {
+export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route }) => {
 
     const { signIn } = useContext(AuthContext)
 
@@ -36,10 +37,29 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = () => {
         );
     };
 
+    const onRegisterEstablishment = async () => {
+
+        try {
+
+            //loading
+
+            const response = await RegisterService.register(route.params, code);
+
+            await signIn(route.params.mail,route.params.password);
+
+        } catch (error) {
+
+            //Valida possíveis erros da API
+
+        } finally {
+
+        }
+    }
+
     return (
         <Wrapper>
             <Subtitle>Enviamos um código de 5 dígitos para</Subtitle>
-            <Email>adonisdoda@gmail.com</Email>
+            <Email>{route.params.mail}</Email>
 
             <CodeField
                 value={code}
@@ -51,7 +71,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = () => {
                 autoFocus={true}
                 {...props}
             />
-            <RegisterButton onPress={() => signIn()} />
+            <RegisterButton onPress={() => onRegisterEstablishment()} />
         </Wrapper>
     );
 }

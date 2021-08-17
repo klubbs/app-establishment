@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import './src/utils/extensions/date_extensions'
 import './src/utils/extensions/object_extensions'
 import AuthProvider from './src/contexts/auth_context';
+import FlashComponent from 'flash-notify'
 
 export default function App() {
 
@@ -35,6 +36,7 @@ export default function App() {
 
     return (
         <AuthProvider>
+            <FlashComponent />
             <NavigationContainer>
                 <Navigations />
             </NavigationContainer>

@@ -7,7 +7,7 @@ import { IModelBusinessPicker } from './interfaces';
 export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 
     const [values, setValues] = useState<IModelBusinessPicker[]>([])
-    const [selectedValue, setSelectedValue] = useState<string>('')
+    const [selectedValue, setSelectedValue] = useState<string>('AW$23232')
 
     useEffect(() => {
 

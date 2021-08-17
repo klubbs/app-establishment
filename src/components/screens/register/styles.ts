@@ -34,19 +34,27 @@ export const Container = styled.View`
     width:100%;
 `
 
-const InputBase = styled(InputWithIcon)`
+const InputBase = styled(InputWithIcon).attrs((props: { invalid: boolean }) => ({
+    placeholderTextColor: props.invalid ? colors.COLOR_RED : colors.COLOR_BLACK50,
+})) <{ invalid: boolean }>`
     width:90%;
     height:60px;
     margin-bottom: 30px;
+    border-color: ${props => props.invalid ? colors.COLOR_RED : 'transparent'};
+    border-width: ${props => props.invalid ? '2px' : '0'};
 `
 
-const InputMaskBase = styled(InputWithMask)`
+const InputMaskBase = styled(InputWithMask).attrs((props: { invalid: boolean }) => ({
+    placeholderTextColor: props.invalid ? colors.COLOR_RED : colors.COLOR_BLACK50,
+})) <{ invalid: boolean }>`
     width:90%;
     height:60px;
     margin-bottom: 30px;
+    border-color: ${props => props.invalid ? colors.COLOR_RED : 'transparent'};
+    border-width: ${props => props.invalid ? '2px' : '0'};
 `
 
-export const Name = styled(InputBase).attrs(() => ({
+export const Name = styled(InputBase).attrs((props) => ({
     placeholder: 'Nome fantasia do estabelecimento',
     keyboardType: 'default'
 }))`
@@ -60,7 +68,7 @@ export const Cnpj = styled(InputMaskBase).attrs(() => ({
 `
 
 export const Mail = styled(InputBase).attrs(() => ({
-    placeholder: 'Email do estabelecimento',
+    placeholder: 'Email',
     keyboardType: 'email-address'
 }))`
 `
@@ -85,7 +93,14 @@ export const Cpf = styled(InputMaskBase).attrs(() => ({
 }))`
 `
 
-export const Description = styled(InputWithIcon).attrs(() => ({
+export const Password = styled(InputBase).attrs(() => ({
+    placeholder: 'Senha',
+    keyboardType: 'default',
+    secureTextEntry: true
+}))`
+`
+
+export const Description = styled(InputBase).attrs(() => ({
     placeholder: 'Descreva o estabelecimento para os usuários!',
     multiline: true
 }))`
@@ -94,12 +109,12 @@ export const Description = styled(InputWithIcon).attrs(() => ({
     height:100px;
 `
 
-export const ArrowIcon = styled(DoubleArrowRightIcon).attrs((props: { mode: string }) => ({
+export const ArrowIcon = styled(DoubleArrowRightIcon).attrs((props: { mode?: string }) => ({
     width: 20,
     height: 20,
     fill: colors.COLOR_YELLOW,
     up: props.mode === 'up'
-}))`
+})) <{ mode?: string }>`
     transform: ${props => props.up ? 'rotate(-90deg)' : 'rotate(90deg)'};
     bottom:${props => props.up ? '30px' : 0}
 `

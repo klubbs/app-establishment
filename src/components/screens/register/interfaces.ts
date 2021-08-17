@@ -10,4 +10,5 @@ export interface IEstablishmentRegister {
     ownerName: string,
     ownerCpf: string,
     modelBusinessId: string,
+    password: string
 }
