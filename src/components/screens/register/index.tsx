@@ -28,19 +28,19 @@ export const RegisterScreen: React.FC = () => {
                 <Name
                     value={establishment.name} setValue={(e: string) => setEstablishment({ ...establishment, name: e })} />
                 <Phone
-                    value={establishment.phone} setValue={(e: string) => setEstablishment({ ...establishment, phone: e })}
+                    value={establishment.phone} onChangeText={(e: string) => setEstablishment({ ...establishment, phone: e })}
                 />
                 <Mail
                     value={establishment.mail} setValue={(e: string) => setEstablishment({ ...establishment, mail: e })}
                 />
                 <Cnpj
-                    value={`${establishment.cnpj}`} setValue={(e: string) => setEstablishment({ ...establishment, cnpj: e })}
+                    value={`${establishment.cnpj}`} onChangeText={(e: string) => setEstablishment({ ...establishment, cnpj: e })}
                 />
                 <NameResponsible
                     value={`${establishment.ownerName}`} setValue={(e: string) => setEstablishment({ ...establishment, ownerName: e })}
                 />
                 <Cpf
-                    value={`${establishment.ownerCpf}`} setValue={(e: string) => setEstablishment({ ...establishment, ownerCpf: e })}
+                    value={`${establishment.ownerCpf}`} onChangeText={(e: string) => setEstablishment({ ...establishment, ownerCpf: e })}
                 />
 
                 <ArrowIcon />

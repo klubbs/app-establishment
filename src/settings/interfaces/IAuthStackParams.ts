@@ -6,5 +6,6 @@ export type IAuthStackParams = {
     Register: undefined;
     Contract: IEstablishmentRegister;
     RegisterCode: IEstablishmentRegister;
+    Login: undefined;
 };
 

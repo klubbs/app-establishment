@@ -14,9 +14,13 @@ export const QrCodeScanner: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
+            const { granted } = await BarCodeScanner.requestPermissionsAsync();
 
-            setHasPermission(status === 'granted');
+            setHasPermission(granted);
+
+            if (!granted) {
+                navigation.goBack();
+            }
         })();
     }, []);
 
@@ -27,8 +31,7 @@ export const QrCodeScanner: React.FC = () => {
     };
 
     if (hasPermission === false) {
-        //TODO: ALERTA QUE NÃO TEM PERMISSÃO DA CÂMERA
-        navigation.goBack();
+        return (<View></View>)
     }
 
 

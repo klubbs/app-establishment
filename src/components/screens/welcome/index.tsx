@@ -15,7 +15,7 @@ export const WelcomeScreen: React.FC = () => {
             <ImageBackgroundWelcomeIcons source={require('../../../../assets/images/welcome-login-icons-image.png')} />
             <ContainerButtons>
                 <Button text={"ABRIR CONTA"} onPress={() => navigation.navigate({ name: 'Register' })} styleContainer={{ flex: 1.5 }} />
-                <ContainerEnter onPress={() => console.log()}>
+                <ContainerEnter onPress={() => navigation.navigate({ name: 'Login' })}>
                     <Enter>Entrar</Enter>
                     <EnterDesc>Já tenho conta</EnterDesc>
                 </ContainerEnter>

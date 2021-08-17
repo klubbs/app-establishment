@@ -6,6 +6,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import Constants from 'expo-constants';
 import { DoubleArrowRightIcon } from '../../../../assets/icons/double_arrow_right_icon';
 import Button from '../../component/button';
+import { InputWithMask } from '../../component/input-with-mask';
 
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -33,15 +34,22 @@ const InputBase = styled(InputWithIcon)`
     margin-bottom: 30px;
 `
 
+const InputMaskBase = styled(InputWithMask)`
+    width:90%;
+    height:60px;
+    margin-bottom: 30px;
+`
+
 export const Name = styled(InputBase).attrs(() => ({
     placeholder: 'Nome fantasia do estabelecimento',
     keyboardType: 'default'
 }))`
 `
 
-export const Cnpj = styled(InputBase).attrs(() => ({
+export const Cnpj = styled(InputMaskBase).attrs(() => ({
     placeholder: 'CNPJ',
-    keyboardType: 'numeric'
+    keyboardType: 'numeric',
+    type: 'cnpj'
 }))`
 `
 
@@ -51,9 +59,10 @@ export const Mail = styled(InputBase).attrs(() => ({
 }))`
 `
 
-export const Phone = styled(InputBase).attrs(() => ({
+export const Phone = styled(InputMaskBase).attrs(() => ({
     placeholder: 'Telefone do estabelecimento',
-    keyboardType: 'numeric'
+    keyboardType: 'numeric',
+    type: 'cel-phone'
 }))`
 `
 
@@ -63,9 +72,10 @@ export const NameResponsible = styled(InputBase).attrs(() => ({
 }))`
 `
 
-export const Cpf = styled(InputBase).attrs(() => ({
+export const Cpf = styled(InputMaskBase).attrs(() => ({
     placeholder: 'CPF',
-    keyboardType: 'numeric'
+    keyboardType: 'numeric',
+    type: 'cpf'
 }))`
 `
 
