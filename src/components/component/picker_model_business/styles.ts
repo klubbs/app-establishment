@@ -11,6 +11,5 @@ export const WrapperPicker = styled(Picker).attrs(() => ({
     background-color: ${colors.COLOR_WHITE};
     border-radius: 10px;
     padding:10px;
-    margin-bottom: 30px;
     justify-content: center;
 `

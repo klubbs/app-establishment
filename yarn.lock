@@ -3327,6 +3327,11 @@ flash-notify@^1.1.2:
   dependencies:
     expo-linear-gradient "^8.1.0"
 
+fluentvalidation-ts@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/fluentvalidation-ts/-/fluentvalidation-ts-2.2.2.tgz#21cd04c60760515eac8d73640ea718d71c353780"
+  integrity sha512-ZVBNfYtmfGu+hFIvtL1s+J+pVhP61XoFJihs/I4Ld3NYECqpbYUbZCWIIFNbFEL37wha9/odRCN+MvgBOJwysQ==
+
 follow-redirects@^1.10.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"

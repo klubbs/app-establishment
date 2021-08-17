@@ -21,6 +21,12 @@ export const Wrapper = styled.ScrollView.attrs(() => ({
     background-color: ${colors.COLOR_SECUNDARY_BLACK};
 `
 
+export const KeyboardWrapper = styled.KeyboardAvoidingView.attrs(() => ({
+    behavior: 'position'
+}))`
+    width:100%;
+`
+
 export const Container = styled.View`
     justify-content: center;
     align-items: center;
@@ -84,10 +90,11 @@ export const Description = styled(InputWithIcon).attrs(() => ({
     multiline: true
 }))`
     width:90%;
+    margin-bottom:30px;
     height:100px;
 `
 
-export const ArrowIcon = styled(DoubleArrowRightIcon).attrs((props: { mode: any }) => ({
+export const ArrowIcon = styled(DoubleArrowRightIcon).attrs((props: { mode: string }) => ({
     width: 20,
     height: 20,
     fill: colors.COLOR_YELLOW,

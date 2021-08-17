@@ -9,3 +9,6 @@ export type IAuthStackParams = {
     Login: undefined;
 };
 
+export type RegisterCodeScreenProps = StackScreenProps<IAuthStackParams, 'RegisterCode'>
+
+export type ContractScreenProps = StackScreenProps<IAuthStackParams, 'Contract'>
