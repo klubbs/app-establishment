@@ -1,6 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
 import { AuthContext } from '../../../contexts/auth_context';
+import { LoginService } from '../../../services/loginService';
+import { isEmpty } from '../../../utils/extensions/object_extensions';
+import { Flash } from '../../../utils/flash';
 import Button from '../../component/button';
 
 import { Wrapper, WelcomeSubtitle, Subtitle, Username, Password, ButtonLogin, ForgotPasswordTouch, ForgotPasswordSubtitle } from './styles';
@@ -15,6 +18,13 @@ export const LoginScreen: React.FC = () => {
     const onLogin = async () => {
         try {
             //TODO: LOADING
+
+            const valid = LoginService.validate({ password: password, mail: login });
+
+            if (!isEmpty(valid)) {
+                Flash.incompleteLogin();
+                return
+            }
 
             await signIn(login, password);
 

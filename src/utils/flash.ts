@@ -4,7 +4,11 @@ export class Flash {
 
 
     static invalidFields = () => {
-        showFlash({ type: 'NEUTRAL', desc: 'Existem dados inválidos.', title: 'Preencher corretamente' })
+        showFlash({ type: 'NEUTRAL', desc: 'Existem dados inválidos', title: 'Preencher corretamente' })
+    }
+
+    static incompleteLogin = () => {
+        showFlash({ type: 'WARNING', desc: 'Parece que tem algo de errado com esses dados', title: 'Login inválido' })
     }
 
     static customMessage = (message: string, title: string) => {
