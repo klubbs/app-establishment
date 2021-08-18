@@ -3,7 +3,8 @@ import { WelcomeLogoImage } from '../../../../assets/images/welcome-logo-image';
 import Button from '../../component/button';
 import { Wrapper, ImageBackgroundWelcomeIcons, ContainerButtons, Enter, EnterDesc, ContainerEnter } from './styles';
 import { useNavigation } from '@react-navigation/native';
-
+import { RegisterService } from '../../../services/registerService';
+import Constants from 'expo-constants';
 
 export const WelcomeScreen: React.FC = () => {
 

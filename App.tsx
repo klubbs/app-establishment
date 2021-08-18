@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, LogBox } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
@@ -7,6 +7,10 @@ import './src/utils/extensions/date_extensions'
 import './src/utils/extensions/object_extensions'
 import AuthProvider from './src/contexts/auth_context';
 import FlashComponent from 'flash-notify'
+
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);
 
 export default function App() {
 

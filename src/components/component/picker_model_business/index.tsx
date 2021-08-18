@@ -7,11 +7,11 @@ import { IModelBusinessPicker } from './interfaces';
 export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 
     const [values, setValues] = useState<IModelBusinessPicker[]>([])
-    const [selectedValue, setSelectedValue] = useState<string>('AW$23232')
+    const [selectedValue, setSelectedValue] = useState<string>('0e1dde0b-32f3-4417-8309-4b7a42a80d9a')
 
     useEffect(() => {
-
-        setValues([{ id: 'AW$23232', description: 'Alimentício' }, { id: 'A23232', description: 'Games' }, { id: '983JDJFUI', description: 'Roupas' }])
+        props.onChangeCb('0e1dde0b-32f3-4417-8309-4b7a42a80d9a')
+        setValues([{ id: '0e1dde0b-32f3-4417-8309-4b7a42a80d9a', description: 'Alimentício' }, { id: '0e1dde0b-32f3-4417-8309-4b7a42a80d9a', description: 'Games' }, { id: '0e1dde0b-32f3-4417-8309-4b7a42a80d9a', description: 'Roupas' }])
 
     }, [])
 

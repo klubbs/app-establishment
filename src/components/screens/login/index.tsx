@@ -22,7 +22,7 @@ export const LoginScreen: React.FC = () => {
             const valid = LoginService.validate({ password: password, mail: login });
 
             if (!isEmpty(valid)) {
-                Flash.incompleteLogin();
+                Flash.incorrectLogin();
                 return
             }
 

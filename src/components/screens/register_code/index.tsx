@@ -1,24 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
 
 import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles';
 import { AuthContext } from '../../../contexts/auth_context';
 import { RegisterCodeScreenProps } from '../../../settings/interfaces/IAuthStackParams';
 import { RegisterService } from '../../../services/registerService';
+import { Spinner } from '../../component/spinner';
 
 export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route }) => {
 
     const { signIn } = useContext(AuthContext)
 
-    const navigation = useNavigation();
-
+    const [loadingSpinner, setLoadingSpinner] = useState(false)
     const [code, setCode] = useState<string>('');
 
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value: code, setValue: setCode as any });
 
 
-    useEffect(() => { }, [])
+    useEffect(() => {
+        try {
+            RegisterService.sendMailCode(route.params.mail)
+        } catch (error) {
+            //TODO Ocorreu um erro ao enviar código de e-mail
+        }
+    }, [])
 
 
     const renderCell = ({ index, symbol, isFocused }: { index: any, symbol: any, isFocused: any }) => {
@@ -41,23 +46,31 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 
         try {
 
-            //loading
+            setLoadingSpinner(true)
 
             const response = await RegisterService.register(route.params, code);
 
-            await signIn(route.params.mail,route.params.password);
+            await signIn(route.params.mail, route.params.password);
 
         } catch (error) {
 
+            //TODO 422 -> Código de email invalido
+
+            //TODO 422 -> email já existe
+
+            //TODO 422 -> telefone já existe
+
+             //TODO 422 -> cnpj já existe
             //Valida possíveis erros da API
 
         } finally {
-
+            setLoadingSpinner(false)
         }
     }
 
     return (
         <Wrapper>
+            <Spinner loading={loadingSpinner} />
             <Subtitle>Enviamos um código de 5 dígitos para</Subtitle>
             <Email>{route.params.mail}</Email>
 

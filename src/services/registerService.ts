@@ -3,17 +3,24 @@ import api from "../settings/services/api";
 import { IRegisterRequest } from "./interfaces/iregister";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { Validator } from 'fluentvalidation-ts';
+import { beValidCnpj, beValidCpf } from "../utils/documents_utils";
 
 export class RegisterService {
 
 
     static async register(params: IEstablishmentRegister, code: string): Promise<{}> {
 
-        const entitie = this.contract(params);
-
-        const { data } = await api.post<{}>('');
+        const contractData = this.contract(params, code);
+        console.log(contractData)
+        const { data } = await api.post<{ Id: string }>('stores', contractData);
 
         return data;
+    }
+
+    static async sendMailCode(mail: string) {
+
+        await api.post('stores/code/register/mail', null, { params: { mail: mail } })
+
     }
 
     static validate(params: IEstablishmentRegister): ValidationErrors<IEstablishmentRegister> {
@@ -23,19 +30,24 @@ export class RegisterService {
         return validator.validate(params)
     }
 
-    static contract(params: IEstablishmentRegister): IRegisterRequest {
+    static contract(params: IEstablishmentRegister, code: string): IRegisterRequest {
         return {
             name: params.name,
             password: params.password,
             description: params.description,
-            ownerName: params.ownerName,
-            modelBusinessId: params.modelBusinessId,
+            owner_name: params.ownerName,
+            establishment_model_business_id: params.modelBusinessId,
             mail: params.mail,
             cnpj: params.cnpj.replace(/\D/g, ""),
-            ownerCpf: params.ownerCpf.replace(/\D/g, ""),
+            owner_cpf: params.ownerCpf.replace(/\D/g, ""),
             phone: params.phone.replace(/\D/g, ""),
-            closedAt: params.closedAt.getTime(),
-            openedAt: params.openedAt.getTime()
+            code: code,
+            closed_at: params.closedAt.ToUnixEpoch(),
+            opened_at: params.openedAt.ToUnixEpoch(),
+            //TODO DADOS DE ENDEREÇO
+
+            latitude: 0,
+            longitude: 0
         }
     }
 
@@ -75,12 +87,12 @@ class RegisterValidator extends Validator<IEstablishmentRegister> {
 
         this.ruleFor('ownerCpf')
             .notEmpty()
-            .matches(new RegExp(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/))
+            .must(beValidCpf)
             .withMessage('Preencha com um CPF válido.');
 
         this.ruleFor('cnpj')
             .notEmpty()
-            .matches(new RegExp(/([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/))
+            .must(beValidCnpj)
             .withMessage('Preencha com um CNPJ válido.');
 
         this.ruleFor('password')

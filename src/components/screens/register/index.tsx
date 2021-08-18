@@ -117,7 +117,7 @@ export const RegisterScreen: React.FC = () => {
                         value={`${establishment.cnpj}`}
                         invalid={invalidFields.cnpj}
                         onChangeText={(e: string) => setEstablishment({ ...establishment, cnpj: e })}
-                        onFocus={() => onFocusToggle(false, nameof<IEstablishmentRegister>('cnpj'))}
+                        onFocus={() => onFocusToggle(true, nameof<IEstablishmentRegister>('cnpj'))}
                     />
 
                     <NameResponsible
@@ -154,6 +154,8 @@ export const RegisterScreen: React.FC = () => {
                 <PickerTimeStartEnd
                     startValue={establishment.openedAt}
                     endvalue={establishment.closedAt}
+                    onChangeCbEnd={(e: Date) => setEstablishment({ ...establishment, closedAt: e })}
+                    onChangeCbStart={(e: Date) => setEstablishment({ ...establishment, openedAt: e })}
                 />
 
                 <PickerModelBusiness
