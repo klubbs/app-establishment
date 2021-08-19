@@ -15,6 +15,9 @@ export class Flash {
         showFlash({ type: 'NEUTRAL', desc: message, title: title })
     }
 
+    static invalidCode = () =>
+        showFlash({ type: 'WARNING', title: 'Inválido', desc: 'Código inválido.' })
+
 
     static someoneBullshit = () =>
         showFlash({ type: 'WARNING', title: 'Acho que alguém fez besteira', desc: 'Já estamos resolvendo este problema, desculpe.' })
@@ -30,6 +33,9 @@ export class Flash {
 
     static clearMemory = () =>
         showFlash({ type: 'NEUTRAL', title: 'Feito.', desc: 'Memória liberada com sucesso.' })
+
+    static customConflict = (field: string) =>
+        showFlash({ type: 'WARNING', title: `${field} em uso`, desc: `${field} já esta sendo utilizado.` })
 
 
 }

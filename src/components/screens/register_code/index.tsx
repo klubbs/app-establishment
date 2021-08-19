@@ -6,6 +6,8 @@ import { AuthContext } from '../../../contexts/auth_context';
 import { RegisterCodeScreenProps } from '../../../settings/interfaces/IAuthStackParams';
 import { RegisterService } from '../../../services/registerService';
 import { Spinner } from '../../component/spinner';
+import { IError } from '../../../settings/services/api';
+import { Flash } from '../../../utils/flash';
 
 export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route }) => {
 
@@ -53,16 +55,9 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
             await signIn(route.params.mail, route.params.password);
 
         } catch (error) {
-
-            //TODO 422 -> Código de email invalido
-
-            //TODO 422 -> email já existe
-
-            //TODO 422 -> telefone já existe
-
-             //TODO 422 -> cnpj já existe
-            //Valida possíveis erros da API
-
+            console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+            console.log(error)
+            RegisterService.catchRegister(error as IError)
         } finally {
             setLoadingSpinner(false)
         }

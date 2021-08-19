@@ -1,17 +1,18 @@
 import { IEstablishmentRegister } from "../components/screens/register/interfaces";
-import api from "../settings/services/api";
+import api, { IError } from "../settings/services/api";
 import { IRegisterRequest } from "./interfaces/iregister";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { Validator } from 'fluentvalidation-ts';
 import { beValidCnpj, beValidCpf } from "../utils/documents_utils";
+import { Flash } from "../utils/flash";
 
 export class RegisterService {
 
 
-    static async register(params: IEstablishmentRegister, code: string): Promise<{}> {
+    static async register(params: IEstablishmentRegister, code: string): Promise<{ Id: string }> {
 
         const contractData = this.contract(params, code);
-        console.log(contractData)
+
         const { data } = await api.post<{ Id: string }>('stores', contractData);
 
         return data;
@@ -48,6 +49,27 @@ export class RegisterService {
 
             latitude: 0,
             longitude: 0
+        }
+    }
+
+
+    static catchRegister(error: IError) {
+
+        switch (error.statusCode) {
+            case 412:
+                Flash.invalidCode();
+                return;
+            case 409:
+
+                if (error.error[0].Field.toUpperCase() === "MAIL")
+                    Flash.customConflict("E-mail")
+                else if (error.error[0].Field.toUpperCase() === "CNPJ")
+                    Flash.customConflict("Cnpj")
+                return;
+
+            default:
+                Flash.someoneBullshit();
+                return;
         }
     }
 
