@@ -1,10 +1,22 @@
 import { IEstablishmentRegister } from "../components/screens/register/interfaces";
-import api from "../settings/services/api";
+import api, { IResponseMessage } from "../settings/services/api";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { Validator } from 'fluentvalidation-ts';
-import { ILogin } from "./interfaces/ilogin";
+import { ILogin, ILoginResponse } from "./interfaces/ilogin";
 
 export class LoginService {
+
+    static async login(mail: string, password: string): Promise<ILoginResponse> {
+
+        const { data } = await api.get<IResponseMessage<ILoginResponse>>('stores/login', {
+            auth: {
+                username: mail,
+                password: password
+            }
+        });
+
+        return data.message;
+    }
 
     static validate(params: ILogin): ValidationErrors<ILogin> {
 

@@ -50,13 +50,11 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 
             setLoadingSpinner(true)
 
-            const response = await RegisterService.register(route.params, code);
+            await RegisterService.register(route.params, code);
 
             await signIn(route.params.mail, route.params.password);
 
         } catch (error) {
-            console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-            console.log(error)
             RegisterService.catchRegister(error as IError)
         } finally {
             setLoadingSpinner(false)

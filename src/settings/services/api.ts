@@ -44,6 +44,6 @@ export type IResponseMessage<T> = {
     statusCode: number
 }
 
-export type IError = { message: string, error: any, statusCode: number }
+export type IError = { message: string, error: { Field: string, Validation: string}[], statusCode: number }
 
 export default api;

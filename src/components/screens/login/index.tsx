@@ -5,6 +5,7 @@ import { LoginService } from '../../../services/loginService';
 import { isEmpty } from '../../../utils/extensions/object_extensions';
 import { Flash } from '../../../utils/flash';
 import Button from '../../component/button';
+import { Spinner } from '../../component/spinner';
 
 import { Wrapper, WelcomeSubtitle, Subtitle, Username, Password, ButtonLogin, ForgotPasswordTouch, ForgotPasswordSubtitle } from './styles';
 
@@ -12,12 +13,14 @@ export const LoginScreen: React.FC = () => {
 
     const { signIn } = useContext(AuthContext)
 
+    const [loadingSpinner, setLoadingSpinner] = useState(false)
+
     const [login, setLogin] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
     const onLogin = async () => {
         try {
-            //TODO: LOADING
+            setLoadingSpinner(true)
 
             const valid = LoginService.validate({ password: password, mail: login });
 
@@ -30,14 +33,15 @@ export const LoginScreen: React.FC = () => {
 
 
         } catch (error) {
-            //TODO:VALIDAR ERROS API
+            Flash.incorrectLogin();
         } finally {
-
+            setLoadingSpinner(false)
         }
     }
 
     return (
         <Wrapper>
+            <Spinner loading={loadingSpinner} />
             <WelcomeSubtitle>Vamos conectar você.</WelcomeSubtitle>
             <Subtitle>Bem-vindo de volta.{"\n"}Sentimos sua falta!</Subtitle>
 

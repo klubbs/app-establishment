@@ -1,5 +1,5 @@
 import { IEstablishmentRegister } from "../components/screens/register/interfaces";
-import api, { IError } from "../settings/services/api";
+import api, { IError, IResponseMessage } from "../settings/services/api";
 import { IRegisterRequest } from "./interfaces/iregister";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { Validator } from 'fluentvalidation-ts';
@@ -13,9 +13,9 @@ export class RegisterService {
 
         const contractData = this.contract(params, code);
 
-        const { data } = await api.post<{ Id: string }>('stores', contractData);
+        const { data } = await api.post<IResponseMessage<{ Id: string }>>('stores', contractData);
 
-        return data;
+        return data.message;
     }
 
     static async sendMailCode(mail: string) {
@@ -61,11 +61,19 @@ export class RegisterService {
                 return;
             case 409:
 
-                if (error.error[0].Field.toUpperCase() === "MAIL")
-                    Flash.customConflict("E-mail")
-                else if (error.error[0].Field.toUpperCase() === "CNPJ")
-                    Flash.customConflict("Cnpj")
-                return;
+                error.error.forEach(element => {
+                    if (element.Field.toUpperCase() === "MAIL")
+                        Flash.customConflict("E-mail")
+                    else if (element.Field.toUpperCase() === "CNPJ")
+                        Flash.customConflict("Cnpj")
+                    return;
+                });
+
+            // if (error.error[0].Field.toUpperCase() === "MAIL")
+            //     Flash.customConflict("E-mail")
+            // else if (error.error[0].Field.toUpperCase() === "CNPJ")
+            //     Flash.customConflict("Cnpj")
+            // return;
 
             default:
                 Flash.someoneBullshit();
