@@ -7,53 +7,56 @@ import { useNavigation } from '@react-navigation/native';
 
 export const QrCodeScanner: React.FC = () => {
 
-    const navigation = useNavigation();
+	const navigation = useNavigation();
 
-    const [hasPermission, setHasPermission] = useState<boolean>(false);
-    const [scanned, setScanned] = useState(false);
+	const [hasPermission, setHasPermission] = useState<boolean>(false);
+	const [scanned, setScanned] = useState(false);
 
-    useEffect(() => {
-        (async () => {
-            const { granted } = await BarCodeScanner.requestPermissionsAsync();
+	useEffect(() => {
+		(async () => {
+			const { granted } = await BarCodeScanner.requestPermissionsAsync();
 
-            setHasPermission(granted);
+			setHasPermission(granted);
 
-            if (!granted) {
-                navigation.goBack();
-            }
-        })();
-    }, []);
-
-
-    const handleBarCodeScanned = ({ type, data }: { type: any, data: any }) => {
-        setScanned(true);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    };
-
-    if (hasPermission === false) {
-        return (<View></View>)
-    }
+			if (!granted) {
+				navigation.goBack();
+			}
+		})();
+	}, []);
 
 
-    return (
-        <View style={{ flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK, justifyContent: 'center', alignItems: 'center' }}>
-            <BarCodeScanner
-                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+	const handleBarCodeScanned = ({ type, data }: { type: any, data: any }) => {
+		setScanned(true);
+		alert(`Bar code with type ${type} and data ${data} has been scanned!`);
 
-                style={StyleSheet.absoluteFillObject}
-            >
-                <SquareTop />
-                <ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-                <ScanDescSubtitle>Escaneie o cupom para validar</ScanDescSubtitle>
-                <CenterWrapper>
-                    <SquareLeft />
-                    <Focused />
-                    <SquareRight />
-                </CenterWrapper>
-                <SquareBottom />
-                {/* {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />} */}
-            </BarCodeScanner>
 
-        </View>
-    );
+		setScanned(false)
+	};
+
+	if (hasPermission === false) {
+		return (<View />)
+	}
+
+
+	return (
+		<View style={{ flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK, justifyContent: 'center', alignItems: 'center' }}>
+			<BarCodeScanner
+				onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+
+				style={StyleSheet.absoluteFillObject}
+			>
+				<SquareTop />
+				<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
+				<ScanDescSubtitle>Escaneie o cupom para validar</ScanDescSubtitle>
+				<CenterWrapper>
+					<SquareLeft />
+					<Focused />
+					<SquareRight />
+				</CenterWrapper>
+				<SquareBottom />
+
+			</BarCodeScanner>
+
+		</View>
+	);
 }

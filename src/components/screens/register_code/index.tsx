@@ -1,83 +1,80 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field';
+import React, { useState, useEffect, useContext } from 'react'
+import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field'
 
-import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles';
-import { AuthContext } from '../../../contexts/auth_context';
-import { RegisterCodeScreenProps } from '../../../settings/interfaces/IAuthStackParams';
-import { RegisterService } from '../../../services/registerService';
-import { Spinner } from '../../component/spinner';
-import { IError } from '../../../settings/services/api';
-import { Flash } from '../../../utils/flash';
+import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles'
+import { AuthContext } from '../../../contexts/auth_context'
+import { RegisterCodeScreenProps } from '../../../settings/interfaces/iauth_stack_params'
+import { RegisterService } from '../../../services/register_service'
+import { Spinner } from '../../component/spinner'
+import { IError } from '../../../settings/services/api'
+import { Flash } from '../../../utils/flash'
 
 export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route }) => {
+	const { signIn } = useContext(AuthContext)
 
-    const { signIn } = useContext(AuthContext)
+	const [loadingSpinner, setLoadingSpinner] = useState(false)
+	const [code, setCode] = useState<string>('')
 
-    const [loadingSpinner, setLoadingSpinner] = useState(false)
-    const [code, setCode] = useState<string>('');
+	const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+		value: code,
+		setValue: setCode as any,
+	})
 
-    const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value: code, setValue: setCode as any });
+	useEffect(() => {
+		try {
+			RegisterService.sendMailCode(route.params.mail)
+		} catch (error) { }
+	}, [])
 
+	const renderCell = ({ index, symbol, isFocused, }:
+		{ index: any, symbol: any, isFocused: any }) => {
 
-    useEffect(() => {
-        try {
-            RegisterService.sendMailCode(route.params.mail)
-        } catch (error) {
-            //TODO Ocorreu um erro ao enviar código de e-mail
-        }
-    }, [])
+		let textChild = null
 
+		if (symbol) {
+			textChild = symbol
+		} else if (isFocused) {
+			textChild = <Cursor />
+		}
 
-    const renderCell = ({ index, symbol, isFocused }: { index: any, symbol: any, isFocused: any }) => {
-        let textChild = null;
+		return (
+			<Input key={index} onLayout={getCellOnLayoutHandler(index)}>
+				{textChild}
+			</Input>
+		)
+	}
 
-        if (symbol) {
-            textChild = symbol;
-        } else if (isFocused) {
-            textChild = <Cursor />;
-        }
+	const onRegisterEstablishment = async () => {
+		try {
+			setLoadingSpinner(true)
 
-        return (
-            <Input key={index} onLayout={getCellOnLayoutHandler(index)}>
-                {textChild}
-            </Input>
-        );
-    };
+			await RegisterService.register(route.params, code)
 
-    const onRegisterEstablishment = async () => {
+			await signIn(route.params.mail, route.params.password)
+		} catch (error) {
+			RegisterService.catchRegister(error as IError)
+		} finally {
+			setLoadingSpinner(false)
+		}
+	}
 
-        try {
+	return (
+		<Wrapper>
+			<Spinner loading={loadingSpinner} />
+			<Subtitle>Enviamos um código de 5 dígitos para</Subtitle>
+			<Email>{route.params.mail}</Email>
 
-            setLoadingSpinner(true)
-
-            await RegisterService.register(route.params, code);
-
-            await signIn(route.params.mail, route.params.password);
-
-        } catch (error) {
-            RegisterService.catchRegister(error as IError)
-        } finally {
-            setLoadingSpinner(false)
-        }
-    }
-
-    return (
-        <Wrapper>
-            <Spinner loading={loadingSpinner} />
-            <Subtitle>Enviamos um código de 5 dígitos para</Subtitle>
-            <Email>{route.params.mail}</Email>
-
-            <CodeField
-                value={code}
-                onChangeText={(e: any) => setCode(e)}
-                cellCount={5}
-                keyboardType="default"
-                textContentType="oneTimeCode"
-                renderCell={renderCell}
-                autoFocus={true}
-                {...props}
-            />
-            <RegisterButton onPress={() => onRegisterEstablishment()} />
-        </Wrapper>
-    );
+			<CodeField
+				value={code}
+				onChangeText={(e: any) => setCode(e)}
+				cellCount={5}
+				keyboardType="default"
+				textContentType="oneTimeCode"
+				renderCell={renderCell}
+				autoFocus={true}
+				{...props}
+			/>
+			<RegisterButton onPress={() => onRegisterEstablishment()} />
+		</Wrapper>
+	)
 }
