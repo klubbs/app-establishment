@@ -1,0 +1,9 @@
+{
+	"editor.formatOnSave": true,
+	"editor.rulers": [
+		100
+	],
+	"editor.wordWrapColumn": 100,
+	"editor.renderIndentGuides": true,
+	"editor.wordWrap": "bounded",
+}

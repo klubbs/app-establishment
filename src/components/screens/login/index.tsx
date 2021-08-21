@@ -1,16 +1,22 @@
-import React, { useState, useContext } from 'react';
-import { View } from 'react-native';
-import { AuthContext } from '../../../contexts/auth_context';
-import { LoginService } from '../../../services/loginService';
-import { isEmpty } from '../../../utils/extensions/object_extensions';
-import { Flash } from '../../../utils/flash';
-import Button from '../../component/button';
-import { Spinner } from '../../component/spinner';
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../../../contexts/auth_context'
+import { LoginService } from '../../../services/login_service'
+import { isEmpty } from '../../../utils/extensions/object_extensions'
+import { Flash } from '../../../utils/flash'
+import { Spinner } from '../../component/spinner'
 
-import { Wrapper, WelcomeSubtitle, Subtitle, Username, Password, ButtonLogin, ForgotPasswordTouch, ForgotPasswordSubtitle } from './styles';
+import {
+    Wrapper,
+    WelcomeSubtitle,
+    Subtitle,
+    Username,
+    Password,
+    ButtonLogin,
+    ForgotPasswordTouch,
+    ForgotPasswordSubtitle,
+} from './styles'
 
 export const LoginScreen: React.FC = () => {
-
     const { signIn } = useContext(AuthContext)
 
     const [loadingSpinner, setLoadingSpinner] = useState(false)
@@ -22,18 +28,16 @@ export const LoginScreen: React.FC = () => {
         try {
             setLoadingSpinner(true)
 
-            const valid = LoginService.validate({ password: password, mail: login });
+            const valid = LoginService.validate({ password: password, mail: login })
 
             if (!isEmpty(valid)) {
-                Flash.incorrectLogin();
+                Flash.incorrectLogin()
                 return
             }
 
-            await signIn(login, password);
-
-
+            await signIn(login, password)
         } catch (error) {
-            Flash.incorrectLogin();
+            Flash.incorrectLogin()
         } finally {
             setLoadingSpinner(false)
         }
@@ -43,14 +47,10 @@ export const LoginScreen: React.FC = () => {
         <Wrapper>
             <Spinner loading={loadingSpinner} />
             <WelcomeSubtitle>Vamos conectar você.</WelcomeSubtitle>
-            <Subtitle>Bem-vindo de volta.{"\n"}Sentimos sua falta!</Subtitle>
+            <Subtitle>Bem-vindo de volta.{'\n'}Sentimos sua falta!</Subtitle>
 
-            <Username
-                value={login} setValue={(e: string) => setLogin(e)}
-            />
-            <Password
-                value={password} setValue={(e: string) => setPassword(e)}
-            />
+            <Username value={login} setValue={(e: string) => setLogin(e)} />
+            <Password value={password} setValue={(e: string) => setPassword(e)} />
 
             <ForgotPasswordTouch onPress={() => console.log('cú')}>
                 <ForgotPasswordSubtitle>Esqueceu sua senha ?</ForgotPasswordSubtitle>
@@ -58,5 +58,5 @@ export const LoginScreen: React.FC = () => {
 
             <ButtonLogin text={'Login'} onPress={() => onLogin()} />
         </Wrapper>
-    );
+    )
 }

@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
-import { PickerTimeStartEnd } from '../../component/picker_time_start_end';
-import { IEstablishmentRegister } from './interfaces';
-import { Wrapper, Description, Phone, Mail, Cnpj, Name, Container, GooglePlaces, NameResponsible, Cpf, ArrowIcon, CompleteButton, KeyboardWrapper, Password } from './styles';
-import { PickerModelBusiness } from '../../component/picker_model_business';
-import { useNavigation } from '@react-navigation/native';
-import { RegisterService } from '../../../services/registerService';
-import { isEmpty, nameof } from '../../../utils/extensions/object_extensions';
-import { Flash } from '../../../utils/flash';
-export const RegisterScreen: React.FC = () => {
+import React, { useState } from 'react'
+import { PickerTimeStartEnd } from '../../component/picker_time_start_end'
+import { IEstablishmentRegister } from './interfaces'
+import { PickerModelBusiness } from '../../component/picker_model_business'
+import { useNavigation } from '@react-navigation/native'
+import { RegisterService } from '../../../services/register_service'
+import { isEmpty, nameof } from '../../../utils/extensions/object_extensions'
+import { Flash } from '../../../utils/flash'
 
-    const navigation = useNavigation();
+import {
+    Wrapper,
+    Description,
+    Phone,
+    Mail,
+    Cnpj,
+    Name,
+    Container,
+    GooglePlaces,
+    NameResponsible,
+    Cpf,
+    ArrowIcon,
+    CompleteButton,
+    KeyboardWrapper,
+    Password,
+} from './styles'
+
+export const RegisterScreen: React.FC = () => {
+    const navigation = useNavigation()
 
     const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState<boolean>(true)
 
@@ -24,7 +40,7 @@ export const RegisterScreen: React.FC = () => {
         ownerName: false,
         ownerCpf: false,
         modelBusinessId: false,
-        password: false
+        password: false,
     })
 
     const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
@@ -38,54 +54,49 @@ export const RegisterScreen: React.FC = () => {
         ownerName: '',
         ownerCpf: '',
         modelBusinessId: '',
-        password: ''
+        password: '',
     })
 
     const validToRegister = () => {
-
-        const valid = RegisterService.validate(establishment);
+        const valid = RegisterService.validate(establishment)
 
         if (!isEmpty(valid)) {
-
             Flash.invalidFields()
 
-            let tmpState = invalidFields as any;
+            let tmpState = invalidFields as any
 
             for (var key in valid) {
-                tmpState[key] = true;
+                tmpState[key] = true
             }
 
             if (valid.hasOwnProperty(nameof<IEstablishmentRegister>('password'))) {
-                Flash.customMessage(valid.password as string, "Campo inválido");
+                Flash.customMessage(valid.password as string, 'Campo inválido')
             }
 
-            setInvalidFields({ ...tmpState });
+            setInvalidFields({ ...tmpState })
 
-            return;
+            return
         }
 
         navigation.navigate('Contract', establishment)
-
     }
 
     const onFocusToggle = (enableKeyboard: boolean, keyEstablishment: string) => {
         setKeyboardAvoidingViewEnabled(enableKeyboard)
 
         //as any is trick for not show red line error
-        let tmpData = invalidFields as any;
+        let tmpData = invalidFields as any
 
-        tmpData[keyEstablishment] = false;
+        tmpData[keyEstablishment] = false
 
         setInvalidFields(tmpData)
     }
 
     return (
-        <Wrapper >
+        <Wrapper>
             <KeyboardWrapper enabled={keyboardAvoidingViewEnabled}>
                 <Container>
-
                     <Name
-
                         value={establishment.name}
                         invalid={invalidFields.name}
                         setValue={(e: string) => setEstablishment({ ...establishment, name: e })}
@@ -95,8 +106,12 @@ export const RegisterScreen: React.FC = () => {
                     <Phone
                         value={establishment.phone}
                         invalid={invalidFields.phone}
-                        onChangeText={(e: string) => setEstablishment({ ...establishment, phone: e })}
-                        onFocus={() => onFocusToggle(false, nameof<IEstablishmentRegister>('phone'))}
+                        onChangeText={(e: string) =>
+                            setEstablishment({ ...establishment, phone: e })
+                        }
+                        onFocus={() =>
+                            onFocusToggle(false, nameof<IEstablishmentRegister>('phone'))
+                        }
                     />
 
                     <Mail
@@ -109,64 +124,78 @@ export const RegisterScreen: React.FC = () => {
                     <Password
                         value={establishment.password}
                         invalid={invalidFields.password}
-                        setValue={(e: string) => setEstablishment({ ...establishment, password: e })}
-                        onFocus={() => onFocusToggle(true, nameof<IEstablishmentRegister>('password'))}
+                        setValue={(e: string) =>
+                            setEstablishment({ ...establishment, password: e })
+                        }
+                        onFocus={() =>
+                            onFocusToggle(true, nameof<IEstablishmentRegister>('password'))
+                        }
                     />
 
                     <Cnpj
                         value={`${establishment.cnpj}`}
                         invalid={invalidFields.cnpj}
-                        onChangeText={(e: string) => setEstablishment({ ...establishment, cnpj: e })}
+                        onChangeText={(e: string) =>
+                            setEstablishment({ ...establishment, cnpj: e })
+                        }
                         onFocus={() => onFocusToggle(true, nameof<IEstablishmentRegister>('cnpj'))}
                     />
 
                     <NameResponsible
                         value={`${establishment.ownerName}`}
                         invalid={invalidFields.ownerName}
-                        setValue={(e: string) => setEstablishment({ ...establishment, ownerName: e })}
-                        onFocus={() => onFocusToggle(true, nameof<IEstablishmentRegister>('ownerName'))}
+                        setValue={(e: string) =>
+                            setEstablishment({ ...establishment, ownerName: e })
+                        }
+                        onFocus={() =>
+                            onFocusToggle(true, nameof<IEstablishmentRegister>('ownerName'))
+                        }
                     />
 
                     <Cpf
                         value={`${establishment.ownerCpf}`}
                         invalid={invalidFields.ownerCpf}
-                        onChangeText={(e: string) => setEstablishment({ ...establishment, ownerCpf: e })}
-                        onFocus={() => onFocusToggle(true, nameof<IEstablishmentRegister>('ownerCpf'))}
+                        onChangeText={(e: string) =>
+                            setEstablishment({ ...establishment, ownerCpf: e })
+                        }
+                        onFocus={() =>
+                            onFocusToggle(true, nameof<IEstablishmentRegister>('ownerCpf'))
+                        }
                     />
 
                     <ArrowIcon />
                 </Container>
             </KeyboardWrapper>
             <Container>
-
                 <ArrowIcon mode={'up'} />
-                <GooglePlaces
-                    onPress={(data, details = null) => null}
-                />
+                <GooglePlaces onPress={(data, details = null) => null} />
 
                 <Description
                     value={establishment.description}
                     invalid={invalidFields.description}
                     setValue={(e: string) => setEstablishment({ ...establishment, description: e })}
-                    onFocus={() => onFocusToggle(true, nameof<IEstablishmentRegister>('description'))}
+                    onFocus={() =>
+                        onFocusToggle(true, nameof<IEstablishmentRegister>('description'))
+                    }
                 />
 
                 <PickerTimeStartEnd
                     startValue={establishment.openedAt}
                     endvalue={establishment.closedAt}
                     onChangeCbEnd={(e: Date) => setEstablishment({ ...establishment, closedAt: e })}
-                    onChangeCbStart={(e: Date) => setEstablishment({ ...establishment, openedAt: e })}
+                    onChangeCbStart={(e: Date) =>
+                        setEstablishment({ ...establishment, openedAt: e })
+                    }
                 />
 
                 <PickerModelBusiness
-                    onChangeCb={(e: string) => setEstablishment({ ...establishment, modelBusinessId: e })}
+                    onChangeCb={(e: string) =>
+                        setEstablishment({ ...establishment, modelBusinessId: e })
+                    }
                 />
 
-
                 <CompleteButton onPress={() => validToRegister()} />
-
             </Container>
-
-        </Wrapper >
-    );
+        </Wrapper>
+    )
 }

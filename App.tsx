@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { View, ActivityIndicator, LogBox } from 'react-native';
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from '@react-navigation/native';
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
-import './src/utils/extensions/date_extensions'
-import './src/utils/extensions/object_extensions'
+import { decode, encode } from 'base-64';
+import './src/utils/extensions/date_extensions';
+import './src/utils/extensions/object_extensions';
 import AuthProvider from './src/contexts/auth_context';
-import FlashComponent from 'flash-notify'
+import FlashComponent from 'flash-notify';
 
-LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-]);
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 export default function App() {
-
     let [fontsLoaded] = useFonts({
         Nunito_ExtraLight: require('./assets/fonts/Nunito_200ExtraLight.ttf'),
         Nunito_ExtraLight_Italic: require('./assets/fonts/Nunito_200ExtraLight_Italic.ttf'),
@@ -26,13 +24,12 @@ export default function App() {
         Nunito_Bold: require('./assets/fonts/Nunito_700Bold.ttf'),
         Nunito_Bold_Italic: require('./assets/fonts/Nunito_700Bold_Italic.ttf'),
         Nunito_ExtraBold: require('./assets/fonts/Nunito_800ExtraBold.ttf'),
-        Nunito_ExtraBold_Italic: require('./assets/fonts/Nunito_800ExtraBold_Italic.ttf')
+        Nunito_ExtraBold_Italic: require('./assets/fonts/Nunito_800ExtraBold_Italic.ttf'),
     });
-
 
     if (!fontsLoaded) {
         return (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <ActivityIndicator color="black" />
             </View>
         );
@@ -45,6 +42,15 @@ export default function App() {
                 <Navigations />
             </NavigationContainer>
         </AuthProvider>
-
     );
 }
+
+(function DefaultInitializations() {
+    if (!global.btoa) {
+        global.btoa = encode;
+    }
+
+    if (!global.atob) {
+        global.atob = decode;
+    }
+})();

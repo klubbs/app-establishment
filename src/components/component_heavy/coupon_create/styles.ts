@@ -59,11 +59,11 @@ export const RulesSubtitle = styled.Text`
 `
 
 export const Rules = styled.TextInput.attrs(props => ({
-    selectionColor: colors.COLOR_YELLOW,
-    autoCapitalize: 'none',
-    multiline: true,
-    blurOnSubmit: true,
-    returnKeyType: 'done'
+	selectionColor: colors.COLOR_YELLOW,
+	autoCapitalize: 'none',
+	multiline: true,
+	blurOnSubmit: true,
+	returnKeyType: 'done'
 }))`
     color:${colors.COLOR_SECUNDARY_BLACK};
     background-color:${'#E8E8E8'};
@@ -76,11 +76,11 @@ export const Rules = styled.TextInput.attrs(props => ({
 
 
 export const DatePicker = styled(DateTimePicker).attrs(() => ({
-    testID: "dateTimePicker",
-    mode: 'date',
-    locale: 'pt-BR',
-    display: "spinner",
-    textColor: colors.COLOR_WHITE
+	testID: "dateTimePicker",
+	mode: 'date',
+	locale: 'pt-BR',
+	display: "spinner",
+	textColor: colors.COLOR_WHITE
 }))`
     height: 50px;
     width: 90%;
@@ -89,9 +89,9 @@ export const DatePicker = styled(DateTimePicker).attrs(() => ({
 `
 
 export const Cancel = styled(CancelIcon).attrs(() => ({
-    width: 30,
-    height: 30,
-    fill: colors.COLOR_WHITE
+	width: 30,
+	height: 30,
+	fill: colors.COLOR_WHITE
 }))`
     bottom:50px;
     right: 40%;
