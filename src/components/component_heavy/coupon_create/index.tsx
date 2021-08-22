@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Alert, Modal } from "react-native";
 import colors from "../../../../assets/constants/colors";
 import { InfoIcon } from "../../../../assets/icons/info_icon";
@@ -21,14 +21,16 @@ import {
 	ValidSubtitle,
 	DatePicker,
 	Cancel,
+	CancelClick
 } from "./styles";
 import { IError } from "../../../settings/services/api";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
 
 
 	const [loading, setLoading] = useState(false)
+	const [visibleComponent, setVisibleComponent] = useState(false)
+
 	const [rules, setrules] = useState("");
 	const [offValue, setOffValue] = useState(0);
 	const [dateValidAt, setdateValidAt] = useState(new Date(Date.now()));
@@ -41,6 +43,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	};
 
 	const onCreateCoupon = async () => {
+		setVisibleComponent(true)
 
 		const onCreate = async () => {
 			try {
@@ -71,14 +74,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 
 				Flash.congratulationCreateCoupon()
 
-				//Clean
-				setrules("")
-
-				setOffValue(0)
-
-				setdateValidAt(new Date(Date.now()))
-
-				props.onCancellCb({ success: true });
+				clearClose()
 
 			} catch (error) {
 
@@ -107,6 +103,18 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 
 	};
 
+	const clearClose = () => {
+		setrules("")
+
+		setOffValue(0)
+
+		setdateValidAt(new Date(Date.now()))
+
+		setVisibleComponent(false)
+
+		props.onCancellCb();
+	}
+
 	return (
 		<Modal
 			presentationStyle={'overFullScreen'}
@@ -115,12 +123,13 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 			visible={props.visible}
 		>
 			<Spinner loading={loading} />
-			<FlashComponent />
+			{visibleComponent && <FlashComponent />}
 
 			<Wrapper>
 
-				<Cancel onPress={props.onCancellCb} />
-
+				<CancelClick onPress={() => clearClose()}>
+					<Cancel />
+				</CancelClick>
 				<Container>
 					<CouponCreateImage width={"95%"} height={"50%"} />
 					<Off>{offValue}%</Off>

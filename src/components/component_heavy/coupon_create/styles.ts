@@ -88,11 +88,16 @@ export const DatePicker = styled(DateTimePicker).attrs(() => ({
     top:39%;
 `
 
+export const CancelClick = styled.TouchableOpacity`
+    bottom:40px;
+    right: 40%;
+	 width:50px;
+	 height:50px;
+`
 export const Cancel = styled(CancelIcon).attrs(() => ({
 	width: 30,
 	height: 30,
 	fill: colors.COLOR_WHITE
 }))`
-    bottom:50px;
-    right: 40%;
+
 `
