@@ -3,14 +3,15 @@ import { FlatList, Text } from 'react-native';
 import { CouponService } from '../../../services/coupon_service';
 import { TransactionItem } from '../../component/transaction_item';
 import { ITransactionItems } from './interfaces';
+import { PlaceholderMedia, PlaceholderLine, Fade } from "rn-placeholder";
 
-import { TransactionsSubtitle, Wrapper, NothingTransactionSubtitle } from './styles';
+import { TransactionsSubtitle, Wrapper, NothingTransactionSubtitle, PlaceHolderWrapper, PlaceHolderContent } from './styles';
 
 
 
 export const Transactions: React.FC = () => {
 
-	const [couponTransactions, setCouponTransactions] = useState<ITransactionItems[]>([])
+	const [couponTransactions, setCouponTransactions] = useState<ITransactionItems[] | null>(null)
 
 
 	useEffect(() => {
@@ -27,12 +28,24 @@ export const Transactions: React.FC = () => {
 	return (
 		<Wrapper>
 			<TransactionsSubtitle>Transações</TransactionsSubtitle>
+
 			{
-				couponTransactions.length <= 0 &&
-				<NothingTransactionSubtitle>
-					Nenhuma transação ainda
-				</NothingTransactionSubtitle>
+				couponTransactions === null &&
+				<PlaceHolderWrapper
+					Animation={Fade}
+					Left={PlaceholderMedia}
+					Right={PlaceholderMedia}
+				>
+					<PlaceHolderContent />
+					<PlaceholderLine />
+				</PlaceHolderWrapper>
 			}
+
+			{
+				couponTransactions?.length === 0 &&
+				<NothingTransactionSubtitle>Nenhuma transação ainda</NothingTransactionSubtitle>
+			}
+
 			{couponTransactions && <FlatList
 				data={couponTransactions}
 				keyExtractor={item => `${item.id}`}

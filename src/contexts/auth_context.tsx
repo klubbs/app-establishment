@@ -3,6 +3,7 @@ import { IEstablishmentRegister } from '../components/screens/register/interface
 import { RegisterService } from '../services/register_service'
 import { LoginService } from '../services/login_service'
 import { createEstablishmentInStorage, isLogged, clearAsyncStorage } from '../utils/async_storage'
+import * as SplashScreen from 'expo-splash-screen';
 
 export const AuthContext = createContext(
 	{} as {
@@ -21,6 +22,8 @@ const AuthProvider: React.FC = ({ children }) => {
 			const response = await isLogged()
 
 			setlogged(response)
+
+			await SplashScreen.hideAsync();
 		}
 
 		checkIsLogged()

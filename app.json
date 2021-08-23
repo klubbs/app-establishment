@@ -1,35 +1,38 @@
 {
-    "expo": {
-        "name": "app-establishments",
-        "slug": "app-establishments",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
-            }
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "extra": {
-            "ENVIRONMENT_API_URL": "http://192.168.1.110:5001/"
-        }
-    }
+  "expo": {
+    "name": "app-establishments",
+    "slug": "app-establishments",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/images/welcome-login-icons-image.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2D2F35"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/welcome-login-icons-image.png",
+        "backgroundColor": "#2D2F35"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "ENVIRONMENT_API_URL": "http://192.168.1.110:5001/"
+    },
+    "plugins": [
+      "expo-splash-screen"
+    ]
+  }
 }

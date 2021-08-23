@@ -11,8 +11,6 @@ import { InputWithMask } from '../../component/input-with-mask';
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-console.log(WINDOW_HEIGHT)
-
 export const Wrapper = styled.ScrollView.attrs(() => ({
 	showsVerticalScrollIndicator: false,
 	decelerationRate: 'fast',

@@ -46,6 +46,12 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 
 	const onRegisterEstablishment = async () => {
 		try {
+
+			if (code.length < 5) {
+				Flash.customMessage("Digíte um código válido", "")
+				return
+			}
+
 			setLoadingSpinner(true)
 
 			await RegisterService.register(route.params, code)

@@ -1,6 +1,11 @@
 import styled from 'styled-components/native'
 import colors from '../../../../assets/constants/colors';
-
+import {
+	Placeholder,
+	PlaceholderMedia,
+	PlaceholderLine,
+	Fade
+} from "rn-placeholder";
 
 export const Wrapper = styled.View`
     flex: 1.2;
@@ -23,4 +28,13 @@ export const NothingTransactionSubtitle = styled.Text`
   align-items: center;
   justify-content: center;
   font-family:'Nunito_Light';
+`
+
+export const PlaceHolderWrapper = styled(Placeholder)`
+	padding-horizontal:20px;
+`
+
+export const PlaceHolderContent = styled(PlaceholderLine).attrs(props => ({
+	width: 80
+}))`
 `

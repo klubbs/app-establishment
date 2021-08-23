@@ -1,57 +1,71 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { getTokenInStorage } from '../../utils/async_storage'
+import { clearAsyncStorage, getTokenInStorage } from '../../utils/async_storage'
+import { Flash } from '../../utils/flash'
 
 const axiosConfig = {
-    baseURL: Constants.manifest?.extra?.ENVIRONMENT_API_URL,
+	baseURL: Constants.manifest?.extra?.ENVIRONMENT_API_URL,
 }
 
 const api = axios.create(axiosConfig)
 
 api.interceptors.request.use(async (config) => {
-    const token = await getTokenInStorage()
+	const token = await getTokenInStorage()
 
-    if (token !== null) {
-        config.headers.Authorization = `Bearer ${token}`
-    }
+	if (token !== null) {
+		config.headers.Authorization = `Bearer ${token}`
+	}
 
-    return config
+	config.baseURL = 'http://192.168.1.103:5001/'
+	console.log(config.baseURL)
+	return config
 })
 
 api.interceptors.response.use(
-    (response) => {
-        return response
-    },
-    (error): Promise<{ message: string; error: any; statusCode: number }> => {
-        console.log('########################################################')
+	(response) => {
+		return response
+	},
+	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 
-        console.error(error)
+		console.error(error)
 
-        console.log('########################################################')
+		const statusCode = error.response.data?.statusCode
 
-        const statusCode = error.response.data?.statusCode
+		const validationError = error.response.data?.error
+		const message = error.response.data?.message
 
-        const validationError = error.response.data?.error
-        const message = error.response.data?.message
+		switch (statusCode) {
+			case 401:
+				await clearAsyncStorage();
+				break;
 
-        return Promise.reject({
-            message,
-            error: validationError,
-            statusCode: Number(statusCode),
-        })
-    }
+			case 500:
+				Flash.spillCoffee();
+				break;
+
+			default:
+				break;
+		}
+
+
+		return Promise.reject({
+			message,
+			error: validationError,
+			statusCode: Number(statusCode),
+		})
+	}
 )
 
 export type IResponseMessage<T> = {
-    message: T
-    statusCode: number
+	message: T
+	statusCode: number
 }
 
 export type IError = {
-    message: string
-    error: { Field: string; Validation: string }[]
-    statusCode: number
+	message: string
+	error: { Field: string; Validation: string }[]
+	statusCode: number
 }
 
 export default api

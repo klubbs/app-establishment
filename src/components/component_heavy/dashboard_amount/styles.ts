@@ -19,6 +19,8 @@ export const ValueSubtitle = styled.Text`
 
 export const WrapperAmount = styled.View`
     justify-content: space-evenly;
+	 padding-right:25%;
+	 padding-left:25%;
     align-items: center;
 `
 
@@ -34,7 +36,17 @@ export const DueDateSubtitle = styled.Text`
   font-family:'Nunito_Light';
 `
 
-export const PayButton = styled(Button).attrs(() => ({
-    styleContainer: { width: '40%', height: '15%' }
+export const PayButton = styled(Button).attrs((props) => ({
+	styleContainer: {
+		width: '40%', height: '15%',
+		backgroundColor: props.disabled ? colors.COLOR_WHITE_40 : colors.COLOR_YELLOW
+	},
+	styleButton: props.disabled ? { color: colors.COLOR_WHITE_80 } : {}
 }))`
+`
+
+export const BlurBox = styled.View`
+	width:80px;
+	height:10px;
+	background-color: ${colors.COLOR_WHITE_80};
 `
