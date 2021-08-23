@@ -14,6 +14,8 @@ export class LoginService {
 			},
 		})
 
+		console.log(data)
+
 		return data.message
 	}
 

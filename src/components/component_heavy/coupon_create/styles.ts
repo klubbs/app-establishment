@@ -33,7 +33,7 @@ export const SubContainer = styled.View`
 
 export const Off = styled.Text`
     position: absolute;
-    top: 18%;
+    top: 15%;
     left: 10%;
     color:${colors.COLOR_YELLOW_BUTTON_TEXT};
     font-size:25px;

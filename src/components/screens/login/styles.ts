@@ -5,7 +5,7 @@ import Button from '../../component/button';
 
 export const Wrapper = styled.View`
     flex: 1;
-    padding:120px 30px;
+    padding:80px 30px;
     align-items: flex-start;
     background-color: ${colors.COLOR_SECUNDARY_BLACK};
 `
@@ -27,20 +27,20 @@ const InputBase = styled(InputWithIcon)`
     margin-bottom: 30px;
 `
 export const Username = styled(InputBase).attrs(() => ({
-    placeholder: 'e-mail',
-    keyboardType: 'email-address'
+	placeholder: 'e-mail',
+	keyboardType: 'email-address'
 }))`
-    margin-top:50%;
+    margin-top:40%;
 `
 
 export const Password = styled(InputBase).attrs(() => ({
-    placeholder: 'senha',
-    keyboardType: 'default',
-    secureTextEntry: true
+	placeholder: 'senha',
+	keyboardType: 'default',
+	secureTextEntry: true
 }))``
 
 export const ButtonLogin = styled(Button).attrs(() => ({
-    styleContainer: { alignSelf: 'center', marginTop: '50%' }
+	styleContainer: { alignSelf: 'center', marginTop: '15%' }
 }))``
 
 
@@ -48,7 +48,7 @@ export const ForgotPasswordTouch = styled.TouchableOpacity`
     justify-content:center;
     align-items:center;
     width:100%;
-    top:22%;
+    top:5%;
 `
 
 export const ForgotPasswordSubtitle = styled.Text`

@@ -16,3 +16,11 @@ export const TransactionsSubtitle = styled.Text`
   margin-bottom: 20px;
   font-family:'Nunito_Bold';
 `
+
+export const NothingTransactionSubtitle = styled.Text`
+  color:${colors.COLOR_BLACK50};
+  font-size:14px;
+  align-items: center;
+  justify-content: center;
+  font-family:'Nunito_Light';
+`

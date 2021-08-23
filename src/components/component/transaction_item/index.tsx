@@ -6,26 +6,35 @@ import { ITransactionItemParams } from './interfaces';
 import { GreenContainer, Influencer, Subtitle, Wrapper, WrapperLeft, WrapperMiddle, WrapperRight, Amount } from './styles';
 
 export const TransactionItem: React.FC<ITransactionItemParams> = (props) => {
-    return (
-        <Wrapper>
-            <WrapperLeft>
-                <GreenContainer>
-                    <MoneyIcon
-                        fill={colors.COLOR_SECUNDARY_GREEN}
-                        width="40em"
-                        height="40em"
-                    />
-                </GreenContainer>
-            </WrapperLeft>
+	return (
+		<Wrapper>
+			<WrapperLeft>
+				<GreenContainer>
+					<MoneyIcon
+						fill={colors.COLOR_SECUNDARY_GREEN}
+						width="40em"
+						height="40em"
+					/>
+				</GreenContainer>
+			</WrapperLeft>
 
-            <WrapperMiddle>
-                <Influencer>{props.influencer}</Influencer>
-                <Subtitle>{props.date} &#xB7; {props.coupon}</Subtitle>
-            </WrapperMiddle>
+			<WrapperMiddle>
+				<Influencer>{props.influencer}</Influencer>
+				<Subtitle>{props.date
+					.toLocaleTimeString("pt-br",
+						{
+							formatMatcher: "best fit",
+							day: 'numeric',
+							month: 'numeric',
+							hour: '2-digit',
+							minute: '2-digit'
+						})
+				} &#xB7; {props.coupon}</Subtitle>
+			</WrapperMiddle>
 
-            <WrapperRight>
-                <Amount>+R$ {props.amount}</Amount>
-            </WrapperRight>
-        </Wrapper>
-    );
+			<WrapperRight>
+				<Amount>+R$ {props.amount}</Amount>
+			</WrapperRight>
+		</Wrapper>
+	);
 }

@@ -1,6 +1,6 @@
 import { Flash } from './../utils/flash';
 import { IError } from './../settings/services/api';
-import { ICoupon, ICouponRequest } from './interfaces/icoupon'
+import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './interfaces/icoupon'
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import api, { IResponseMessage } from '../settings/services/api'
@@ -22,7 +22,6 @@ export class CouponService {
 		return data.message;
 	}
 
-
 	static contractCreateCoupon(params: ICoupon): ICouponRequest {
 
 		return {
@@ -40,8 +39,12 @@ export class CouponService {
 		} else {
 			Flash.someoneBullshit()
 		}
+	}
 
+	static async getCheckoutTransactions(): Promise<ICheckoutTransactionsRequest[]> {
+		const { data } = await api.get<IResponseMessage<ICheckoutTransactionsRequest[]>>('checkout')
 
+		return data.message
 	}
 }
 
