@@ -42,7 +42,8 @@ export class CouponService {
 	}
 
 	static async getCheckoutTransactions(): Promise<ICheckoutTransactionsRequest[]> {
-		const { data } = await api.get<IResponseMessage<ICheckoutTransactionsRequest[]>>('checkout')
+		const { data } = await api
+			.get<IResponseMessage<ICheckoutTransactionsRequest[]>>('checkouts/stores')
 
 		return data.message
 	}
