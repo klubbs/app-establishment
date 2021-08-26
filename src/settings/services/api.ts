@@ -64,7 +64,7 @@ export type IResponseMessage<T> = {
 
 export type IError = {
 	message: string
-	error: { Field: string; Validation: string }[]
+	error: { field: string; validation: string }[]
 	statusCode: number
 }
 
