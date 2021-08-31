@@ -11,8 +11,11 @@ export class Flash {
 		showFlash({ type: 'WARNING', desc: 'Parece que tem algo de errado com esses dados', title: 'Login inválido' })
 	}
 
-	static customMessage = (message: string, title: string) => {
-		showFlash({ type: 'NEUTRAL', desc: message, title: title })
+	static customMessage = (
+		message: string,
+		title: string,
+		type?: 'SUCCESS' | 'NEUTRAL' | 'WARNING' | 'DANGER') => {
+		showFlash({ type: type ?? 'NEUTRAL', title: title, desc: message })
 	}
 
 	static invalidCode = () =>

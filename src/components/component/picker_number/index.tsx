@@ -13,7 +13,9 @@ export const PickerNumber: React.FC<{ value: any, setValue: any }> = (props) => 
 				props.setValue(itemValue)
 			}>
 			{Array.from(Array(101).keys()).map((key, index) => {
-				return (<Picker.Item label={`${index}`} color={colors.COLOR_SECUNDARY_BLACK} value={index} key={index} />)
+				if (index > 4) {
+					return (<Picker.Item label={`${index}`} color={colors.COLOR_SECUNDARY_BLACK} value={index} key={index} />)
+				}
 			})}
 		</Picker>
 	);

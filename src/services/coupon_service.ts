@@ -47,6 +47,63 @@ export class CouponService {
 
 		return data.message
 	}
+
+	static async scanCoupon(couponId: string, userId: string) {
+		await api.post('checkouts', { coupon_id: couponId, user_id: userId })
+	}
+
+	static catchScanCoupon(errors: IError) {
+
+		if (errors.statusCode === 412) {
+			const actualError = errors.error[0].field.toLowerCase();
+
+			switch (actualError) {
+				case 'coupon':
+					Flash.customMessage("Cupom inválido", "Esse não é um cupom válido", 'WARNING')
+					break;
+
+				case 'wallet':
+					Flash.customMessage(
+						"Cupom não está na carteira",
+						"O cliente não adicionou o cupom a carteira", 'WARNING')
+					break;
+
+				case 'ineligible':
+					Flash.customMessage(
+						"Este cupom não é válido no seu estabelecimento",
+						"Seu estabelecimento não faz parte da carteira deste código de influenciador",
+						'WARNING')
+					break;
+
+				case 'coupon disabled':
+					Flash.customMessage(
+						"Cupom vencido ou desabilitado pelo estabelecimento",
+						"Este cupom não é mais válido",
+						'WARNING')
+
+					break;
+
+				case 'establishment':
+
+					Flash.customMessage(
+						"Seu estabelecimento ainda não esta adequado a fazer checkouts",
+						"Establecimento rejeitado",
+						'WARNING')
+
+					break;
+
+				default:
+
+					break;
+			}
+
+
+
+
+		} else {
+			Flash.someoneBullshit()
+		}
+	}
 }
 
 class CouponValidator extends Validator<ICoupon> {

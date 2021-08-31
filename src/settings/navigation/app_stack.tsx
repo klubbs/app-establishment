@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { IAppStackParams } from '../interfaces/iapp_stack_params'
 import { HomeScreen } from '../../components/screens/home'
-import { QrCodeScanner } from '../../components/component_heavy/qr_code_scanner'
+import { QrCodeScanner } from '../../components/screens/qr_code_scanner'
 import colors from '../../../assets/constants/colors'
 
 const AppStack = createStackNavigator<IAppStackParams>()

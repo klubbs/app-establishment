@@ -32,7 +32,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	const [visibleComponent, setVisibleComponent] = useState(false)
 
 	const [rules, setrules] = useState("");
-	const [offValue, setOffValue] = useState(0);
+	const [offValue, setOffValue] = useState(5);
 	const [dateValidAt, setdateValidAt] = useState(new Date(Date.now()));
 
 
@@ -106,7 +106,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	const clearClose = () => {
 		setrules("")
 
-		setOffValue(0)
+		setOffValue(5)
 
 		setdateValidAt(new Date(Date.now()))
 

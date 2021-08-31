@@ -14,11 +14,12 @@ export const Wrapper = styled.View`
 
 export const WrapperLeft = styled.View`
     flex:0.5;
+	 height: 50;
 `
 
 export const GreenContainer = styled.View`
-    width: 100%;
-    height: 90%;
+    width: 50px;
+    height: 50px;
     border-radius: 5px;
     justify-content: center;
     align-items: center;
@@ -28,7 +29,7 @@ export const GreenContainer = styled.View`
 
 export const WrapperMiddle = styled.View`
     flex:2;
-    height: 100%;
+    height: 50;
     justify-content: space-evenly;
     padding-horizontal:10px;
 `
@@ -47,6 +48,7 @@ export const Subtitle = styled.Text`
 
 export const WrapperRight = styled.View`
     flex:0.8;
+	 height: 50;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;

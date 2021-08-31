@@ -12,18 +12,20 @@ import { TransactionsSubtitle, Wrapper, NothingTransactionSubtitle, PlaceHolderW
 export const Transactions: React.FC = () => {
 
 	const [couponTransactions, setCouponTransactions] = useState<ITransactionItems[] | null>(null)
-
+	const [refreshing, setRefreshing] = useState(false)
 
 	useEffect(() => {
-		const getCheckouts = async () => {
-			const data = await CouponService.getCheckoutTransactions()
-
-			setCouponTransactions(data);
-		}
-
 		getCheckouts();
-
 	}, [])
+
+	async function getCheckouts() {
+		setRefreshing(true)
+		const data = await CouponService.getCheckoutTransactions()
+
+		setCouponTransactions(data);
+		setRefreshing(false)
+	}
+
 
 	return (
 		<Wrapper>
@@ -47,6 +49,8 @@ export const Transactions: React.FC = () => {
 			}
 
 			{couponTransactions && <FlatList
+				refreshing={refreshing}
+				onRefresh={getCheckouts}
 				data={couponTransactions}
 				keyExtractor={item => `${item.id}`}
 				style={{ width: '100%' }}

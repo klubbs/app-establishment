@@ -17,7 +17,7 @@ api.interceptors.request.use(async (config) => {
 		config.headers.Authorization = `Bearer ${token}`
 	}
 
-	config.baseURL = 'http://192.168.1.103:5001/'
+	config.baseURL = 'http://192.168.1.110:5001/'
 	console.log(config.baseURL)
 	return config
 })

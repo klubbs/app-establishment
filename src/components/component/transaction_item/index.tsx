@@ -12,8 +12,8 @@ export const TransactionItem: React.FC<ITransactionItemParams> = (props) => {
 				<GreenContainer>
 					<MoneyIcon
 						fill={colors.COLOR_SECUNDARY_GREEN}
-						width="40em"
-						height="40em"
+						width="40"
+						height="40"
 					/>
 				</GreenContainer>
 			</WrapperLeft>
