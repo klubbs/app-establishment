@@ -113,7 +113,7 @@ class CouponValidator extends Validator<ICoupon> {
 		this.ruleFor('description').notEmpty().maxLength(250)
 
 		this.ruleFor('offPercentual').must((item) => {
-			return item > 1
+			return item > 5
 		})
 	}
 }

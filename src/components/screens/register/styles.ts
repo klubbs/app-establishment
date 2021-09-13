@@ -109,6 +109,20 @@ export const Description = styled(InputBase).attrs(() => ({
     height:100px;
 `
 
+export const Location = styled.TouchableOpacity.attrs(() => ({
+	activeOpacity: 0.8
+})) <{ invalid: boolean }>`
+    width:90%;
+    height:${(WINDOW_HEIGHT > 680) ? '60px' : '45px'};
+    margin-bottom: 30px;
+	 justify-content: center;
+	 padding-left: 10px;
+	 border-radius:10px;
+    border-color: ${props => props.invalid ? colors.COLOR_RED : 'transparent'};
+    border-width: ${props => props.invalid ? '2px' : '0'};
+	 background-color:${colors.COLOR_WHITE}
+`
+
 export const ArrowIcon = styled(DoubleArrowRightIcon).attrs((props: { mode?: string }) => ({
 	width: 20,
 	height: 20,
@@ -128,13 +142,16 @@ export const CompleteButton = styled(Button).attrs(() => ({
 export const GooglePlaces = styled(GooglePlacesAutocomplete).attrs(() => ({
 	placeholder: 'Endereço ou Nome do Estabelecimento...',
 	fetchDetails: true,
-	GooglePlacesDetailsQuery: { fields: 'geometry' },
 	nearbyPlacesAPI: 'GooglePlacesSearch',
+	suppressDefaultStyles: true,
+	GooglePlacesDetailsQuery: {
+		fields: 'geometry'
+	},
 	query: {
 		key: Constants.manifest?.extra?.PLACES_API as string,
-		language: 'pt', components: 'country:br'
+		language: 'pt',
+		components: 'country:br'
 	},
-	suppressDefaultStyles: true,
 	textInputProps: {
 		style: {
 			backgroundColor: colors.COLOR_WHITE,
@@ -143,12 +160,34 @@ export const GooglePlaces = styled(GooglePlacesAutocomplete).attrs(() => ({
 			height: WINDOW_HEIGHT > 680 ? 60 : 45,
 			padding: 10,
 			borderRadius: 10,
-			marginBottom: 30,
+			marginTop: 30,
+			marginBottom: 10,
 			color: colors.COLOR_SECUNDARY_BLACK,
 			fontFamily: 'Nunito_Light',
 			fontSize: 15
 		},
-		selectionColor: colors.COLOR_YELLOW
+		selectionColor: colors.COLOR_YELLOW,
+	},
+	styles: {
+		row: {
+			backgroundColor: colors.COLOR_BLACK5,
+			alignSelf: 'center',
+			justifyContent: 'center',
+			width: WINDOW_WIDTH * 0.9,
+			paddingHorizontal: 10,
+			height: 50,
+			borderRadius: 5,
+			marginBottom: 10,
+			color: colors.COLOR_SECUNDARY_BLACK,
+			fontFamily: 'Nunito_Light',
+			fontSize: 15
+		}
 	}
 }))`
+`
+
+export const LocationAddress = styled.Text`
+  color:${colors.COLOR_SECUNDARY_BLACK};
+  font-size:14px;
+  font-family:'Nunito_Regular';
 `

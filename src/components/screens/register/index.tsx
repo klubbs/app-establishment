@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import { View } from 'react-native'
 import { PickerTimeStartEnd } from '../../component/picker_time_start_end'
 import { IEstablishmentRegister } from './interfaces'
 import { PickerModelBusiness } from '../../component/picker_model_business'
@@ -6,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import { RegisterService } from '../../../services/register_service'
 import { isEmpty, nameof } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
-
+import { Modalize } from 'react-native-modalize';
 import {
 	Wrapper,
 	Description,
@@ -22,13 +23,13 @@ import {
 	CompleteButton,
 	KeyboardWrapper,
 	Password,
+	Location,
+	LocationAddress
 } from './styles'
-
 export const RegisterScreen: React.FC = () => {
 	const navigation = useNavigation()
 
 	const [keyboardAvoidingViewEnabled, setKeyboardAvoidingViewEnabled] = useState<boolean>(true)
-
 	const [invalidFields, setInvalidFields] = useState({
 		name: false,
 		phone: false,
@@ -42,7 +43,6 @@ export const RegisterScreen: React.FC = () => {
 		modelBusinessId: false,
 		password: false,
 	})
-
 	const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
 		name: '',
 		phone: '',
@@ -55,6 +55,9 @@ export const RegisterScreen: React.FC = () => {
 		ownerCpf: '',
 		modelBusinessId: '',
 		password: '',
+		lat: 0,
+		long: 0,
+		address: 'Marileeene'
 	})
 
 	const validToRegister = () => {
@@ -93,7 +96,13 @@ export const RegisterScreen: React.FC = () => {
 	}
 
 	function handlerPlace(data: any, details: any) {
-		console.log(data)
+		console.log('meu pau')
+		setEstablishment({
+			...establishment,
+			address: data.description,
+			long: details.geometry.location.lng,
+			lat: details.geometry.location.lat
+		})
 	}
 
 	return (
@@ -172,9 +181,13 @@ export const RegisterScreen: React.FC = () => {
 			</KeyboardWrapper>
 			<Container>
 				<ArrowIcon mode={'up'} />
-				<GooglePlaces onPress={(data, details = null) => handlerPlace(data, details)} />
+				{/* <GooglePlaces onPress={(data, details = null) => handlerPlace(data, details)} /> */}
 
-				{/* <Description
+				{/* <Location onPress={() => modalizeRef.current?.open()}>
+						<LocationAddress>{establishment.address}</LocationAddress>
+					</Location> */}
+
+				<Description
 					value={establishment.description}
 					invalid={invalidFields.description}
 					setValue={(e: string) => setEstablishment({ ...establishment, description: e })}
@@ -196,7 +209,11 @@ export const RegisterScreen: React.FC = () => {
 					onChangeCb={(e: string) =>
 						setEstablishment({ ...establishment, modelBusinessId: e })
 					}
-				/> */}
+				/>
+
+				<GooglePlaces
+					onPress={(data, details = null) => handlerPlace(data, details)}
+				/>
 
 				<CompleteButton onPress={() => validToRegister()} />
 			</Container>
