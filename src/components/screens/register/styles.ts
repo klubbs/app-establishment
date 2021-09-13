@@ -130,7 +130,10 @@ export const GooglePlaces = styled(GooglePlacesAutocomplete).attrs(() => ({
 	fetchDetails: true,
 	GooglePlacesDetailsQuery: { fields: 'geometry' },
 	nearbyPlacesAPI: 'GooglePlacesSearch',
-	query: { key: Constants.manifest?.extra?.PLACES_API as string, language: 'pt', components: 'country:br' },
+	query: {
+		key: Constants.manifest?.extra?.PLACES_API as string,
+		language: 'pt', components: 'country:br'
+	},
 	suppressDefaultStyles: true,
 	textInputProps: {
 		style: {

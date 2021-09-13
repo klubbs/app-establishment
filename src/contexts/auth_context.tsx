@@ -2,12 +2,14 @@ import React, { createContext, useState, useEffect } from 'react'
 import { IEstablishmentRegister } from '../components/screens/register/interfaces'
 import { RegisterService } from '../services/register_service'
 import { LoginService } from '../services/login_service'
-import { createEstablishmentInStorage, isLogged, clearAsyncStorage } from '../utils/async_storage'
+import { createEstablishmentInStorage, clearAsyncStorage, getEstablishmentInStorage }
+	from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
+import { ILoginResponse } from '../services/interfaces/ilogin'
 
 export const AuthContext = createContext(
 	{} as {
-		logged: boolean
+		establishment: ILoginResponse | null
 		signIn: (mail: string, password: string) => Promise<void>
 		register: (params: IEstablishmentRegister, code: string) => Promise<void>
 		logout: () => Promise<void>
@@ -15,18 +17,19 @@ export const AuthContext = createContext(
 )
 
 const AuthProvider: React.FC = ({ children }) => {
-	const [logged, setlogged] = useState(false)
+	const [establishment, setEstablishment] = useState<ILoginResponse | null>(null)
 
 	useEffect(() => {
-		const checkIsLogged = async () => {
-			const response = await isLogged()
+		(
+			async function hasEstablishment() {
+				const response = await getEstablishmentInStorage()
 
-			setlogged(response)
+				if (response) {
+					setEstablishment(establishment)
+				}
 
-			await SplashScreen.hideAsync();
-		}
-
-		checkIsLogged()
+				await SplashScreen.hideAsync();
+			})()
 	}, [])
 
 	const signIn = async (mail: string, password: string) => {
@@ -34,7 +37,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
 		await createEstablishmentInStorage(establishment)
 
-		setlogged(true)
+		setEstablishment(establishment)
 	}
 
 	const register = async (params: IEstablishmentRegister, code: string): Promise<void> => {
@@ -43,11 +46,11 @@ const AuthProvider: React.FC = ({ children }) => {
 
 	const logout = async () => {
 		await clearAsyncStorage()
-		setlogged(false)
+		setEstablishment(null)
 	}
 
 	return (
-		<AuthContext.Provider value={{ logged, signIn, register, logout }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ establishment, signIn, register, logout }}>{children}</AuthContext.Provider>
 	)
 }
 

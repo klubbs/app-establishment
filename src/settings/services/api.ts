@@ -5,20 +5,19 @@ import { clearAsyncStorage, getTokenInStorage } from '../../utils/async_storage'
 import { Flash } from '../../utils/flash'
 
 const axiosConfig = {
-	baseURL: Constants.manifest?.extra?.ENVIRONMENT_API_URL,
+	baseURL: Constants.manifest?.extra?.API_URL,
 }
 
 const api = axios.create(axiosConfig)
 
 api.interceptors.request.use(async (config) => {
 	const token = await getTokenInStorage()
+	console.log(config.baseURL)
+
 
 	if (token !== null) {
 		config.headers.Authorization = `Bearer ${token}`
 	}
-
-	config.baseURL = 'http://192.168.1.110:5001/'
-	console.log(config.baseURL)
 	return config
 })
 

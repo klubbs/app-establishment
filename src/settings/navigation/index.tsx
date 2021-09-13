@@ -9,10 +9,9 @@ import { DrawerNavigation } from './drawer/drawer_stack';
 
 export const Navigations: React.FC = () => {
 
-    const { logged } = useContext(AuthContext)
+	const { establishment } = useContext(AuthContext)
 
-
-    return (
-        logged ? <DrawerNavigation /> : < AuthStackNavigator />
-    );
+	return (
+		establishment ? <DrawerNavigation /> : < AuthStackNavigator />
+	);
 }

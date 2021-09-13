@@ -1,6 +1,6 @@
 import { IEstablishmentRegister } from "../components/screens/register/interfaces";
 import api, { IError, IResponseMessage } from "../settings/services/api";
-import { IRegisterRequest } from "./interfaces/iregister";
+import { ICategoryResponse, IRegisterRequest } from "./interfaces/iregister";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { Validator } from 'fluentvalidation-ts';
 import { beValidCnpj, beValidCpf } from "../utils/documents_utils";
@@ -8,6 +8,12 @@ import { Flash } from "../utils/flash";
 
 export class RegisterService {
 
+
+	static async getCategories() {
+		const { data } = await api.get<IResponseMessage<ICategoryResponse[]>>('stores/business-category')
+
+		return data.message
+	}
 
 	static async register(params: IEstablishmentRegister, code: string): Promise<{ Id: string }> {
 

@@ -92,6 +92,10 @@ export const RegisterScreen: React.FC = () => {
 		setInvalidFields(tmpData)
 	}
 
+	function handlerPlace(data: any, details: any) {
+		console.log(data)
+	}
+
 	return (
 		<Wrapper>
 			<KeyboardWrapper enabled={keyboardAvoidingViewEnabled}>
@@ -168,9 +172,9 @@ export const RegisterScreen: React.FC = () => {
 			</KeyboardWrapper>
 			<Container>
 				<ArrowIcon mode={'up'} />
-				<GooglePlaces onPress={(data, details = null) => null} />
+				<GooglePlaces onPress={(data, details = null) => handlerPlace(data, details)} />
 
-				<Description
+				{/* <Description
 					value={establishment.description}
 					invalid={invalidFields.description}
 					setValue={(e: string) => setEstablishment({ ...establishment, description: e })}
@@ -192,7 +196,7 @@ export const RegisterScreen: React.FC = () => {
 					onChangeCb={(e: string) =>
 						setEstablishment({ ...establishment, modelBusinessId: e })
 					}
-				/>
+				/> */}
 
 				<CompleteButton onPress={() => validToRegister()} />
 			</Container>
