@@ -1,13 +1,14 @@
-import { IEstablishmentRegister } from "../components/screens/register/interfaces";
+import { IEstablishmentRegister } from './../components/screens/register/interfaces';
+import { isEmpty, nameof } from './../utils/extensions/object_extensions';
 import api, { IError, IResponseMessage } from "../settings/services/api";
 import { ICategoryResponse, IRegisterRequest } from "./interfaces/iregister";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
-import { Validator } from 'fluentvalidation-ts';
-import { beValidCnpj, beValidCpf } from "../utils/documents_utils";
+import { AsyncValidator, Validator } from 'fluentvalidation-ts';
+import { beValidCnpj, beValidCpf, keyHasInObjectValidator } from "../utils/documents_utils";
 import { Flash } from "../utils/flash";
 
 export class RegisterService {
-
+	// nameof<IEstablishmentRegister>('password')
 
 	static async getCategories() {
 		const { data } = await api.get<IResponseMessage<ICategoryResponse[]>>('stores/business-category')
@@ -30,11 +31,24 @@ export class RegisterService {
 
 	}
 
-	static validate(params: IEstablishmentRegister): ValidationErrors<IEstablishmentRegister> {
+	// static async validate(params: IEstablishmentRegister): Promise<ValidationErrors<IEstablishmentRegister>> {
 
+	// 	const validator = new RegisterValidator();
+
+	// 	return await validator.validateAsync(params)
+	// }
+
+	static async ValidateProperty<IEstablishmentRegister>(value: any, param: any): Promise<Object> {
 		const validator = new RegisterValidator();
 
-		return validator.validate(params)
+		const errors = await validator.validateAsync(
+			{ [param]: value }
+		)
+
+		return keyHasInObjectValidator<IEstablishmentRegister>(
+			errors,
+			param as keyof IEstablishmentRegister
+		)
 	}
 
 	static contract(params: IEstablishmentRegister, code: string): IRegisterRequest {
@@ -90,54 +104,83 @@ export class RegisterService {
 
 }
 
-class RegisterValidator extends Validator<IEstablishmentRegister> {
+class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 	constructor() {
 		super();
 
 		this.ruleFor('name')
 			.notEmpty()
-			.withMessage('Preencha o nome do estabelecimento.');
+			.withMessage('Preencha o nome do estabelecimento.')
+			.when(src => src.name !== undefined)
 
 		this.ruleFor('mail')
 			.emailAddress()
-			.withMessage('Preencha com um e-mail.');
+			.withMessage('Preencha com um e-mail.')
+			.when(src => src.mail !== undefined)
 
 		this.ruleFor('ownerName')
 			.notEmpty()
-			.withMessage('Preencha com o nome do responsável.');
+			.withMessage('Preencha com o nome do responsável.')
+			.when(src => src.ownerName !== undefined)
 
 		this.ruleFor('closedAt')
-			.notNull();
+			.notNull()
+			.when(src => src.closedAt !== undefined)
 
 		this.ruleFor('openedAt')
-			.notNull();
+			.notNull()
+			.when(src => src.openedAt !== undefined)
 
 		this.ruleFor('description')
 			.notEmpty()
 			.minLength(10)
-			.withMessage('Detalhe um pouco mais seu estabelecimento.');
+			.withMessage('Detalhe um pouco mais seu estabelecimento.')
+			.when(src => src.description !== undefined)
 
 		this.ruleFor('modelBusinessId')
+			.mustAsync(async (ctg: string) => {
+				const categories = await RegisterService.getCategories();
+				return categories.some(item => item.id === ctg)
+			})
 			.notNull()
 			.notEmpty()
+			.when(src => src.modelBusinessId !== undefined)
 
 		this.ruleFor('ownerCpf')
 			.notEmpty()
 			.must(beValidCpf)
-			.withMessage('Preencha com um CPF válido.');
+			.withMessage('Preencha com um CPF válido.')
+			.when(src => src.ownerCpf !== undefined)
 
 		this.ruleFor('cnpj')
 			.notEmpty()
 			.must(beValidCnpj)
-			.withMessage('Preencha com um CNPJ válido.');
+			.withMessage('Preencha com um CNPJ válido.')
+			.when(src => src.cnpj !== undefined)
 
 		this.ruleFor('password')
 			.minLength(5)
 			.withMessage('Senha deve ter no mínimo 5 caracteres')
+			.when(src => src.password !== undefined)
 
 		this.ruleFor('phone')
 			.notEmpty()
 			.matches(new RegExp(/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/))
-			.withMessage('Preencha com um telefone válido.');
+			.withMessage('Preencha com um telefone válido.')
+			.when(src => src.phone !== undefined)
+
+		this.ruleFor('password')
+			.minLength(5)
+			.withMessage('Senha deve ter no mínimo 5 caracteres')
+			.when(src => src.password !== undefined)
+
+		this.ruleFor('lat')
+			.greaterThan(0)
+			.when(src => src.lat !== undefined)
+
+		this.ruleFor('long')
+			.greaterThan(0)
+			.when(src => src.long !== undefined)
+
 	}
 }

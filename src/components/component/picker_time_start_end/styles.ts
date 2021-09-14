@@ -26,7 +26,7 @@ export const Wrapper = styled.View`
     align-items: center;
     border-radius:10px;
     padding:10px;
-    width:90%;
+    width:100%;
     height:${(WINDOW_HEIGHT > 680) ? '100px' : '80px'};;
     margin-bottom: 30px;
 `

@@ -7,37 +7,64 @@ import Constants from 'expo-constants';
 import { DoubleArrowRightIcon } from '../../../../assets/icons/double_arrow_right_icon';
 import Button from '../../component/button';
 import { InputWithMask } from '../../component/input-with-mask';
+import { MotiView } from 'moti'
 
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-export const Wrapper = styled.ScrollView.attrs(() => ({
-	showsVerticalScrollIndicator: false,
-	decelerationRate: 'fast',
-	snapToInterval: WINDOW_HEIGHT,
-	contentContainerStyle: { justifyContent: 'center', alignItems: 'center' }
-}))`
-    flex: 1;
-    background-color: ${colors.COLOR_SECUNDARY_BLACK};
+// export const Wrapper = styled.ScrollView.attrs(() => ({
+// 	showsVerticalScrollIndicator: false,
+// 	decelerationRate: 'fast',
+// 	snapToInterval: WINDOW_HEIGHT,
+// 	contentContainerStyle: { justifyContent: 'center', alignItems: 'center' }
+// }))`
+//     flex: 1;
+//     background-color: ${colors.COLOR_SECUNDARY_BLACK};
+// `
+
+export const Wrapper = styled.SafeAreaView`
+	flex:1;
+	background-color: ${colors.COLOR_WHITE};
+	align-items: flex-start;
 `
 
-export const KeyboardWrapper = styled.KeyboardAvoidingView.attrs(() => ({
-	behavior: 'position'
-}))`
-    width:100%;
+export const Container = styled.View`
+	flex:1;
+	width:100%;
+	justify-content:space-between ;
+	padding:40px
 `
 
-export const Container = styled.SafeAreaView`
-    justify-content: center;
-    align-items: center;
-    height: ${`${WINDOW_HEIGHT}px`};
-    width:100%;
+export const BottomContainer = styled.View`
+	flex:0.5;
+	flex-direction: row;
+	width:100%;
+	justify-content: center;
+	align-items: center;
 `
+
+export const Question = styled.Text`
+  color:${colors.COLOR_SECUNDARY_BLACK};
+	margin-top:40px;
+  font-size:28px;
+  font-family:'Nunito_ExtraBold';
+`
+
+export const AnimatedContainer = styled(MotiView).attrs(props => ({
+	from: { opacity: 0 },
+	animate: { opacity: 1 }
+}))``
+
+
+
+
+
 
 const InputBase = styled(InputWithIcon).attrs((props: { invalid: boolean }) => ({
 	placeholderTextColor: props.invalid ? colors.COLOR_RED : colors.COLOR_BLACK50,
 })) <{ invalid: boolean }>`
     width:90%;
+	 background-color:${colors.COLOR_BLACK10}
     height:${(WINDOW_HEIGHT > 680) ? '60px' : '45px'};
     margin-bottom: 30px;
     border-color: ${props => props.invalid ? colors.COLOR_RED : 'transparent'};
@@ -50,12 +77,13 @@ const InputMaskBase = styled(InputWithMask).attrs((props: { invalid: boolean }) 
     width:90%;
     height:${(WINDOW_HEIGHT > 680) ? '60px' : '45px'};
     margin-bottom: 30px;
+	 background-color:${colors.COLOR_BLACK10}
     border-color: ${props => props.invalid ? colors.COLOR_RED : 'transparent'};
     border-width: ${props => props.invalid ? '2px' : '0'};
 `
 
 export const Name = styled(InputBase).attrs((props) => ({
-	placeholder: 'Nome fantasia do estabelecimento',
+	placeholder: 'Nome fantasia',
 	keyboardType: 'default'
 }))`
 `
@@ -74,7 +102,7 @@ export const Mail = styled(InputBase).attrs(() => ({
 `
 
 export const Phone = styled(InputMaskBase).attrs(() => ({
-	placeholder: 'Telefone do estabelecimento',
+	placeholder: 'Telefone',
 	keyboardType: 'numeric',
 	type: 'cel-phone'
 }))`
@@ -102,11 +130,12 @@ export const Password = styled(InputBase).attrs(() => ({
 
 export const Description = styled(InputBase).attrs(() => ({
 	placeholder: 'Descreva o estabelecimento para os usuários!',
-	multiline: true
+	multiline: true,
+	blurOnSubmit: true
 }))`
-    width:90%;
+    width:100%;
     margin-bottom:30px;
-    height:100px;
+    height:120px;
 `
 
 export const Location = styled.TouchableOpacity.attrs(() => ({
@@ -123,20 +152,12 @@ export const Location = styled.TouchableOpacity.attrs(() => ({
 	 background-color:${colors.COLOR_WHITE}
 `
 
-export const ArrowIcon = styled(DoubleArrowRightIcon).attrs((props: { mode?: string }) => ({
-	width: 20,
-	height: 20,
-	fill: colors.COLOR_YELLOW,
-	up: props.mode === 'up'
-})) <{ mode?: string }>`
-    transform: ${props => props.up ? 'rotate(-90deg)' : 'rotate(90deg)'};
-    bottom:${props => props.up ? '30px' : 0}
-`
-
-export const CompleteButton = styled(Button).attrs(() => ({
-	text: 'Prosseguir',
-	styleContainer: { width: '90%', height: 60, top: '5%' }
-}))``
+export const CompleteButton = styled(Button).attrs((props: { back?: boolean }) => ({
+	text: props.back ? 'Voltar' : 'Próximo',
+	styleContainer: props.back
+		? { width: 150, height: 60, left: 0, position: 'absolute', bottom: 0 }
+		: { width: 150, height: 60, right: 0, position: 'absolute', bottom: 0 }
+})) <{ back?: boolean }>``
 
 
 export const GooglePlaces = styled(GooglePlacesAutocomplete).attrs(() => ({

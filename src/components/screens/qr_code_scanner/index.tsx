@@ -19,7 +19,6 @@ import {
 	ScanOtherButton,
 } from './styles';
 import { IError } from '../../../settings/services/api';
-import { CouponIcon } from '../../../../assets/icons/coupon_icon';
 
 export const QrCodeScanner: React.FC = () => {
 
