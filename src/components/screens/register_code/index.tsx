@@ -53,7 +53,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 			}
 
 			setLoadingSpinner(true)
-
+			console.log(route.params)
 			await RegisterService.register(route.params, code)
 
 			await signIn(route.params.mail, route.params.password)

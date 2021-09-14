@@ -9,7 +9,7 @@ export interface IEstablishmentRegister {
 	description: string,
 	ownerName: string,
 	ownerCpf: string,
-	modelBusinessId: string,
+	businessCategoryId: string,
 	password: string,
 	lat: number,
 	long: number

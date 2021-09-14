@@ -63,7 +63,9 @@ export const Rules = styled.TextInput.attrs(props => ({
 	autoCapitalize: 'none',
 	multiline: true,
 	blurOnSubmit: true,
-	returnKeyType: 'done'
+	returnKeyType: 'done',
+	placeholder: 'Defina as regras do cupom aqui',
+	placeholderTextColor: colors.COLOR_BLACK40
 }))`
     color:${colors.COLOR_SECUNDARY_BLACK};
     background-color:${'#E8E8E8'};

@@ -31,7 +31,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	const [loading, setLoading] = useState(false)
 	const [visibleComponent, setVisibleComponent] = useState(false)
 
-	const [rules, setrules] = useState("");
+	const [rules, setrules] = useState('');
 	const [offValue, setOffValue] = useState(5);
 	const [dateValidAt, setdateValidAt] = useState(new Date(Date.now()));
 
@@ -61,7 +61,10 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 				if (!isEmpty(validFields)) {
 
 					if (validFields.hasOwnProperty(nameof<ICoupon>("description")))
-						Flash.customMessage("Descreva para o usuário as regras do cupom", "Regras do cupom")
+						Flash.customMessage(
+							"Defina para os usuário as regras do cupom",
+							"Regras do cupom"
+						)
 
 
 					if (validFields.hasOwnProperty(nameof<ICoupon>("offPercentual")))

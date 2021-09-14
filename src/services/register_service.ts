@@ -6,6 +6,7 @@ import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { AsyncValidator, Validator } from 'fluentvalidation-ts';
 import { beValidCnpj, beValidCpf, keyHasInObjectValidator } from "../utils/documents_utils";
 import { Flash } from "../utils/flash";
+import { LoginService } from './login_service';
 
 export class RegisterService {
 	// nameof<IEstablishmentRegister>('password')
@@ -41,6 +42,10 @@ export class RegisterService {
 	static async ValidateProperty<IEstablishmentRegister>(value: any, param: any): Promise<Object> {
 		const validator = new RegisterValidator();
 
+		if (param === 'mail' && value === '') {
+			return { mail: 'invalid' };
+		}
+
 		const errors = await validator.validateAsync(
 			{ [param]: value }
 		)
@@ -57,7 +62,7 @@ export class RegisterService {
 			password: params.password,
 			description: params.description,
 			owner_name: params.ownerName,
-			establishment_model_business_id: params.modelBusinessId,
+			business_category_id: params.businessCategoryId,
 			mail: params.mail,
 			cnpj: params.cnpj.replace(/\D/g, ""),
 			owner_cpf: params.ownerCpf.replace(/\D/g, ""),
@@ -65,10 +70,8 @@ export class RegisterService {
 			code: code,
 			closed_at: params.closedAt.ToUnixEpoch(),
 			opened_at: params.openedAt.ToUnixEpoch(),
-			//TODO DADOS DE ENDEREÇO
-
-			latitude: 0,
-			longitude: 0
+			latitude: params.lat,
+			longitude: params.long
 		}
 	}
 
@@ -88,12 +91,6 @@ export class RegisterService {
 						Flash.customConflict("Cnpj")
 					return;
 				});
-
-			// if (error.error[0].Field.toUpperCase() === "MAIL")
-			//     Flash.customConflict("E-mail")
-			// else if (error.error[0].Field.toUpperCase() === "CNPJ")
-			//     Flash.customConflict("Cnpj")
-			// return;
 
 			default:
 				Flash.someoneBullshit();
@@ -118,6 +115,19 @@ class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 			.withMessage('Preencha com um e-mail.')
 			.when(src => src.mail !== undefined)
 
+		this.ruleFor('mail')
+			.mustAsync(async (mail: string) => {
+				try {
+					const already = await LoginService.AlreadyMail(mail)
+
+					return !already
+				} catch (error) {
+					return false
+				}
+			})
+			.withMessage('E-mail inválido.')
+			.when(src => src.mail !== undefined)
+
 		this.ruleFor('ownerName')
 			.notEmpty()
 			.withMessage('Preencha com o nome do responsável.')
@@ -137,14 +147,14 @@ class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 			.withMessage('Detalhe um pouco mais seu estabelecimento.')
 			.when(src => src.description !== undefined)
 
-		this.ruleFor('modelBusinessId')
+		this.ruleFor('businessCategoryId')
 			.mustAsync(async (ctg: string) => {
 				const categories = await RegisterService.getCategories();
 				return categories.some(item => item.id === ctg)
 			})
 			.notNull()
 			.notEmpty()
-			.when(src => src.modelBusinessId !== undefined)
+			.when(src => src.businessCategoryId !== undefined)
 
 		this.ruleFor('ownerCpf')
 			.notEmpty()
@@ -169,17 +179,12 @@ class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 			.withMessage('Preencha com um telefone válido.')
 			.when(src => src.phone !== undefined)
 
-		this.ruleFor('password')
-			.minLength(5)
-			.withMessage('Senha deve ter no mínimo 5 caracteres')
-			.when(src => src.password !== undefined)
-
 		this.ruleFor('lat')
-			.greaterThan(0)
+			.must(src => src !== 0)
 			.when(src => src.lat !== undefined)
 
 		this.ruleFor('long')
-			.greaterThan(0)
+			.must(src => src !== 0)
 			.when(src => src.long !== undefined)
 
 	}

@@ -24,15 +24,16 @@ export const RegisterScreen: React.FC = () => {
 		cnpj: [false, 'CNPJ do estabelecimento:'],
 		ownerName: [false, 'Nome do responsável pelo estabelecimento ?'],
 		ownerCpf: [false, 'CPF do responsável pelo estabelecimento ?'],
-
-		modelBusinessId: [false, 'Em qual categoria se enquadra ?'],
+		businessCategoryId: [false, 'Em qual categoria se enquadra ?'],
 		description: [false, 'Como quer descrever o estabelecimento para os usuários'],
+		//O componente de horas por si só não permite horários menores que o inicio
 		closedAt: [false, 'Que horas o estabelecimento abre e fecha:'],
+		//Latitude depende de longitude, validar somente um aqui já funciona
 		lat: [false, 'Onde os usuários podem te encontrar'],
-
 		mail: [false, 'Qual será seu e-mail de login:'],
-		password: [false, 'Pense em uma senha:'],
+		password: [false, 'Coloque sua melhor senha:'],
 	})
+
 	const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
 		name: '',
 		phone: '',
@@ -43,7 +44,7 @@ export const RegisterScreen: React.FC = () => {
 		openedAt: new Date(Date.now()),
 		ownerName: '',
 		ownerCpf: '',
-		modelBusinessId: '',
+		businessCategoryId: '',
 		password: '',
 		lat: 0,
 		long: 0,
@@ -80,33 +81,34 @@ export const RegisterScreen: React.FC = () => {
 
 			if (!isBack) {
 
-				let customProperty: Object | null = null;
-
-				if (property === 'closedAt') {
-					property = nameof<IEstablishmentRegister>('closedAt')
-					customProperty = {
-						closedAt: establishment.closedAt,
-						openedAt: establishment.openedAt
-					}
-				} else if (property === 'address') {
-					property = nameof<IEstablishmentRegister>('lat')
-					customProperty = { lat: establishment.lat, long: establishment.long }
-				}
-
-				console.log(property)
-
 				const isValid = await RegisterService
-					.ValidateProperty(customProperty ?? establishment[property], property);
+					.ValidateProperty(establishment[property], property);
 
 				if (!isEmpty(isValid)) {
-					Flash.customMessage(
-						"Preencha o campo corretamente",
-						"Tem algo errado com esse campo", 'WARNING'
-					)
+
+					if (isValid.hasOwnProperty('mail')) {
+						Flash.customMessage(
+							'Não é um e-mail válido ou já esta em uso',
+							"Email inválido", 'WARNING'
+						)
+					} else {
+
+						Flash.customMessage(
+							"Preencha o campo corretamente",
+							"Tem algo errado com esse campo", 'WARNING'
+						)
+					}
+
 					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning);
 					return;
 				}
+
+				if (property === nameof<IEstablishmentRegister>('password')) {
+					navigation.navigate('Contract', establishment);
+					return;
+				}
 			}
+
 
 			const tmp = activeFields;
 
@@ -136,8 +138,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.name[0] &&
 					<Name
 						value={establishment.name}
-						invalid={false}
-						// invalid={invalidFields.name}
 						setValue={(e: string) => setEstablishment({ ...establishment, name: e })}
 					/>
 				}
@@ -146,7 +146,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.phone[0] &&
 					<Phone
 						value={establishment.phone}
-						invalid={false}
 						onChangeText={(e: string) => setEstablishment({ ...establishment, phone: e })}
 					/>
 				}
@@ -155,7 +154,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.mail[0] &&
 					<Mail
 						value={establishment.mail}
-						invalid={false}
 						setValue={(e: string) => setEstablishment({ ...establishment, mail: e })}
 					/>
 				}
@@ -164,7 +162,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.password[0] &&
 					<Password
 						value={establishment.password}
-						invalid={false}
 						setValue={(e: string) => setEstablishment({ ...establishment, password: e })}
 					/>
 				}
@@ -173,7 +170,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.cnpj[0] &&
 					<Cnpj
 						value={`${establishment.cnpj}`}
-						invalid={false}
 						onChangeText={(e: string) => setEstablishment({ ...establishment, cnpj: e })}
 					/>
 				}
@@ -182,7 +178,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.ownerName[0] &&
 					<NameResponsible
 						value={`${establishment.ownerName}`}
-						invalid={false}
 						setValue={(e: string) => setEstablishment({ ...establishment, ownerName: e })}
 					/>
 				}
@@ -191,7 +186,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.ownerCpf[0] &&
 					<Cpf
 						value={`${establishment.ownerCpf}`}
-						invalid={false}
 						onChangeText={(e: string) => setEstablishment({ ...establishment, ownerCpf: e })}
 					/>
 				}
@@ -200,7 +194,6 @@ export const RegisterScreen: React.FC = () => {
 					activeFields.description[0] &&
 					<Description
 						value={establishment.description}
-						invalid={false}
 						setValue={(e: string) => setEstablishment({ ...establishment, description: e })}
 					/>
 				}
@@ -219,16 +212,16 @@ export const RegisterScreen: React.FC = () => {
 				}
 
 				{
-					activeFields.modelBusinessId[0] &&
+					activeFields.businessCategoryId[0] &&
 					<PickerModelBusiness
 						onChangeCb={(e: string) =>
-							setEstablishment({ ...establishment, modelBusinessId: e })
+							setEstablishment({ ...establishment, businessCategoryId: e })
 						}
 					/>
 				}
 
 				{
-					activeFields.address[0] &&
+					activeFields.lat[0] &&
 					<GooglePlaces
 						onPress={(data, details = null) => handlerPlace(data, details)}
 					/>

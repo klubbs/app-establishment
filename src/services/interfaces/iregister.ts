@@ -8,7 +8,7 @@ export type IRegisterRequest = {
 	description: string
 	owner_name: string
 	owner_cpf: string
-	establishment_model_business_id: string
+	business_category_id: string
 	password: string
 	code: string
 	latitude: number

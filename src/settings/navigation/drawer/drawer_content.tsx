@@ -1,7 +1,7 @@
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert } from 'react-native';
 import colors from '../../../../assets/constants/colors';
 import styled from 'styled-components'
 import { AuthContext } from '../../../contexts/auth_context';
@@ -36,10 +36,10 @@ export const DrawerContent: React.FC = () => {
 				label="Painel"
 				onPress={() => navigation.navigate({ name: 'Home' })}
 			/>
-			<MenuItem
+			{/* <MenuItem
 				label="Configurações"
 				onPress={() => console.log('')}
-			/>
+			/> */}
 			<CloseItem
 				label="Sair"
 				onPress={() => onLogout()}

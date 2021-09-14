@@ -14,9 +14,16 @@ export class LoginService {
 			},
 		})
 
-		console.log(data)
-
 		return data.message
+	}
+
+	static async AlreadyMail(mail: string): Promise<boolean> {
+
+		const { data } = await api.get<IResponseMessage<boolean>>('stores/mail', {
+			params: { mail: mail }
+		})
+
+		return data.message;
 	}
 
 	static validate(params: ILogin): ValidationErrors<ILogin> {
