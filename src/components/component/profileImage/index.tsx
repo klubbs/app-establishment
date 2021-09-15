@@ -1,9 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Image } from 'react-native';
 import colors from '../../../../assets/constants/colors';
-import { CouponIcon } from '../../../../assets/icons/coupon_icon';
 import { AuthContext } from '../../../contexts/auth_context';
-import { Skeleton } from '@motify/skeleton'
 
 import { ImageProfileComponent, ContainerEmpty } from './styles';
 import { ShopIcon } from '../../../../assets/icons/shop_icon';
