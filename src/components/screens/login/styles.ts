@@ -62,3 +62,9 @@ export const ForgotPasswordSubtitle = styled.Text`
 export const Container = styled.View`
 	width:100%
 `
+
+export const KeyboardContainer = styled.KeyboardAvoidingView.attrs(props => ({
+	behavior: 'position'
+}))`
+	width:100%
+`

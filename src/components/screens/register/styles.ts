@@ -40,8 +40,11 @@ export const Question = styled.Text`
 `
 
 export const AnimatedContainer = styled(MotiView).attrs(props => ({
-	from: { opacity: 0 },
-	animate: { opacity: 1 }
+	/* from: { opacity: 0 },
+	animate: { opacity: 1 },
+	exit: {
+		opacity: 0
+	} */
 }))``
 
 

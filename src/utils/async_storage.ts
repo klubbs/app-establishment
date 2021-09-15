@@ -15,10 +15,6 @@ export async function clearAsyncStorage() {
 	await AsyncStorage.clear()
 }
 
-export async function updateEstablishmentInStorage(establishment: ILoginResponse) {
-	await AsyncStorage.setItem('@ESTABLISHMENT:Key', JSON.stringify(establishment))
-}
-
 export async function mergeEstablishmentInStorage(establishment: ILoginResponse) {
 	await AsyncStorage.mergeItem('@ESTABLISHMENT:Key', JSON.stringify(establishment))
 }

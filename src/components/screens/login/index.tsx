@@ -4,7 +4,6 @@ import { LoginService } from '../../../services/login_service'
 import { isEmpty } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
 import { Spinner } from '../../component/spinner'
-import { View } from 'react-native'
 import {
 	Wrapper,
 	WelcomeSubtitle,
@@ -14,7 +13,8 @@ import {
 	ButtonLogin,
 	ForgotPasswordTouch,
 	ForgotPasswordSubtitle,
-	Container
+	Container,
+	KeyboardContainer
 } from './styles'
 
 export const LoginScreen: React.FC = () => {
@@ -51,11 +51,12 @@ export const LoginScreen: React.FC = () => {
 				<WelcomeSubtitle>Vamos conectar você.</WelcomeSubtitle>
 				<Subtitle>Bem-vindo de volta.{'\n'}Sentimos sua falta!</Subtitle>
 			</Container>
-			<Container>
-				<Username value={login} setValue={(e: string) => setLogin(e)} />
-				<Password value={password} setValue={(e: string) => setPassword(e)} />
-			</Container>
-
+			<KeyboardContainer>
+				<Container>
+					<Username value={login} setValue={(e: string) => setLogin(e)} />
+					<Password value={password} setValue={(e: string) => setPassword(e)} />
+				</Container>
+			</KeyboardContainer>
 			<Container>
 				<ButtonLogin text={'Login'} onPress={() => onLogin()} />
 

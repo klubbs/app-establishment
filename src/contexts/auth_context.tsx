@@ -13,6 +13,7 @@ export const AuthContext = createContext(
 		signIn: (mail: string, password: string) => Promise<void>
 		register: (params: IEstablishmentRegister, code: string) => Promise<void>
 		logout: () => Promise<void>
+		reloadProfile: () => Promise<void>
 	}
 )
 
@@ -21,12 +22,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
 	useEffect(() => {
 		(
-			async function hasEstablishment() {
-				const response = await getEstablishmentInStorage()
-
-				if (response) {
-					setEstablishment(establishment)
-				}
+			async function preventReloadProfile() {
+				reloadProfile()
 
 				await SplashScreen.hideAsync();
 			})()
@@ -49,8 +46,17 @@ const AuthProvider: React.FC = ({ children }) => {
 		setEstablishment(null)
 	}
 
+	async function reloadProfile() {
+		const response = await getEstablishmentInStorage()
+
+		if (response) {
+			setEstablishment(response)
+		}
+	}
+
 	return (
-		<AuthContext.Provider value={{ establishment, signIn, register, logout }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ establishment, signIn, register, logout, reloadProfile }}>{children}
+		</AuthContext.Provider>
 	)
 }
 

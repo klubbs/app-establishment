@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { RegisterService } from '../../../services/register_service'
 import { isEmpty, nameof } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
@@ -11,10 +11,26 @@ import {
 } from './styles'
 import * as Haptic from 'expo-haptics';
 import { Spinner } from '../../component/spinner'
+import { MotiView, useAnimationState } from 'moti'
 
+
+
+const useFadeInDown = () => {
+	return useAnimationState({
+		from: {
+			opacity: 0,
+			right: -50
+		},
+		to: {
+			opacity: 1,
+			right: 0
+		},
+	})
+}
 
 export const RegisterScreen: React.FC = () => {
 	const navigation = useNavigation()
+	const fadeInDown = useFadeInDown()
 
 	const [loading, setLoading] = useState(false)
 	const [activeMessage, setActiveMessage] = useState('Qual o nome do estabelecimento?')
@@ -61,6 +77,7 @@ export const RegisterScreen: React.FC = () => {
 	}
 
 	async function handleNext(isBack: boolean) {
+
 		try {
 			setLoading(true)
 			let activeKeyIndex = -1;
@@ -103,6 +120,8 @@ export const RegisterScreen: React.FC = () => {
 					return;
 				}
 
+				fadeInDown.transitionTo('from')
+
 				if (property === nameof<IEstablishmentRegister>('password')) {
 					navigation.navigate('Contract', establishment);
 					return;
@@ -125,14 +144,16 @@ export const RegisterScreen: React.FC = () => {
 			setLoading(false)
 		}
 
-
+		fadeInDown.transitionTo('to')
 	}
 
 
 	return (
 		<Wrapper>
 			<Container>
-				<Question>{activeMessage}</Question>
+				<AnimatedContainer state={fadeInDown}>
+					<Question>{activeMessage}</Question>
+				</AnimatedContainer>
 
 				{
 					activeFields.name[0] &&

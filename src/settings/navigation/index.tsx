@@ -11,6 +11,8 @@ export const Navigations: React.FC = () => {
 
 	const { establishment } = useContext(AuthContext)
 
+	console.log(establishment)
+
 	return (
 		establishment ? <DrawerNavigation /> : < AuthStackNavigator />
 	);

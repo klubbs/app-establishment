@@ -9,7 +9,6 @@ import { Flash } from "../utils/flash";
 import { LoginService } from './login_service';
 
 export class RegisterService {
-	// nameof<IEstablishmentRegister>('password')
 
 	static async getCategories() {
 		const { data } = await api.get<IResponseMessage<ICategoryResponse[]>>('stores/business-category')
@@ -31,13 +30,6 @@ export class RegisterService {
 		await api.post('stores/code/register/mail', null, { params: { mail: mail } })
 
 	}
-
-	// static async validate(params: IEstablishmentRegister): Promise<ValidationErrors<IEstablishmentRegister>> {
-
-	// 	const validator = new RegisterValidator();
-
-	// 	return await validator.validateAsync(params)
-	// }
 
 	static async ValidateProperty<IEstablishmentRegister>(value: any, param: any): Promise<Object> {
 		const validator = new RegisterValidator();

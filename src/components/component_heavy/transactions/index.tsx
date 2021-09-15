@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { CouponService } from '../../../services/coupon_service';
 import { TransactionItem } from '../../component/transaction_item';
 import { ITransactionItems } from './interfaces';
@@ -56,12 +56,14 @@ export const Transactions: React.FC = () => {
 				style={{ width: '100%' }}
 				showsVerticalScrollIndicator={false}
 				renderItem={({ item }) =>
-					<TransactionItem
-						influencer={item.influencer_name}
-						date={item.created_at?.ToDateFormat()}
-						coupon={item.code}
-						amount={item.amount}
-					/>
+					<View style={{ height: 60 }}>
+						<TransactionItem
+							influencer={item.influencer_name}
+							date={item.created_at?.ToDateFormat()}
+							coupon={item.code}
+							amount={item.amount}
+						/>
+					</View>
 				}
 			/>}
 		</Wrapper>

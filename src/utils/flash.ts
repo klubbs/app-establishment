@@ -50,7 +50,7 @@ export class Flash {
 
 	static congratulationCreateCoupon = () => {
 		showFlash({
-			type: 'SUCCESS', title: 'PARABÉNS 🥳', desc: 'Seu cupom já esta válido para ser vinculado!'
+			type: 'SUCCESS', title: 'PARABÉNS 🥳', desc: 'Seu cupom já esta válido para ser utilizado!'
 		})
 	}
 

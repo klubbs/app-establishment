@@ -18,10 +18,8 @@ export const ValueSubtitle = styled.Text`
 `
 
 export const WrapperAmount = styled.View`
-    justify-content: space-evenly;
-	 padding-right:25%;
-	 padding-left:25%;
-    align-items: center;
+	 width:100%;
+	 align-items:center;
 `
 
 export const Amount = styled.Text`

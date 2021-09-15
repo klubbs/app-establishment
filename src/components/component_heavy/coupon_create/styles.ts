@@ -50,6 +50,16 @@ export const ValidSubtitle = styled.Text`
     font-family:'Nunito_Light';
 `
 
+export const ValidSwipe = styled.Text`
+    align-self: flex-start;
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    color:${colors.COLOR_WHITE_80};
+    font-size:12px;
+    font-family:'Nunito_Light';
+`
+
 export const RulesSubtitle = styled.Text`
     align-self: flex-start;
     margin-left: 5%;

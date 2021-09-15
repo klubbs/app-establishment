@@ -21,7 +21,8 @@ import {
 	ValidSubtitle,
 	DatePicker,
 	Cancel,
-	CancelClick
+	CancelClick,
+	ValidSwipe
 } from "./styles";
 import { IError } from "../../../settings/services/api";
 
@@ -56,6 +57,8 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					validAt: dateValidAt,
 				}
 
+				console.log(fields)
+
 				const validFields = CouponService.validate(fields);
 
 				if (!isEmpty(validFields)) {
@@ -66,9 +69,6 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 							"Regras do cupom"
 						)
 
-
-					if (validFields.hasOwnProperty(nameof<ICoupon>("offPercentual")))
-						Flash.customMessage("Dê um desconto maior que 0%", "Percentual do desconto")
 
 					return;
 				}
@@ -137,7 +137,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					<CouponCreateImage width={"95%"} height={"50%"} />
 					<Off>{offValue}%</Off>
 
-					<ValidSubtitle>Válido até</ValidSubtitle>
+					<ValidSubtitle>Válido até  <ValidSwipe>* arraste para alterar *</ValidSwipe> </ValidSubtitle>
 					<DatePicker value={dateValidAt} onChange={onChangeDate} />
 
 					<RulesSubtitle>Regras do cupom{" "}
