@@ -1,0 +1,27 @@
+{
+	"Create Application Function Template": {
+		"prefix": "fnappserv",
+		"body": [
+			"    ${1:FunctionName} = async (req: Request, res: Response) => {\r",
+			"    }"
+		],
+		"description": "Will Create Application Function Template"
+	},
+	"Create Mapper": {
+		"prefix": "mapperfn",
+		"body": [
+			"export default class ${1:ClassName} {\r",
+			"\r",
+			"    public static ToDto(): void {\r",
+			"\r",
+			"    }\r",
+			"\r",
+			"    public static ToEntity(): void {\r",
+			"\r",
+			"    }\r",
+			"}"
+		],
+		"description": "Mapper Class"
+	}
+}
+}

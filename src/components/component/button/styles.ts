@@ -3,7 +3,7 @@ import colors from '../../../../assets/constants/colors'
 
 
 export const ButtonWrapper = styled.TouchableOpacity.attrs(() => ({
-    activeOpacity: 0.85
+	activeOpacity: 0.85
 }))`
   width: 90%;
   height: 60px;

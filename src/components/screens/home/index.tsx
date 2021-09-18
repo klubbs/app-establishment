@@ -9,37 +9,38 @@ import { ButtonCreateCoupon } from '../../component/button_create_coupon';
 import { ButtonDrawer } from '../../component/button_drawer';
 import { CouponCreate } from '../../component_heavy/coupon_create';
 
-// import { Container } from './styles';
 
 
 
 export const HomeScreen: React.FC = ({ }) => {
 
-    const [visibleCoupon, setVisibleCoupon] = useState(false)
+	const [visibleCoupon, setVisibleCoupon] = useState(false)
 
-    const navigation = useNavigation();
+	const navigation = useNavigation();
 
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => <ButtonCreateCoupon onPress={() => setVisibleCoupon(!visibleCoupon)} />,
-            headerLeft: () => <ButtonDrawer />
-        })
-    }, [])
+	useEffect(() => {
+		navigation.setOptions({
+			headerRight: () => <ButtonCreateCoupon onPress={() => setVisibleCoupon(!visibleCoupon)} />,
+			headerLeft: () => <ButtonDrawer />
+		})
+	}, [])
 
 
 
-    return (
-        (
-            <>
-                <View style={{ flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK }}>
-                    <View style={{ flex: 0.3 }}></View>
-                    <DashboardAmount />
-                    <Transactions />
-                    <ButtonQr onPress={() => navigation.navigate('QrScanner')} />
-                </View>
-                <CouponCreate visible={visibleCoupon} onCancellCb={() => setVisibleCoupon(!visibleCoupon)} />
-            </>
-        )
+	return (
+		(
+			<>
+				<View style={{ flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK }}>
+					<View style={{ flex: 0.3 }} />
+					<DashboardAmount />
+					<Transactions />
+					<ButtonQr onPress={() => navigation.navigate({ name: 'QrScanner' })} />
+				</View>
+				<CouponCreate visible={visibleCoupon} onCancellCb={
+					() => setVisibleCoupon(!visibleCoupon)}
+				/>
+			</>
+		)
 
-    );
+	);
 }

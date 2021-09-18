@@ -4,17 +4,19 @@ import { Title, ButtonWrapper } from './styles';
 
 
 export type IButtonProps = {
-    text: string
-    onPress: any
-    styleContainer?: any
+	text: string
+	onPress: any
+	styleContainer?: any
+	styleButton?: any
+	disabled?: any
 }
 
-const Button: React.FC<IButtonProps> = ({ text, onPress, styleContainer }) => {
-    return (
-        <ButtonWrapper onPress={onPress} style={{ ...styleContainer }} >
-            <Title>{text}</Title>
-        </ButtonWrapper>
-    );
+const Button: React.FC<IButtonProps> = ({ text, onPress, styleContainer, disabled, styleButton }) => {
+	return (
+		<ButtonWrapper disabled={disabled ?? false} onPress={onPress} style={{ ...styleContainer }} >
+			<Title style={{ ...styleButton }} >{text}</Title>
+		</ButtonWrapper>
+	);
 }
 
 export default Button;

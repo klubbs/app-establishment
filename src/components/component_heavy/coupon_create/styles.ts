@@ -33,7 +33,7 @@ export const SubContainer = styled.View`
 
 export const Off = styled.Text`
     position: absolute;
-    top: 18%;
+    top: 15%;
     left: 10%;
     color:${colors.COLOR_YELLOW_BUTTON_TEXT};
     font-size:25px;
@@ -50,6 +50,16 @@ export const ValidSubtitle = styled.Text`
     font-family:'Nunito_Light';
 `
 
+export const ValidSwipe = styled.Text`
+    align-self: flex-start;
+    position: absolute;
+    top: 35%;
+    left: 10%;
+    color:${colors.COLOR_WHITE_80};
+    font-size:12px;
+    font-family:'Nunito_Light';
+`
+
 export const RulesSubtitle = styled.Text`
     align-self: flex-start;
     margin-left: 5%;
@@ -59,11 +69,13 @@ export const RulesSubtitle = styled.Text`
 `
 
 export const Rules = styled.TextInput.attrs(props => ({
-    selectionColor: colors.COLOR_YELLOW,
-    autoCapitalize: 'none',
-    multiline: true,
-    blurOnSubmit: true,
-    returnKeyType: 'done'
+	selectionColor: colors.COLOR_YELLOW,
+	autoCapitalize: 'none',
+	multiline: true,
+	blurOnSubmit: true,
+	returnKeyType: 'done',
+	placeholder: 'Defina as regras do cupom aqui',
+	placeholderTextColor: colors.COLOR_BLACK40
 }))`
     color:${colors.COLOR_SECUNDARY_BLACK};
     background-color:${'#E8E8E8'};
@@ -76,11 +88,11 @@ export const Rules = styled.TextInput.attrs(props => ({
 
 
 export const DatePicker = styled(DateTimePicker).attrs(() => ({
-    testID: "dateTimePicker",
-    mode: 'date',
-    locale: 'pt-BR',
-    display: "spinner",
-    textColor: colors.COLOR_WHITE
+	testID: "dateTimePicker",
+	mode: 'date',
+	locale: 'pt-BR',
+	display: "spinner",
+	textColor: colors.COLOR_WHITE
 }))`
     height: 50px;
     width: 90%;
@@ -88,11 +100,16 @@ export const DatePicker = styled(DateTimePicker).attrs(() => ({
     top:39%;
 `
 
-export const Cancel = styled(CancelIcon).attrs(() => ({
-    width: 30,
-    height: 30,
-    fill: colors.COLOR_WHITE
-}))`
-    bottom:50px;
+export const CancelClick = styled.TouchableOpacity`
+    bottom:40px;
     right: 40%;
+	 width:50px;
+	 height:50px;
+`
+export const Cancel = styled(CancelIcon).attrs(() => ({
+	width: 30,
+	height: 30,
+	fill: colors.COLOR_WHITE
+}))`
+
 `

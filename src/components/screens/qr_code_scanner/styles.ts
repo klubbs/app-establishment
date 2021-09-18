@@ -1,5 +1,7 @@
 import styled from 'styled-components/native'
 import colors from '../../../../assets/constants/colors';
+import { CouponIcon } from '../../../../assets/icons/coupon_icon';
+import Button from '../../component/button';
 
 
 export const SquareTop = styled.View`
@@ -50,3 +52,12 @@ export const ScanDescSubtitle = styled.Text`
   font-size:15px;
   font-family:'Nunito_Light';
 `
+
+export const ScanOtherButton = styled(Button).attrs((props: { error: boolean }) => ({
+	text: props.error ? 'Tentar novamente' : "Validar outro",
+	styleContainer: {
+		position: 'absolute', bottom: '10%',
+		backgroundColor: props.error ? colors.COLOR_RED : colors.COLOR_YELLOW
+	},
+	styleButton: props.error ? { color: colors.COLOR_WHITE } : { }
+})) <{ error: boolean }>``
