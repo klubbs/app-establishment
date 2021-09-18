@@ -4,7 +4,8 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
 	name: "Klubbs Estabelecimentos",
-	slug: "Klubbs-Estabelecimentos",
+	slug: "klubbs-establishment",
+	owner: "klubbs",
 	orientation: "portrait",
 	splash: {
 		image: "./assets/images/welcome-login-icons-image.png",
@@ -17,18 +18,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	experiments: {
 		"turboModules": true
 	},
+	version: "0.0.1",
 	ios: {
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
-		buildNumber: "1.0.0",
+		buildNumber: "0.0.1",
 		infoPlist: {
 			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que possa validar vendas por QR Code."
 		}
 	},
-	version: "1.0.0",
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 100
+		versionCode: 0_0_1
 	},
 	extra: {
 		API_URL: process.env.ENVIRONMENT_API_URL,
