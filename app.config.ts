@@ -6,6 +6,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	name: "Klubbs Estabelecimentos",
 	slug: "klubbs-establishment",
 	owner: "klubbs",
+	scheme: 'klubbs-establishment',
 	orientation: "portrait",
 	splash: {
 		image: "./assets/images/welcome-login-icons-image.png",
@@ -29,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 0_0_1
+		versionCode: 1
 	},
 	extra: {
 		API_URL: process.env.ENVIRONMENT_API_URL,
