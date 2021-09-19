@@ -12,6 +12,9 @@ const api = axios.create(axiosConfig)
 api.interceptors.request.use(async (config) => {
 	const token = await getTokenInStorage()
 
+	// config.baseURL = 'http://192.168.0.112:5000/';
+
+	// console.log(config.baseURL)
 	if (token !== null) {
 		config.headers.Authorization = `Bearer ${token}`
 	}

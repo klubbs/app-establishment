@@ -6,7 +6,7 @@ import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButt
 export const DashboardAmount: React.FC = () => {
 	return (
 		<Wrapper>
-			<ValueSubtitle>Valor acumulado</ValueSubtitle>
+			<ValueSubtitle>Débito acumulado</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={true} colorMode={'light'}>
@@ -15,7 +15,7 @@ export const DashboardAmount: React.FC = () => {
 				</MotiView>
 				{/* */}
 				{/* 10 dias para o vencimento */}
-				<DueDateSubtitle>Seu saldo esta positivo 👏</DueDateSubtitle>
+				<DueDateSubtitle>Seu débito esta positivo 👏</DueDateSubtitle>
 			</WrapperAmount>
 			<PayButton disabled={true} text={'Pagar'} onPress={() => console.log()} />
 		</Wrapper >

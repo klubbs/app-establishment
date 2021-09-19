@@ -4,8 +4,8 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
 	name: "Klubbs Estabelecimentos",
-	slug: "klubbs-establishment",
 	owner: "klubbs",
+	slug: "klubbs-establishment",
 	scheme: 'klubbs-establishment',
 	orientation: "portrait",
 	splash: {
