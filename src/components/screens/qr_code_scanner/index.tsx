@@ -54,6 +54,14 @@ export const QrCodeScanner: React.FC = () => {
 			const couponId = splitedValues[0]
 			const userId = splitedValues[1]
 
+			console.log(splitedValues)
+
+			if (!couponId || !userId) {
+				Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
+				setHasError(true)
+				Flash.customMessage("Esse não é um cupom válido", "Cupom inválido", "WARNING")
+				return;
+			}
 			await CouponService.scanCoupon(couponId, userId)
 
 			Flash.customMessage(
@@ -65,7 +73,7 @@ export const QrCodeScanner: React.FC = () => {
 			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success)
 
 		} catch (error) {
-			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Error)
+			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
 			setHasError(true)
 			CouponService.catchScanCoupon(error as IError)
 		} finally {

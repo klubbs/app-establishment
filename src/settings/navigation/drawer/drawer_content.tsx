@@ -84,6 +84,12 @@ export const DrawerContent: React.FC = () => {
 				label="Painel"
 				onPress={() => navigation.navigate({ name: 'Home' })}
 			/>
+
+			<MenuItem
+				label="Configurações"
+				onPress={() => navigation.navigate({ name: 'Home' })}
+			/>
+
 			<CloseItem
 				label="Sair"
 				onPress={() => onLogout()}
@@ -94,7 +100,7 @@ export const DrawerContent: React.FC = () => {
 
 
 const MenuItem = styled(DrawerItem).attrs((props) => ({
-	labelStyle: { color: colors.COLOR_WHITE, fontFamily: 'Nunito_Bold', fontSize: 20, marginTop: 20 }
+	labelStyle: { color: colors.COLOR_WHITE, fontFamily: 'Nunito_Bold', fontSize: 18, marginTop: 20 }
 }))``;
 
 const CloseItem = styled(DrawerItem).attrs((props) => ({

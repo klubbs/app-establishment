@@ -1,7 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { View } from 'react-native';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth_context';
-import { AppStackNavigator } from './app_stack';
 import { AuthStackNavigator } from './auth_stack';
 import { DrawerNavigation } from './drawer/drawer_stack';
 

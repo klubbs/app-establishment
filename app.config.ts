@@ -1,12 +1,12 @@
 import 'dotenv/config';
 import { ExpoConfig, ConfigContext } from '@expo/config';
-
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
 	name: "Klubbs Estabelecimentos",
 	owner: "klubbs",
 	slug: "klubbs-establishment",
 	scheme: 'klubbs-establishment',
+	icon: './assets/icon.png',
 	orientation: "portrait",
 	splash: {
 		image: "./assets/images/welcome-login-icons-image.png",

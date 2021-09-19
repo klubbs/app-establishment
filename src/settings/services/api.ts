@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
 import { clearAsyncStorage, getTokenInStorage } from '../../utils/async_storage'
+import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 
 const axiosConfig = {
@@ -36,7 +37,7 @@ api.interceptors.response.use(
 
 		switch (statusCode) {
 			case 401:
-				await clearAsyncStorage();
+				EventEmitter.emit('LOGOUT', {});
 				break;
 
 			case 500:

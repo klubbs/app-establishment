@@ -15,7 +15,7 @@ export const DashboardAmount: React.FC = () => {
 				</MotiView>
 				{/* */}
 				{/* 10 dias para o vencimento */}
-				<DueDateSubtitle>Seu débito esta positivo 👏</DueDateSubtitle>
+				<DueDateSubtitle>Não tem débito 👏</DueDateSubtitle>
 			</WrapperAmount>
 			<PayButton disabled={true} text={'Pagar'} onPress={() => console.log()} />
 		</Wrapper >

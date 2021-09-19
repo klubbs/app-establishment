@@ -6,6 +6,7 @@ import { createEstablishmentInStorage, clearAsyncStorage, getEstablishmentInStor
 	from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
 import { ILoginResponse } from '../services/interfaces/ilogin'
+import { EventEmitter } from '../utils/emitter'
 
 export const AuthContext = createContext(
 	{} as {
@@ -23,10 +24,12 @@ const AuthProvider: React.FC = ({ children }) => {
 	useEffect(() => {
 		(
 			async function preventReloadProfile() {
-				reloadProfile()
+				await reloadProfile()
 
 				await SplashScreen.hideAsync();
 			})()
+
+		EventEmitter.listen('LOGOUT', function () { logout() })
 	}, [])
 
 	const signIn = async (mail: string, password: string) => {
