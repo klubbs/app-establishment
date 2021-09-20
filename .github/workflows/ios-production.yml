@@ -48,11 +48,11 @@ jobs:
             yarn
 
       - if: github.event.inputs.deploy == 'P'
-          name: Publish Version
-          env:
-         	ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-         	ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
-          run: |
+        name: Publish Version
+        env:
+        	ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+         ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+        run: |
             echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
             expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
 
