@@ -30,7 +30,7 @@ jobs:
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
 
-		- name: Configure AWS credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -41,38 +41,38 @@ jobs:
       #   run: |
       #     aws s3 cp s3://credentials-apple/ios-google-service-info.plist ios-google-service-info.plist
 
-		- name: Download Yarn dependencies
+      - name: Download Yarn dependencies
         run: |
-          ls
-          npm install --global yarn
-          yarn
+            ls
+            npm install --global yarn
+            yarn
 
-		- if: github.event.inputs.deploy == 'P'
+      - if: github.event.inputs.deploy == 'P'
         name: Publish Version
         env:
-          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+        ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+        ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
         run: |
-          echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
-          expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
+            echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
+            expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
 
-		- if: github.event.inputs.deploy == 'B'
+      - if: github.event.inputs.deploy == 'B'
         name: Build Version
         env:
-          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+        ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+        ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
         run: |
-          echo "----- BUILD -----"
-          expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
-          echo "----- DOWNLOAD IPA -----"
-          curl -o app.ipa "$(expo url:ipa --non-interactive)"
+            echo "----- BUILD -----"
+            expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
+            echo "----- DOWNLOAD IPA -----"
+            curl -o app.ipa "$(expo url:ipa --non-interactive)"
 
-		- if: github.event.inputs.deploy == 'B'
+      - if: github.event.inputs.deploy == 'B'
         name:
         uses: actions/upload-artifact@v2
         with:
-          name: appbuild
-          path: ./app.ipa
+         name: appbuild
+         path: ./app.ipa
 
   Transport_Apple_Store_Connect:
     needs: build
@@ -95,13 +95,14 @@ jobs:
         run: |
           aws s3 cp s3://klubbs-devops/ios/fastlane-key-ios.json fastlane-key-ios.json
 
-		- name: Fastlane - Install , Transport
+      - name: Fastlane - Install
         run: |
           brew install fastlane
           fastlane update_fastlane
-	  fastlane deliver --verbose --ipa "app.ipa" --skip_screenshots --skip_metadata --precheck_include_in_app_purchases false --api_key_path ./fastlane-key-ios.json
+
+      - name: Fastlane - Transport
+        run: fastlane deliver --verbose --ipa "app.ipa" --skip_screenshots --skip_metadata --precheck_include_in_app_purchases false --api_key_path ./fastlane-key-ios.json
 
       - uses: geekyeggo/delete-artifact@v1
-		  name: Delete artifact
         with:
           name: appbuild
