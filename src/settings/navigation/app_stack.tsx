@@ -20,7 +20,9 @@ export const AppStackNavigator: React.FC = () => {
 			<AppStack.Screen name="Home" component={HomeScreen} />
 			<AppStack.Screen name="Documents"
 				component={DocumentsScreen}
-				options={{ headerTintColor: colors.COLOR_YELLOW }}
+				options={{
+					headerTintColor: colors.COLOR_YELLOW
+				}}
 			/>
 			<AppStack.Screen
 				name="Configurations"

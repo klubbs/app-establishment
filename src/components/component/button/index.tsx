@@ -14,7 +14,7 @@ export type IButtonProps = {
 const Button: React.FC<IButtonProps> = ({ text, onPress, styleContainer, disabled, styleButton }) => {
 	return (
 		<ButtonWrapper disabled={disabled ?? false} onPress={onPress} style={{ ...styleContainer }} >
-			<Title style={{ ...styleButton }} >{text}</Title>
+			<Title disabled={disabled ?? false} style={{ ...styleButton }} >{text}</Title>
 		</ButtonWrapper>
 	);
 }
