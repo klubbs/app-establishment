@@ -50,8 +50,13 @@ jobs:
       - if: github.event.inputs.deploy == 'P'
         name: Publish Version
         env:
+<<<<<<< HEAD
         ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
         ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+=======
+	  ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+>>>>>>> f66056d5ea52a60e0aff6797df8d66fd3f530c74
         run: |
             echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
             expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
@@ -59,8 +64,13 @@ jobs:
       - if: github.event.inputs.deploy == 'B'
         name: Build Version
         env:
+<<<<<<< HEAD
         ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
         ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+=======
+          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+>>>>>>> f66056d5ea52a60e0aff6797df8d66fd3f530c74
         run: |
             echo "----- BUILD -----"
             expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
