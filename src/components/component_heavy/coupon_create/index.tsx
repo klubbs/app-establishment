@@ -57,8 +57,6 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					validAt: dateValidAt,
 				}
 
-				console.log(fields)
-
 				const validFields = CouponService.validate(fields);
 
 				if (!isEmpty(validFields)) {

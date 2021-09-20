@@ -30,13 +30,6 @@ jobs:
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
 
-      # - name: Configure Google Services push notification file
-      #   env:
-      #     GOOGLE_SERVICES_PUSH_KEY: ${{ secrets.GOOGLE_SERVICES_PUSH_KEY }}
-      #   run : |
-      #     echo "$GOOGLE_SERVICES_PUSH_KEY" > google-services.json.b64
-      #     base64 -d -i google-services.json.b64 > google-services.json
-
 		- name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

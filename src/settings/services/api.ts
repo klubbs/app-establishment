@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
 import { clearAsyncStorage, getTokenInStorage } from '../../utils/async_storage'
+import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 
 const axiosConfig = {
@@ -12,6 +13,9 @@ const api = axios.create(axiosConfig)
 api.interceptors.request.use(async (config) => {
 	const token = await getTokenInStorage()
 
+	// config.baseURL = 'http://192.168.0.112:5000/';
+
+	// console.log(config.baseURL)
 	if (token !== null) {
 		config.headers.Authorization = `Bearer ${token}`
 	}
@@ -33,7 +37,7 @@ api.interceptors.response.use(
 
 		switch (statusCode) {
 			case 401:
-				await clearAsyncStorage();
+				EventEmitter.emit('LOGOUT', {});
 				break;
 
 			case 500:
