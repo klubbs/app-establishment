@@ -3,7 +3,7 @@ import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmatio
 
 import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles'
 import { AuthContext } from '../../../contexts/auth_context'
-import { RegisterCodeScreenProps } from '../../../settings/interfaces/iauth_stack_params'
+import { RegisterCodeScreenProps } from '../../../settings/@types/iauth_stack_params'
 import { RegisterService } from '../../../services/register_service'
 import { Spinner } from '../../component/spinner'
 import { IError } from '../../../settings/services/api'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View } from 'react-native';
 import colors from '../../../../assets/constants/colors';
 import { ButtonQr } from '../../component/button_qr';
@@ -8,13 +8,16 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonCreateCoupon } from '../../component/button_create_coupon';
 import { ButtonDrawer } from '../../component/button_drawer';
 import { CouponCreate } from '../../component_heavy/coupon_create';
-
+import { Wrapper } from './styles'
+import { AuthContext } from '../../../contexts/auth_context';
+import { DashboardDocs } from '../../component_heavy/dashboardDocs';
 
 
 
 export const HomeScreen: React.FC = ({ }) => {
 
 	const [visibleCoupon, setVisibleCoupon] = useState(false)
+	const { establishment } = useContext(AuthContext)
 
 	const navigation = useNavigation();
 
@@ -26,18 +29,18 @@ export const HomeScreen: React.FC = ({ }) => {
 	}, [])
 
 
-
 	return (
 		(
 			<>
-				<View style={{ flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK }}>
-					<View style={{ flex: 0.3 }} />
-					<DashboardAmount />
+				<Wrapper>
+					{!establishment?.pendingDocs && <DashboardDocs />}
+					{establishment?.pendingDocs && <DashboardAmount />}
 					<Transactions />
 					<ButtonQr onPress={() => navigation.navigate({ name: 'QrScanner' })} />
-				</View>
-				<CouponCreate visible={visibleCoupon} onCancellCb={
-					() => setVisibleCoupon(!visibleCoupon)}
+				</Wrapper>
+				<CouponCreate
+					visible={visibleCoupon}
+					onCancellCb={() => setVisibleCoupon(!visibleCoupon)}
 				/>
 			</>
 		)

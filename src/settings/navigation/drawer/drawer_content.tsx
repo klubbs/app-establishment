@@ -87,7 +87,7 @@ export const DrawerContent: React.FC = () => {
 
 			<MenuItem
 				label="Configurações"
-				onPress={() => navigation.navigate({ name: 'Home' })}
+				onPress={() => navigation.navigate({ name: 'Configurations' })}
 			/>
 
 			<CloseItem

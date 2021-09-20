@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { IAuthStackParams } from '../interfaces/iauth_stack_params'
+import { IAuthStackParams } from '../@types/iauth_stack_params'
 import { WelcomeScreen } from '../../components/screens/welcome'
 import { RegisterScreen } from '../../components/screens/register'
 import colors from '../../../assets/constants/colors'

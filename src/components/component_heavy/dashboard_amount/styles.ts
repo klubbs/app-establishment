@@ -39,7 +39,17 @@ export const PayButton = styled(Button).attrs((props) => ({
 		width: '40%', height: '15%',
 		backgroundColor: props.disabled ? colors.COLOR_WHITE_40 : colors.COLOR_YELLOW
 	},
+	text: 'Pagar',
 	styleButton: props.disabled ? { color: colors.COLOR_WHITE_80 } : {}
+}))`
+`
+
+export const DocsButton = styled(Button).attrs((props) => ({
+	text: 'Comprovar documentação',
+	styleContainer: {
+		width: '60%', height: '15%',
+		backgroundColor: colors.COLOR_YELLOW
+	}
 }))`
 `
 
