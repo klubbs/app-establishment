@@ -42,7 +42,7 @@ jobs:
       #     aws s3 cp s3://credentials-apple/ios-google-service-info.plist ios-google-service-info.plist
 
       - name: Download Yarn dependencies
-          run: |
+        run: |
             ls
             npm install --global yarn
             yarn
