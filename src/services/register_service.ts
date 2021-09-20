@@ -31,6 +31,12 @@ export class RegisterService {
 
 	}
 
+	static async uploadDocs(cpfImg: any, cnpjImg: any) {
+
+		await api.post()
+
+	}
+
 	static async ValidateProperty<IEstablishmentRegister>(value: any, param: any): Promise<Object> {
 		const validator = new RegisterValidator();
 
