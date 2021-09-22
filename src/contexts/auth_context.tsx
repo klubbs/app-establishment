@@ -2,11 +2,16 @@ import React, { createContext, useState, useEffect } from 'react'
 import { IEstablishmentRegister } from '../components/screens/register/interfaces'
 import { RegisterService } from '../services/register_service'
 import { LoginService } from '../services/login_service'
-import { createEstablishmentInStorage, clearAsyncStorage, getEstablishmentInStorage }
-	from '../utils/async_storage'
+import {
+	createEstablishmentInStorage,
+	clearAsyncStorage,
+	getEstablishmentInStorage,
+	mergeEstablishmentInStorage
+} from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
 import { ILoginResponse } from '../services/interfaces/ilogin'
 import { EventEmitter } from '../utils/emitter'
+import { ProfileService } from '../services/profileService'
 
 export const AuthContext = createContext(
 	{} as {
@@ -15,6 +20,7 @@ export const AuthContext = createContext(
 		register: (params: IEstablishmentRegister, code: string) => Promise<void>
 		logout: () => Promise<void>
 		reloadProfile: () => Promise<void>
+		reloadProfileInCloud: () => Promise<void>
 	}
 )
 
@@ -57,8 +63,20 @@ const AuthProvider: React.FC = ({ children }) => {
 		}
 	}
 
+	async function reloadProfileInCloud() {
+		const response = await ProfileService.getEstablishment();
+
+		if (response) {
+			await mergeEstablishmentInStorage(response)
+			setEstablishment(response);
+		}
+	}
+
 	return (
-		<AuthContext.Provider value={{ establishment, signIn, register, logout, reloadProfile }}>{children}
+		<AuthContext.Provider value={{
+			establishment, signIn, register, logout,
+			reloadProfile, reloadProfileInCloud
+		}}>{children}
 		</AuthContext.Provider>
 	)
 }

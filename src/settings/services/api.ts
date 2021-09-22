@@ -28,12 +28,13 @@ api.interceptors.response.use(
 	},
 	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 
-		console.error(error)
-
 		const statusCode = error.response.data?.statusCode
 
 		const validationError = error.response.data?.error
 		const message = error.response.data?.message
+
+		console.error(message, validationError)
+
 
 		switch (statusCode) {
 			case 401:

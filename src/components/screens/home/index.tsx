@@ -33,8 +33,8 @@ export const HomeScreen: React.FC = ({ }) => {
 		(
 			<>
 				<Wrapper>
-					{!establishment?.pendingDocs && <DashboardDocs />}
-					{establishment?.pendingDocs && <DashboardAmount />}
+					{establishment?.documentationStatus !== "OK" && <DashboardDocs />}
+					{establishment?.documentationStatus === "OK" && <DashboardAmount />}
 					<Transactions />
 					<ButtonQr onPress={() => navigation.navigate({ name: 'QrScanner' })} />
 				</Wrapper>

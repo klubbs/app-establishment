@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import {
@@ -13,13 +13,23 @@ import {
 	Subtitle,
 	Title
 } from './styles';
+import { ProfileService } from '../../../services/profileService';
+import { Flash } from '../../../utils/flash';
+import { Spinner } from '../../component/spinner';
+import { AuthContext } from '../../../contexts/auth_context';
+import { useNavigation } from '@react-navigation/native';
 
 export const DocumentsScreen: React.FC = () => {
 
-	const [imageCnpj, setImageCnpj] = useState<{ uri: string, type: string, name: string }>
-		({} as any)
-	const [imageCpf, setImageCpf] = useState<{ uri: string, type: string, name: string }>
-		({} as any)
+	const [imageCnpj, setImageCnpj] = useState<ImagePicker.ImagePickerResult>({} as any)
+	const [imageCpf, setImageCpf] = useState<ImagePicker.ImagePickerResult>({} as any)
+	const [loading, setLoading] = useState(false)
+
+	const navigation = useNavigation();
+	const { reloadProfileInCloud } = useContext(AuthContext)
+
+	const cpfFill = useCallback(() => imageCpf?.cancelled === false, [imageCpf])
+	const cnpjFill = useCallback(() => imageCnpj?.cancelled === false, [imageCnpj])
 
 
 	async function handleImage(isCnpj: boolean) {
@@ -32,8 +42,7 @@ export const DocumentsScreen: React.FC = () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1
+			quality: 0.5
 		});
 
 		if (result.cancelled) {
@@ -41,33 +50,38 @@ export const DocumentsScreen: React.FC = () => {
 		}
 
 		isCnpj
-			? setImageCnpj({
-				uri: result.uri,
-				type: 'image/jpg',
-				name: result.uri.split('/').pop() as string
-			})
-			: setImageCpf({
-				uri: result.uri,
-				type: 'image/jpg',
-				name: result.uri.split('/').pop() as string
-			})
+			? setImageCnpj(result)
+			: setImageCpf(result)
 	}
 
 	async function handleUpload() {
 
+		try {
+			setLoading(true)
+			await ProfileService.uploadDocuments(imageCpf, imageCnpj)
+
+			await reloadProfileInCloud()
+
+			navigation.goBack()
+		} catch (error) {
+			Flash.spillCoffee()
+		} finally { setLoading(false) }
+
 	}
+
 
 
 	return (
 		<Wrapper>
+			<Spinner loading={loading} />
 			<Title>Análise de documentos</Title>
 			<Container>
 				<FileContainer>
 					<FileBoxSubtitle>
 						<FileSubtitle>Documento com CNPJ</FileSubtitle>
 					</FileBoxSubtitle>
-					<FileBoxUpload active={!!imageCnpj?.uri} onPress={() => handleImage(true)}>
-						<Icon active={!!imageCnpj?.uri} />
+					<FileBoxUpload active={cnpjFill()} onPress={() => handleImage(true)}>
+						<Icon active={cnpjFill()} />
 					</FileBoxUpload>
 				</FileContainer>
 
@@ -75,12 +89,12 @@ export const DocumentsScreen: React.FC = () => {
 					<FileBoxSubtitle>
 						<FileSubtitle>Documento com CPF</FileSubtitle>
 					</FileBoxSubtitle>
-					<FileBoxUpload active={!!imageCpf?.uri} onPress={() => handleImage(false)}>
-						<Icon active={!!imageCpf?.uri} />
+					<FileBoxUpload active={cpfFill()} onPress={() => handleImage(false)}>
+						<Icon active={cpfFill()} />
 					</FileBoxUpload>
 				</FileContainer>
 			</Container>
-			<SendButton disabled={!(!!imageCpf.uri && !!imageCnpj.uri)} onPress={handleUpload} />
+			<SendButton disabled={!(cpfFill() && cnpjFill())} onPress={handleUpload} />
 			<Subtitle>Você será informado por email assim que analisarmos!</Subtitle>
 		</Wrapper>
 	);

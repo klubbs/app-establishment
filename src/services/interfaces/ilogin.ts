@@ -17,5 +17,5 @@ export interface ILoginResponse {
 	latitude: number;
 	longitude: number;
 	token: string;
-	pendingDocs: boolean
+	documentationStatus: string
 }
