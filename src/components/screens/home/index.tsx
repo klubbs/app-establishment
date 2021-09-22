@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { View } from 'react-native';
 import colors from '../../../../assets/constants/colors';
 import { ButtonQr } from '../../component/button_qr';
@@ -11,6 +11,8 @@ import { CouponCreate } from '../../component_heavy/coupon_create';
 import { Wrapper } from './styles'
 import { AuthContext } from '../../../contexts/auth_context';
 import { DashboardDocs } from '../../component_heavy/dashboardDocs';
+import { Flash } from '../../../utils/flash';
+import * as Haptic from 'expo-haptics';
 
 
 
@@ -23,10 +25,42 @@ export const HomeScreen: React.FC = ({ }) => {
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerRight: () => <ButtonCreateCoupon onPress={() => setVisibleCoupon(!visibleCoupon)} />,
+			headerRight: () => <ButtonCreateCoupon onPress={handleCouponButton} />,
 			headerLeft: () => <ButtonDrawer />
 		})
-	}, [])
+	}, [establishment])
+
+	function handleCouponButton() {
+		if (establishment?.documentationStatus !== "OK") {
+
+			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
+
+			Flash.customMessage(
+				"Sua documentação esta pendente ou em análise",
+				"Documentação",
+				"NEUTRAL"
+			)
+			return;
+		}
+
+		setVisibleCoupon(!visibleCoupon)
+	}
+
+	function handleQrButton() {
+		if (establishment?.documentationStatus !== "OK") {
+
+			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
+
+			Flash.customMessage(
+				"Sua documentação esta pendente ou em análise",
+				"Documentação",
+				"NEUTRAL"
+			)
+			return;
+		}
+
+		navigation.navigate({ name: 'QrScanner' })
+	}
 
 
 	return (
@@ -36,7 +70,7 @@ export const HomeScreen: React.FC = ({ }) => {
 					{establishment?.documentationStatus !== "OK" && <DashboardDocs />}
 					{establishment?.documentationStatus === "OK" && <DashboardAmount />}
 					<Transactions />
-					<ButtonQr onPress={() => navigation.navigate({ name: 'QrScanner' })} />
+					<ButtonQr onPress={handleQrButton} />
 				</Wrapper>
 				<CouponCreate
 					visible={visibleCoupon}

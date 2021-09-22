@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { RefreshControl } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
-import { Wrapper, ValueSubtitle, DocsButton } from './styles';
+import { Wrapper, ValueSubtitle, DocsButton, RefreshSubtitle } from './styles';
 import { AuthContext } from '../../../contexts/auth_context';
 import { Flash } from '../../../utils/flash';
 import colors from '../../../../assets/constants/colors';
@@ -40,6 +40,10 @@ export const DashboardDocs: React.FC = () => {
 					: "Documentação em análise"
 			}
 			</ValueSubtitle>
+
+			{
+				establishment?.documentationStatus === "PROCESSING"
+				&& <RefreshSubtitle>Arraste para atualizar</RefreshSubtitle>}
 
 			{
 				establishment?.documentationStatus === "PENDING"

@@ -60,13 +60,20 @@ const AuthProvider: React.FC = ({ children }) => {
 
 		if (response) {
 			setEstablishment(response)
+
+			await reloadProfileInCloud()
 		}
 	}
 
 	async function reloadProfileInCloud() {
 		const response = await ProfileService.getEstablishment();
 
+		const actualResponse = await getEstablishmentInStorage()
+
 		if (response) {
+			//O objeto de recuperacao de usuario não envia token, por isso ele vem como null
+			response.token = actualResponse?.token as string;
+
 			await mergeEstablishmentInStorage(response)
 			setEstablishment(response);
 		}
