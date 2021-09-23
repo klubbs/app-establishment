@@ -24,12 +24,7 @@ export class LoginService {
 	}
 
 	static async updatePassword(mail: string, password: string, code: string) {
-		await api.put('stores/update/password', { code: code }, {
-			auth: {
-				username: mail,
-				password: password
-			}
-		})
+		await api.put('stores/update/password', { code: code, mail: mail, password: password })
 	}
 
 	static validateLogin(params: ILogin): ValidationErrors<ILogin> {

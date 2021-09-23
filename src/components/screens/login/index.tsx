@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Alert } from 'react-native'
 import { AuthContext } from '../../../contexts/auth_context'
 import { LoginService } from '../../../services/login_service'
 import { isEmpty } from '../../../utils/extensions/object_extensions'
@@ -42,33 +43,37 @@ export const LoginScreen: React.FC = () => {
 
 			await signIn(login, password)
 		} catch (error) {
-
 			if (isAPIException(error)) {
 				Flash.incorrectLogin()
 			}
 
-		} finally {
-			setLoadingSpinner(false)
-		}
+		} finally { setLoadingSpinner(false) }
 	}
 
 	function handleForgetPassword() {
 
-		try {
-
-			const error = LoginService.ValidateProperty(login, 'mail')
-
-			if (!isEmpty(error)) {
-				Flash.customMessage('preencha um email antes', "Coloque o email para recuperação", 'NEUTRAL'
-				)
-				return
-			}
-
-			navigation.navigate('ForgetPassword', { mail: login })
-
-		} catch (error) {
-
+		const error = LoginService.ValidateProperty(login, 'mail')
+		if (!isEmpty(error)) {
+			Flash.customMessage('preencha um email antes', "Coloque o email para recuperação", 'NEUTRAL'
+			)
+			return
 		}
+
+		Alert.alert(
+			"Gostaria de recuperar sua senha?",
+			`Iremos enviar um código para : ${login}`,
+			[
+				{
+					text: 'Sim',
+					onPress: () => navigation.navigate('ForgetPassword', { mail: login })
+				},
+				{
+					text: 'Não',
+					onPress: () => { },
+					style: 'cancel'
+				}
+			]
+		);
 	}
 
 	return (

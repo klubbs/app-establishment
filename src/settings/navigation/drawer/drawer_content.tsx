@@ -84,11 +84,11 @@ export const DrawerContent: React.FC = () => {
 				label="Painel"
 				onPress={() => navigation.navigate({ name: 'Home' })}
 			/>
-
+			{/*
 			<MenuItem
 				label="Configurações"
 				onPress={() => navigation.navigate({ name: 'Configurations' })}
-			/>
+			/> */}
 
 			<CloseItem
 				label="Sair"

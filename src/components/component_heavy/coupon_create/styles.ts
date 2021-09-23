@@ -87,7 +87,7 @@ export const Rules = styled.TextInput.attrs(props => ({
 `;
 
 
-export const DatePicker = styled(DateTimePicker).attrs(() => ({
+export const DatePicker = styled(DateTimePicker).attrs(({
 	testID: "dateTimePicker",
 	mode: 'date',
 	locale: 'pt-BR',

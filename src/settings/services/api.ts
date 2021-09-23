@@ -15,7 +15,8 @@ const api = axios.create(axiosConfig)
 api.interceptors.request.use(async (config) => {
 
 	config.timeout = 15000;
-	config.baseURL = "http://192.168.1.106:5000/";
+
+	config.baseURL = "http://192.168.1.110:5000/"
 
 	const token = await getTokenInStorage()
 
@@ -31,10 +32,8 @@ api.interceptors.response.use(
 	},
 	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 
-		console.log(error)
-
-		if (isAPIException(error)) {
-			console.log("ERRO DA API => ", error)
+		if (isAPIException(error?.response?.data)) {
+			console.log("ERRO DA API => ", error.response.data)
 			const statusCode = error.response.data?.statusCode
 
 			const validationError = error.response.data?.error

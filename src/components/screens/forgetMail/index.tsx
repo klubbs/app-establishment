@@ -36,7 +36,7 @@ export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ rout
 
 	useEffect(() => {
 		try {
-			// LoginService.sendForgetMailCode(route.params.mail)
+			LoginService.sendForgetPasswordCode(route.params.mail)
 		} catch (error) { }
 	}, [])
 
@@ -58,9 +58,8 @@ export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ rout
 		)
 	}
 
-
 	function handleCode() {
-		if (code.trim().length < 5) {
+		if (code.length < 5) {
 			Flash.customMessage("Código inválido", "")
 			return
 		}
@@ -84,21 +83,32 @@ export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ rout
 			}
 
 			await LoginService.updatePassword(route.params.mail, password, code)
+
+			Flash.customMessage("Senha alterada com sucesso", "", "SUCCESS")
+
 			navigation.goBack()
 
 		} catch (error) {
 
 			if (isAPIException(error)) {
 				const actual = error as IError
-
-				const actualFieldError = actual.error[0].field
+				const actualFieldError = actual.error[0].field.toUpperCase()
 
 				switch (actual.statusCode) {
 					case 412:
-
+						console.log(actualFieldError)
 						if (actualFieldError === 'DENIED') {
 							Flash.invalidCode()
 							setActivePassword(false)
+						}
+						break;
+
+					case 409:
+						if (actualFieldError === 'ESTABLISHMENT') {
+							Flash.customMessage("Esse email não faz parte do nosso cadastro",
+								"Desculpe",
+								"NEUTRAL"
+							)
 						}
 						break;
 
@@ -120,7 +130,7 @@ export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ rout
 			{!activePassword && <ContainerAnimated>
 				<CodeField
 					value={code}
-					onChangeText={(e: any) => setCode(e)}
+					onChangeText={(e: any) => setCode(e.trim())}
 					cellCount={5}
 					keyboardType="default"
 					textContentType="oneTimeCode"
