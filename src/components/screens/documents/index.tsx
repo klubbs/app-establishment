@@ -1,6 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import { ProfileService } from '../../../services/profileService';
+import { Flash } from '../../../utils/flash';
+import { Spinner } from '../../component/spinner';
+import { AuthContext } from '../../../contexts/auth_context';
+import { useNavigation } from '@react-navigation/native';
 import {
 	Wrapper,
 	FileBoxSubtitle,
@@ -13,11 +18,6 @@ import {
 	Subtitle,
 	Title
 } from './styles';
-import { ProfileService } from '../../../services/profileService';
-import { Flash } from '../../../utils/flash';
-import { Spinner } from '../../component/spinner';
-import { AuthContext } from '../../../contexts/auth_context';
-import { useNavigation } from '@react-navigation/native';
 
 export const DocumentsScreen: React.FC = () => {
 

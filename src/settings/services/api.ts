@@ -1,9 +1,8 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { clearAsyncStorage, getTokenInStorage } from '../../utils/async_storage'
-import { isAPIException, keyHasInObjectValidator } from '../../utils/documents_utils'
+import { getTokenInStorage } from '../../utils/async_storage'
+import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
-import { nameof } from '../../utils/extensions/object_extensions'
 import { Flash } from '../../utils/flash'
 
 const axiosConfig = {
@@ -14,9 +13,7 @@ const api = axios.create(axiosConfig)
 
 api.interceptors.request.use(async (config) => {
 
-	config.timeout = 15000;
-
-	config.baseURL = "http://192.168.1.110:5000/"
+	config.timeout = 20000;
 
 	const token = await getTokenInStorage()
 
@@ -33,7 +30,7 @@ api.interceptors.response.use(
 	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 
 		if (isAPIException(error?.response?.data)) {
-			console.log("ERRO DA API => ", error.response.data)
+			// console.log("ERRO DA API => ", error.response.data)
 			const statusCode = error.response.data?.statusCode
 
 			const validationError = error.response.data?.error
@@ -58,7 +55,7 @@ api.interceptors.response.use(
 				statusCode: Number(statusCode),
 			})
 		} else {
-			console.log("FEZ MERDA => ", error.message)
+			// console.log("FEZ MERDA => ", error.message)
 			Flash.someoneBullshit()
 		}
 

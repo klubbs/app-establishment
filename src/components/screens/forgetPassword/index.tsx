@@ -96,7 +96,6 @@ export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ rout
 
 				switch (actual.statusCode) {
 					case 412:
-						console.log(actualFieldError)
 						if (actualFieldError === 'DENIED') {
 							Flash.invalidCode()
 							setActivePassword(false)

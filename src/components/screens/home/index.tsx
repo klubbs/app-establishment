@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { View } from 'react-native';
-import colors from '../../../../assets/constants/colors';
+import React, { useEffect, useState, useContext } from 'react';
 import { ButtonQr } from '../../component/button_qr';
 import { DashboardAmount } from '../../component_heavy/dashboard_amount';
 import { Transactions } from '../../component_heavy/transactions';
@@ -13,7 +11,6 @@ import { AuthContext } from '../../../contexts/auth_context';
 import { DashboardDocs } from '../../component_heavy/dashboardDocs';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
-
 
 
 export const HomeScreen: React.FC = ({ }) => {

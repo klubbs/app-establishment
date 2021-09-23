@@ -6,6 +6,7 @@ import { isEmpty } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
 import { Spinner } from '../../component/spinner'
 import { useNavigation } from '@react-navigation/native';
+import { isAPIException } from '../../../utils/documents_utils'
 import {
 	Wrapper,
 	WelcomeSubtitle,
@@ -18,8 +19,6 @@ import {
 	Container,
 	KeyboardContainer
 } from './styles'
-import { ILogin } from '../../../services/interfaces/ilogin'
-import { isAPIException } from '../../../utils/documents_utils'
 
 export const LoginScreen: React.FC = () => {
 	const { signIn } = useContext(AuthContext)

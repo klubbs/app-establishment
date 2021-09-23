@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
+import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { IAuthStackParams } from '../@types/iauth_stack_params'
 import { WelcomeScreen } from '../../components/screens/welcome'
@@ -8,7 +7,7 @@ import colors from '../../../assets/constants/colors'
 import { ContractScreen } from '../../components/screens/contract'
 import { RegisterCodeScreen } from '../../components/screens/register_code'
 import { LoginScreen } from '../../components/screens/login'
-import { ForgetPasswordScreen } from '../../components/screens/forgetMail'
+import { ForgetPasswordScreen } from '../../components/screens/forgetPassword'
 
 const AuthStack = createStackNavigator<IAuthStackParams>()
 

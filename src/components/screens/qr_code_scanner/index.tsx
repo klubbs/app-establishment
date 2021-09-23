@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
@@ -7,6 +7,7 @@ import { Spinner } from '../../component/spinner';
 import { CouponService } from '../../../services/coupon_service';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
+import { IError } from '../../../settings/services/api';
 import {
 	CenterWrapper,
 	Focused,
@@ -18,7 +19,6 @@ import {
 	ScanDescSubtitle,
 	ScanOtherButton,
 } from './styles';
-import { IError } from '../../../settings/services/api';
 
 export const QrCodeScanner: React.FC = () => {
 
@@ -53,8 +53,6 @@ export const QrCodeScanner: React.FC = () => {
 
 			const couponId = splitedValues[0]
 			const userId = splitedValues[1]
-
-			console.log(splitedValues)
 
 			if (!couponId || !userId) {
 				Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
