@@ -136,7 +136,11 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					<Off>{offValue}%</Off>
 
 					<ValidSubtitle>Válido até  <ValidSwipe>* arraste para alterar *</ValidSwipe> </ValidSubtitle>
-					<DatePicker value={dateValidAt} onChange={onChangeDate} />
+					<DatePicker
+						minimumDate={new Date(Date.now())}
+						value={dateValidAt}
+						onChange={onChangeDate}
+					/>
 
 					<RulesSubtitle>Regras do cupom{" "}
 						<InfoIcon width={10} height={10} fill={colors.COLOR_YELLOW_BUTTON_TEXT} />

@@ -11,8 +11,7 @@ import FlashComponent from 'flash-notify';
 import * as SplashScreen from 'expo-splash-screen';
 
 
-LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
-
+LogBox.ignoreLogs(['Expected style']);
 export default function App() {
 
 	useEffect(() => {

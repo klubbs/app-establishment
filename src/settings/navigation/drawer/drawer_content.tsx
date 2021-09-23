@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../../contexts/auth_context';
 import { ProfileImage } from '../../../components/component/profileImage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { EstablishmentService } from '../../../services/establishmentService';
+import { ProfileService } from '../../../services/profileService';
 import { mergeEstablishmentInStorage } from '../../../utils/async_storage';
 import { ILoginResponse } from '../../../services/interfaces/ilogin';
 import { Spinner } from '../../../components/component/spinner';
@@ -61,7 +61,7 @@ export const DrawerContent: React.FC = () => {
 		}
 		setLoading(true)
 
-		const newImage = await EstablishmentService.updateImageProfile(result)
+		const newImage = await ProfileService.updateImageProfile(result)
 
 		await mergeEstablishmentInStorage({ ...establishment as ILoginResponse, image: newImage })
 
@@ -84,11 +84,11 @@ export const DrawerContent: React.FC = () => {
 				label="Painel"
 				onPress={() => navigation.navigate({ name: 'Home' })}
 			/>
-
+			{/*
 			<MenuItem
 				label="Configurações"
-				onPress={() => navigation.navigate({ name: 'Home' })}
-			/>
+				onPress={() => navigation.navigate({ name: 'Configurations' })}
+			/> */}
 
 			<CloseItem
 				label="Sair"

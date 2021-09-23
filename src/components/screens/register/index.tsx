@@ -1,18 +1,17 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { RegisterService } from '../../../services/register_service'
 import { isEmpty, nameof } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
 import { PickerModelBusiness } from '../../component/picker_model_business'
 import { PickerTimeStartEnd } from '../../component/picker_time_start_end'
 import { IEstablishmentRegister } from './interfaces'
+import * as Haptic from 'expo-haptics';
+import { Spinner } from '../../component/spinner'
+import { useAnimationState } from 'moti'
 import {
 	Cnpj, CompleteButton, Cpf, Description, GooglePlaces, Mail, Name, NameResponsible, Password, Phone, Wrapper, Question, Container, AnimatedContainer, BottomContainer
 } from './styles'
-import * as Haptic from 'expo-haptics';
-import { Spinner } from '../../component/spinner'
-import { MotiView, useAnimationState } from 'moti'
-
 
 
 const useFadeInDown = () => {

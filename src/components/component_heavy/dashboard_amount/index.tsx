@@ -4,6 +4,7 @@ import { MotiView } from 'moti'
 import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton, BlurBox } from './styles';
 
 export const DashboardAmount: React.FC = () => {
+
 	return (
 		<Wrapper>
 			<ValueSubtitle>Débito acumulado</ValueSubtitle>

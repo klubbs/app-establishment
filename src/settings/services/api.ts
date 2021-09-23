@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { clearAsyncStorage, getTokenInStorage } from '../../utils/async_storage'
+import { getTokenInStorage } from '../../utils/async_storage'
+import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 
@@ -11,11 +12,11 @@ const axiosConfig = {
 const api = axios.create(axiosConfig)
 
 api.interceptors.request.use(async (config) => {
+
+	config.timeout = 20000;
+
 	const token = await getTokenInStorage()
 
-	// config.baseURL = 'http://192.168.0.112:5000/';
-
-	// console.log(config.baseURL)
 	if (token !== null) {
 		config.headers.Authorization = `Bearer ${token}`
 	}
@@ -28,32 +29,37 @@ api.interceptors.response.use(
 	},
 	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 
-		console.error(error)
+		if (isAPIException(error?.response?.data)) {
+			// console.log("ERRO DA API => ", error.response.data)
+			const statusCode = error.response.data?.statusCode
 
-		const statusCode = error.response.data?.statusCode
+			const validationError = error.response.data?.error
+			const message = error.response.data?.message
 
-		const validationError = error.response.data?.error
-		const message = error.response.data?.message
+			switch (statusCode) {
+				case 401:
+					EventEmitter.emit('LOGOUT', {});
+					break;
 
-		switch (statusCode) {
-			case 401:
-				EventEmitter.emit('LOGOUT', {});
-				break;
+				case 500:
+					Flash.spillCoffee();
+					break;
 
-			case 500:
-				Flash.spillCoffee();
-				break;
+				default:
+					break;
+			}
 
-			default:
-				break;
+			return Promise.reject({
+				message,
+				error: validationError,
+				statusCode: Number(statusCode),
+			})
+		} else {
+			// console.log("FEZ MERDA => ", error.message)
+			Flash.someoneBullshit()
 		}
 
-
-		return Promise.reject({
-			message,
-			error: validationError,
-			statusCode: Number(statusCode),
-		})
+		return Promise.reject(error)
 	}
 )
 
