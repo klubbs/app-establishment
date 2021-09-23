@@ -50,8 +50,8 @@ jobs:
       - if: github.event.inputs.deploy == 'P'
         name: Publish Version
         env:
-        ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-        ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
         run: |
             echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
             expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
@@ -59,8 +59,8 @@ jobs:
       - if: github.event.inputs.deploy == 'B'
         name: Build Version
         env:
-        ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-        ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
         run: |
             echo "----- BUILD -----"
             expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
@@ -68,14 +68,14 @@ jobs:
             curl -o app.ipa "$(expo url:ipa --non-interactive)"
 
       - if: github.event.inputs.deploy == 'B'
-        name:
+        name: Upload do artefato
         uses: actions/upload-artifact@v2
         with:
          name: appbuild
          path: ./app.ipa
 
   Transport_Apple_Store_Connect:
-    needs: build
+    needs: Build
     runs-on:  macos-latest
     if: github.event.inputs.deploy == 'B'
     steps:
