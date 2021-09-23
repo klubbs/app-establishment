@@ -8,7 +8,7 @@ import colors from '../../../assets/constants/colors'
 import { ContractScreen } from '../../components/screens/contract'
 import { RegisterCodeScreen } from '../../components/screens/register_code'
 import { LoginScreen } from '../../components/screens/login'
-import { ForgetMailScreen } from '../../components/screens/forgetMail'
+import { ForgetPasswordScreen } from '../../components/screens/forgetMail'
 
 const AuthStack = createStackNavigator<IAuthStackParams>()
 
@@ -47,8 +47,8 @@ export const AuthStackNavigator: React.FC<{}> = () => {
 				}}
 			/>
 			<AuthStack.Screen
-				name="ForgetMail"
-				component={ForgetMailScreen}
+				name="ForgetPassword"
+				component={ForgetPasswordScreen}
 				options={{
 					headerTitle: 'Recuperar e-mail',
 					headerTitleStyle: styleHeader,

@@ -23,7 +23,7 @@ export class Flash {
 
 
 	static someoneBullshit = () =>
-		showFlash({ type: 'NEUTRAL', title: 'Acho que alguém fez besteira', desc: 'Já estamos resolvendo este problema, desculpe.' })
+		showFlash({ type: 'DANGER', title: 'Acho que alguém fez besteira', desc: 'Já estamos resolvendo este problema, desculpe.' })
 
 
 	static spillCoffee = () =>

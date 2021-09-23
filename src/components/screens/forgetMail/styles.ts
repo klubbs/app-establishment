@@ -1,7 +1,11 @@
 import styled from 'styled-components/native'
+import { Dimensions } from 'react-native'
 import colors from '../../../../assets/constants/colors';
 import Button from '../../component/button';
+import { InputWithIcon } from '../../component/input-with-icon';
+import { MotiView } from 'moti'
 
+const { width } = Dimensions.get('window')
 
 export const Wrapper = styled.SafeAreaView`
     flex: 1;
@@ -37,8 +41,28 @@ export const Email = styled.Text`
   font-family:'Nunito_Light';
 `
 
-export const RegisterButton = styled(Button).attrs(() => ({
-	text: 'Registrar',
+export const ConfirmButton = styled(Button).attrs((props: { text: string }) => ({
+	text: props.text,
 	styleContainer: { width: '90%', height: 60 }
 }))`
+`
+
+export const Password = styled(InputWithIcon).attrs(({
+	placeholder: 'Nova senha',
+	keyboardType: 'default',
+	secureTextEntry: true
+}))`
+    width:80%;
+    height:60px;
+	 margin-top: 15%;
+    margin-bottom: 15%;
+`
+
+export const ContainerAnimated = styled(MotiView).attrs(({
+	from: { opacity: 0, right: -100 },
+	animate: { opacity: 1, right: 0 }
+}))`
+	justify-content: center;
+	align-items: center;
+	width: ${width};
 `

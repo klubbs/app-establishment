@@ -6,10 +6,10 @@ export type IAuthStackParams = {
 	Register: undefined;
 	Contract: IEstablishmentRegister;
 	RegisterCode: IEstablishmentRegister;
-	ForgetMail: { mail: string };
+	ForgetPassword: { mail: string };
 	Login: undefined;
 };
 
 export type RegisterCodeScreenProps = StackScreenProps<IAuthStackParams, 'RegisterCode'>
 export type ContractScreenProps = StackScreenProps<IAuthStackParams, 'Contract'>
-export type ForgetMailScreenProps = StackScreenProps<IAuthStackParams, 'ForgetMail'>
+export type ForgetPasswordScreenProps = StackScreenProps<IAuthStackParams, 'ForgetPassword'>

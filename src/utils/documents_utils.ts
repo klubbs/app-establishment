@@ -1,4 +1,5 @@
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
+import { IError } from '../settings/services/api';
 import { isEmpty, nameof } from "./extensions/object_extensions";
 
 export const beValidCnpj = (cnpj: string): boolean => {
@@ -101,5 +102,17 @@ export function keyHasInObjectValidator<T>(errors: ValidationErrors<T>, paramKey
 		}
 	} else {
 		return errors;
+	}
+}
+
+export function isAPIException(error: any) {
+	if (
+		error.hasOwnProperty(nameof<IError>('error')) &&
+		error.hasOwnProperty(nameof<IError>('message')) &&
+		error.hasOwnProperty(nameof<IError>('statusCode'))
+	) {
+		return true
+	} else {
+		return false
 	}
 }

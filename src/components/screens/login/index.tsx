@@ -18,6 +18,7 @@ import {
 	KeyboardContainer
 } from './styles'
 import { ILogin } from '../../../services/interfaces/ilogin'
+import { isAPIException } from '../../../utils/documents_utils'
 
 export const LoginScreen: React.FC = () => {
 	const { signIn } = useContext(AuthContext)
@@ -32,7 +33,7 @@ export const LoginScreen: React.FC = () => {
 		try {
 			setLoadingSpinner(true)
 
-			const valid = LoginService.validate({ password: password, mail: login })
+			const valid = LoginService.validateLogin({ password: password, mail: login })
 
 			if (!isEmpty(valid)) {
 				Flash.incorrectLogin()
@@ -41,7 +42,11 @@ export const LoginScreen: React.FC = () => {
 
 			await signIn(login, password)
 		} catch (error) {
-			Flash.incorrectLogin()
+
+			if (isAPIException(error)) {
+				Flash.incorrectLogin()
+			}
+
 		} finally {
 			setLoadingSpinner(false)
 		}
@@ -54,12 +59,12 @@ export const LoginScreen: React.FC = () => {
 			const error = LoginService.ValidateProperty(login, 'mail')
 
 			if (!isEmpty(error)) {
-				Flash.customMessage('Preencha seu email antes', "Coloque o email para recuperação", 'NEUTRAL'
+				Flash.customMessage('preencha um email antes', "Coloque o email para recuperação", 'NEUTRAL'
 				)
 				return
 			}
 
-			navigation.navigate('ForgetMail', { mail: login })
+			navigation.navigate('ForgetPassword', { mail: login })
 
 		} catch (error) {
 
@@ -75,7 +80,7 @@ export const LoginScreen: React.FC = () => {
 			</Container>
 			<KeyboardContainer>
 				<Container>
-					<Username value={login} setValue={(e: string) => setLogin(e)} />
+					<Username value={login} setValue={(e: string) => setLogin(e.trim())} />
 					<Password value={password} setValue={(e: string) => setPassword(e)} />
 				</Container>
 			</KeyboardContainer>
