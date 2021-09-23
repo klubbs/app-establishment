@@ -12,6 +12,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { ILoginResponse } from '../services/interfaces/ilogin'
 import { EventEmitter } from '../utils/emitter'
 import { ProfileService } from '../services/profileService'
+import { Flash } from '../utils/flash'
 
 export const AuthContext = createContext(
 	{} as {
@@ -56,12 +57,17 @@ const AuthProvider: React.FC = ({ children }) => {
 	}
 
 	async function reloadProfile() {
-		const response = await getEstablishmentInStorage()
+		try {
 
-		if (response) {
-			setEstablishment(response)
+			const response = await getEstablishmentInStorage()
 
-			await reloadProfileInCloud()
+			if (response) {
+				setEstablishment(response)
+
+				await reloadProfileInCloud()
+			}
+		} catch (error) {
+			Flash.someoneBullshit()
 		}
 	}
 

@@ -4,6 +4,7 @@ import { LoginService } from '../../../services/login_service'
 import { isEmpty } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
 import { Spinner } from '../../component/spinner'
+import { useNavigation } from '@react-navigation/native';
 import {
 	Wrapper,
 	WelcomeSubtitle,
@@ -16,16 +17,18 @@ import {
 	Container,
 	KeyboardContainer
 } from './styles'
+import { ILogin } from '../../../services/interfaces/ilogin'
 
 export const LoginScreen: React.FC = () => {
 	const { signIn } = useContext(AuthContext)
 
+	const navigation = useNavigation();
 	const [loadingSpinner, setLoadingSpinner] = useState(false)
 
 	const [login, setLogin] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 
-	const onLogin = async () => {
+	async function handleLogin() {
 		try {
 			setLoadingSpinner(true)
 
@@ -44,6 +47,25 @@ export const LoginScreen: React.FC = () => {
 		}
 	}
 
+	function handleForgetPassword() {
+
+		try {
+
+			const error = LoginService.ValidateProperty(login, 'mail')
+
+			if (!isEmpty(error)) {
+				Flash.customMessage('Preencha seu email antes', "Coloque o email para recuperação", 'NEUTRAL'
+				)
+				return
+			}
+
+			navigation.navigate('ForgetMail', { mail: login })
+
+		} catch (error) {
+
+		}
+	}
+
 	return (
 		<Wrapper>
 			<Spinner loading={loadingSpinner} />
@@ -58,9 +80,9 @@ export const LoginScreen: React.FC = () => {
 				</Container>
 			</KeyboardContainer>
 			<Container>
-				<ButtonLogin text={'Login'} onPress={() => onLogin()} />
+				<ButtonLogin text={'Login'} onPress={handleLogin} />
 
-				<ForgotPasswordTouch onPress={() => console.log('OLOCO')}>
+				<ForgotPasswordTouch onPress={handleForgetPassword} >
 					<ForgotPasswordSubtitle>Esqueceu sua senha ?</ForgotPasswordSubtitle>
 				</ForgotPasswordTouch>
 			</Container>

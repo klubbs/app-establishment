@@ -3,13 +3,12 @@ import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmatio
 
 import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles'
 import { AuthContext } from '../../../contexts/auth_context'
-import { RegisterCodeScreenProps } from '../../../settings/@types/iauth_stack_params'
-import { RegisterService } from '../../../services/register_service'
+import { ForgetMailScreenProps } from '../../../settings/@types/iauth_stack_params'
 import { Spinner } from '../../component/spinner'
-import { IError } from '../../../settings/services/api'
 import { Flash } from '../../../utils/flash'
+import { LoginService } from '../../../services/login_service'
 
-export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route }) => {
+export const ForgetMailScreen: React.FC<ForgetMailScreenProps> = ({ route }) => {
 	const { signIn } = useContext(AuthContext)
 
 	const [loadingSpinner, setLoadingSpinner] = useState(false)
@@ -22,7 +21,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 
 	useEffect(() => {
 		try {
-			RegisterService.sendRegisterMailCode(route.params.mail)
+			LoginService.sendForgetMailCode(route.params.mail)
 		} catch (error) { }
 	}, [])
 
@@ -44,7 +43,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 		)
 	}
 
-	const onRegisterEstablishment = async () => {
+	const onValidateCode = async () => {
 		try {
 
 			if (code.length < 5) {
@@ -52,13 +51,14 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 				return
 			}
 
+			console.log(route.params.mail)
 			setLoadingSpinner(true)
 
-			await RegisterService.register(route.params, code)
+			//TODO
+			// LoginService.updatePassword(route.params.mail, '')
 
-			await signIn(route.params.mail, route.params.password)
 		} catch (error) {
-			RegisterService.catchRegister(error as IError)
+
 		} finally {
 			setLoadingSpinner(false)
 		}
@@ -80,7 +80,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 				autoFocus={true}
 				{...props}
 			/>
-			<RegisterButton onPress={() => onRegisterEstablishment()} />
+			<RegisterButton onPress={onValidateCode} />
 		</Wrapper>
 	)
 }

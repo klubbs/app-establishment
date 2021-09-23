@@ -11,11 +11,11 @@ const axiosConfig = {
 const api = axios.create(axiosConfig)
 
 api.interceptors.request.use(async (config) => {
+
+	config.timeout = 15000;
+
 	const token = await getTokenInStorage()
 
-	// config.baseURL = 'http://192.168.0.112:5000/';
-	config.baseURL = "http://192.168.1.101:5000/"
-	// console.log(config.baseURL)
 	if (token !== null) {
 		config.headers.Authorization = `Bearer ${token}`
 	}

@@ -25,19 +25,12 @@ export class RegisterService {
 		return data.message;
 	}
 
-	static async sendMailCode(mail: string) {
-
+	static async sendRegisterMailCode(mail: string) {
 		await api.post('stores/code/register/mail', null, { params: { mail: mail } })
-
 	}
 
-	static async uploadDocs(cpfImg: any, cnpjImg: any) {
 
-		await api.post()
-
-	}
-
-	static async ValidateProperty<IEstablishmentRegister>(value: any, param: any): Promise<Object> {
+	static async ValidateProperty(value: any, param: keyof IEstablishmentRegister): Promise<Object> {
 		const validator = new RegisterValidator();
 
 		if (param === 'mail' && value === '') {

@@ -3,6 +3,7 @@ import api, { IResponseMessage } from '../settings/services/api'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import { Validator } from 'fluentvalidation-ts'
 import { ILogin, ILoginResponse } from './interfaces/ilogin'
+import { keyHasInObjectValidator } from '../utils/documents_utils'
 
 export class LoginService {
 	static async login(mail: string, password: string): Promise<ILoginResponse> {
@@ -15,6 +16,27 @@ export class LoginService {
 		})
 
 		return data.message
+	}
+
+	static async sendForgetMailCode(mail: string) {
+		await api.post('stores/code/forget/mail', null, { params: { mail: mail } })
+	}
+
+	static async updatePassword(mail: string, password: string) {
+		await api.put('stores/update/password', {
+			auth: {
+				username: mail,
+				password: password,
+			},
+		})
+	}
+
+	static ValidateProperty(value: any, param: keyof ILogin): Object {
+		const validator = new LoginValidator();
+
+		const errors = validator.validate({ [param]: value })
+
+		return keyHasInObjectValidator<ILogin>(errors, param as keyof ILogin)
 	}
 
 	static async AlreadyMail(mail: string): Promise<boolean> {
@@ -37,8 +59,15 @@ class LoginValidator extends Validator<ILogin> {
 	constructor() {
 		super()
 
-		this.ruleFor('mail').emailAddress().withMessage('Preencha com um e-mail.')
+		this.ruleFor('mail')
+			.emailAddress()
+			.withMessage('Preencha com um e-mail.')
+			.when(src => src.mail !== undefined)
 
-		this.ruleFor('password').minLength(5).withMessage('Senha deve ter no mínimo 5 caracteres')
+		this
+			.ruleFor('password')
+			.minLength(5)
+			.withMessage('Senha deve ter no mínimo 5 caracteres')
+			.when(src => src.password !== undefined)
 	}
 }
