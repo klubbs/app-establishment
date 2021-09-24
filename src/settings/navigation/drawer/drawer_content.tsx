@@ -42,34 +42,36 @@ export const DrawerContent: React.FC = () => {
 	}
 
 	async function onUpdateImageProfile() {
-		const { status } = await MediaLibrary.requestPermissionsAsync()
 
-		if (status !== 'granted') {
-			//   setVisibleModalPermission(true)
-			return;
-		}
+		try {
 
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1
-		});
+			const { status } = await MediaLibrary.requestPermissionsAsync()
 
-		if (result.cancelled) {
-			return
-		}
-		setLoading(true)
+			if (status !== 'granted') {
+				return;
+			}
 
-		const newImage = await ProfileService.updateImageProfile(result)
+			let result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				allowsEditing: true,
+				aspect: [4, 3],
+				quality: 1
+			});
 
-		await mergeEstablishmentInStorage({ ...establishment as ILoginResponse, image: newImage })
+			if (result.cancelled) {
+				return
+			}
+			setLoading(true)
 
-		await CacheManager.clearCache()
+			const newImage = await ProfileService.updateImageProfile(result)
 
-		await reloadProfile()
+			await mergeEstablishmentInStorage({ ...establishment as ILoginResponse, image: newImage })
 
-		setLoading(false)
+			await CacheManager.clearCache()
+
+			await reloadProfile()
+
+		} finally { setLoading(false) }
 	}
 
 	return (
