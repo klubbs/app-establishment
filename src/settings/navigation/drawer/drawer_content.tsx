@@ -13,7 +13,7 @@ import { ProfileImage } from '../../../components/component/profileImage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileService } from '../../../services/profileService';
 import { mergeEstablishmentInStorage } from '../../../utils/async_storage';
-import { ILoginResponse } from '../../../services/interfaces/ilogin';
+import { ILoginResponse } from '../../../services/@types/loginTypes';
 import { Spinner } from '../../../components/component/spinner';
 
 export const DrawerContent: React.FC = () => {
@@ -86,11 +86,16 @@ export const DrawerContent: React.FC = () => {
 				label="Painel"
 				onPress={() => navigation.navigate({ name: 'Home' })}
 			/>
-			{/*
+
 			<MenuItem
 				label="Configurações"
 				onPress={() => navigation.navigate({ name: 'Configurations' })}
-			/> */}
+			/>
+
+			<MenuItem
+				label="Ajuda"
+				onPress={() => navigation.navigate({ name: 'Help' })}
+			/>
 
 			<CloseItem
 				label="Sair"

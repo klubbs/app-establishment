@@ -3,7 +3,7 @@ import { Picker } from '@react-native-picker/picker';
 import colors from '../../../../assets/constants/colors';
 import { WrapperPicker } from './styles';
 import { RegisterService } from '../../../services/register_service';
-import { ICategoryResponse } from '../../../services/interfaces/iregister';
+import { ICategoryResponse } from '../../../services/@types/registerTypes';
 import { Flash } from '../../../utils/flash';
 
 export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {

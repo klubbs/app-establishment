@@ -1,7 +1,7 @@
 import { IEstablishmentRegister } from './../components/screens/register/interfaces';
 import { isEmpty, nameof } from './../utils/extensions/object_extensions';
 import api, { IError, IResponseMessage } from "../settings/services/api";
-import { ICategoryResponse, IRegisterRequest } from "./interfaces/iregister";
+import { ICategoryResponse, IRegisterRequest } from "./@types/registerTypes";
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
 import { AsyncValidator, Validator } from 'fluentvalidation-ts';
 import { beValidCnpj, beValidCpf, keyHasInObjectValidator } from "../utils/documents_utils";

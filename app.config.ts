@@ -9,7 +9,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	icon: './assets/icon.png',
 	orientation: "portrait",
 	splash: {
-		image: "./assets/images/welcome-login-icons-image.png",
+		image: "./assets/images/splash.png",
 		resizeMode: "contain",
 		backgroundColor: "#2D2F35"
 	},
@@ -25,7 +25,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		bundleIdentifier: "app.klubbs.establishment",
 		buildNumber: "0.0.2",
 		infoPlist: {
-			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que possa validar vendas por QR Code."
+			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que você consiga escolher uma imagem da sua galeria.",
+			NSCameraUsageDescription: "Precisamos da sua autorização para que você possa validar vendas por QR Code."
 		}
 	},
 	android: {

@@ -48,7 +48,7 @@ export const ScanDescSubtitle = styled.Text`
   color:${colors.COLOR_WHITE_80};
   position: absolute;
   top: 24%;
-  left: 26%;
+  left: 18%;
   font-size:15px;
   font-family:'Nunito_Light';
 `
@@ -59,5 +59,5 @@ export const ScanOtherButton = styled(Button).attrs((props: { error: boolean }) 
 		position: 'absolute', bottom: '10%',
 		backgroundColor: props.error ? colors.COLOR_RED : colors.COLOR_YELLOW
 	},
-	styleButton: props.error ? { color: colors.COLOR_WHITE } : { }
+	styleButton: props.error ? { color: colors.COLOR_WHITE } : {}
 })) <{ error: boolean }>``

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { StatusBar } from 'react-native'
 import { ButtonQr } from '../../component/button_qr';
 import { DashboardAmount } from '../../component_heavy/dashboard_amount';
 import { Transactions } from '../../component_heavy/transactions';
@@ -63,6 +64,7 @@ export const HomeScreen: React.FC = ({ }) => {
 	return (
 		(
 			<>
+				<StatusBar barStyle={'light-content'} animated={true} />
 				<Wrapper>
 					{establishment?.documentationStatus !== "OK" && <DashboardDocs />}
 					{establishment?.documentationStatus === "OK" && <DashboardAmount />}

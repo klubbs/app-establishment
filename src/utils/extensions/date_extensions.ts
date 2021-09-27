@@ -9,6 +9,7 @@ declare global {
 		isSameDate(date: Date): boolean;
 		ToUnixEpoch(): number;
 		ToDateFormat(epoch: number): Date;
+		RemmaningDaysInMonth(): number;
 	}
 
 	interface Number {
@@ -54,4 +55,13 @@ Date.prototype.ToDateFormat = function (unixEpoch) {
 Number.prototype.ToDateFormat = function () {
 	let date = new Date(this as number * 1000)
 	return date;
+}
+
+Date.prototype.RemmaningDaysInMonth = function (): number {
+
+	var date = this;
+	var time = new Date(date.getTime());
+	time.setMonth(date.getMonth() + 1);
+	time.setDate(0);
+	return time.getDate() > date.getDate() ? time.getDate() - date.getDate() : 0;
 }

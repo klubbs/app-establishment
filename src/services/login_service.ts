@@ -2,7 +2,7 @@ import { IEstablishmentRegister } from '../components/screens/register/interface
 import api, { IError, IResponseMessage } from '../settings/services/api'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import { Validator } from 'fluentvalidation-ts'
-import { ILogin, ILoginResponse } from './interfaces/ilogin'
+import { ILogin, ILoginResponse } from './@types/loginTypes'
 import { keyHasInObjectValidator } from '../utils/documents_utils'
 import { Flash } from '../utils/flash'
 

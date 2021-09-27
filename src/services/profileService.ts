@@ -1,7 +1,7 @@
 import { IResponseMessage } from '../settings/services/api';
 import * as ImagePicker from 'expo-image-picker';
 import api from '../settings/services/api';
-import { ILoginResponse } from './interfaces/ilogin';
+import { ILoginResponse } from './@types/loginTypes';
 
 export class ProfileService {
 

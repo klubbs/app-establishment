@@ -9,7 +9,7 @@ import {
 	mergeEstablishmentInStorage
 } from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
-import { ILoginResponse } from '../services/interfaces/ilogin'
+import { ILoginResponse } from '../services/@types/loginTypes'
 import { EventEmitter } from '../utils/emitter'
 import { ProfileService } from '../services/profileService'
 import { Flash } from '../utils/flash'
@@ -61,11 +61,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
 			const response = await getEstablishmentInStorage()
 
-			if (response) {
-				setEstablishment(response)
-
-				await reloadProfileInCloud()
-			}
+			setEstablishment(response)
 		} catch (error) {
 			Flash.someoneBullshit()
 		}

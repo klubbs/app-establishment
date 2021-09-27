@@ -6,6 +6,7 @@ import { QrCodeScanner } from '../../components/screens/qr_code_scanner'
 import colors from '../../../assets/constants/colors'
 import { DocumentsScreen } from '../../components/screens/documents'
 import { ConfigurationsScreen } from '../../components/screens/configurations'
+import { HelpScreen } from '../../components/screens/help'
 
 const AppStack = createStackNavigator<IAppStackParams>()
 
@@ -34,6 +35,12 @@ export const AppStackNavigator: React.FC = () => {
 				component={QrCodeScanner}
 				options={{ headerTintColor: colors.COLOR_WHITE }}
 			/>
+			<AppStack.Screen
+				name="Help"
+				component={HelpScreen}
+				options={{ headerTintColor: colors.COLOR_YELLOW }}
+			/>
+
 		</AppStack.Navigator>
 	)
 }

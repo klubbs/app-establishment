@@ -4,7 +4,7 @@ import colors from "../../../../assets/constants/colors";
 import { InfoIcon } from "../../../../assets/icons/info_icon";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
 import { CouponService } from "../../../services/coupon_service";
-import { ICoupon } from "../../../services/interfaces/icoupon";
+import { ICoupon } from "../../../services/@types/couponTypes";
 import { isEmpty, nameof } from "../../../utils/extensions/object_extensions";
 import { Flash } from "../../../utils/flash";
 import Button from "../../component/button";

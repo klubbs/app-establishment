@@ -1,6 +1,6 @@
 import { Flash } from './../utils/flash';
 import { IError } from './../settings/services/api';
-import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './interfaces/icoupon'
+import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './@types/couponTypes'
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import api, { IResponseMessage } from '../settings/services/api'
