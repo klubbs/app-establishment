@@ -15,7 +15,7 @@ export const Transactions: React.FC = () => {
 	const [refreshing, setRefreshing] = useState(false)
 
 	useEffect(() => {
-		getCheckouts();
+		setTimeout(() => { getCheckouts() }, 2000)
 	}, [])
 
 	async function getCheckouts() {
