@@ -18,6 +18,8 @@ import {
 	Subtitle,
 	Title
 } from './styles';
+import { isAPIException } from '../../../utils/documents_utils';
+import { Middlewares } from '../../../utils/middlewares';
 
 export const DocumentsScreen: React.FC = () => {
 
@@ -64,7 +66,7 @@ export const DocumentsScreen: React.FC = () => {
 
 			navigation.goBack()
 		} catch (error) {
-			Flash.spillCoffee()
+			Middlewares.middlewareError(() => Flash.spillCoffee(), error)
 		} finally { setLoading(false) }
 
 	}

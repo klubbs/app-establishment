@@ -19,6 +19,7 @@ import {
 	ScanDescSubtitle,
 	ScanOtherButton,
 } from './styles';
+import { Middlewares } from '../../../utils/middlewares';
 
 export const QrCodeScanner: React.FC = () => {
 
@@ -71,9 +72,14 @@ export const QrCodeScanner: React.FC = () => {
 			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success)
 
 		} catch (error) {
-			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
-			setHasError(true)
-			CouponService.catchScanCoupon(error as IError)
+			Middlewares.middlewareError(
+				() => {
+					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
+					setHasError(true)
+					CouponService.catchScanCoupon(error as IError)
+				},
+				error
+			)
 		} finally {
 			setLoading(false)
 		}

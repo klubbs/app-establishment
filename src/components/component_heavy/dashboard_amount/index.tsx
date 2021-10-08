@@ -7,6 +7,8 @@ import { FinanceService } from '../../../services/financeService';
 import { Flash } from '../../../utils/flash';
 import colors from '../../../../assets/constants/colors';
 import { AuthContext } from '../../../contexts/auth_context';
+import { isAPIException } from '../../../utils/documents_utils';
+import { Middlewares } from '../../../utils/middlewares';
 
 export const DashboardAmount: React.FC = () => {
 
@@ -34,7 +36,12 @@ export const DashboardAmount: React.FC = () => {
 			setAmount(response.amount)
 
 		} catch (error) {
-			Flash.customMessage("Ocorreu um erro ao recuperar seu painel", "Desculpe", "NEUTRAL")
+			Middlewares.middlewareError(
+				() => Flash
+					.customMessage("Ocorreu um erro ao recuperar seu painel", "Desculpe", "NEUTRAL"),
+				error
+			)
+
 		} finally {
 			setShowSkeleton(false)
 			setRefreshing(false)

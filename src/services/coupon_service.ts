@@ -4,6 +4,7 @@ import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './@types/
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import api, { IResponseMessage } from '../settings/services/api'
+import { isAPIException } from '../utils/documents_utils';
 
 export class CouponService {
 
@@ -33,11 +34,12 @@ export class CouponService {
 	}
 
 	static catchCreateCoupon(errors: IError) {
-
-		if (errors.statusCode === 412) {
-			Flash.permissionCreateManyCoupons()
-		} else {
-			Flash.someoneBullshit()
+		if (errors) {
+			if (errors.statusCode === 412) {
+				Flash.permissionCreateManyCoupons()
+			} else {
+				Flash.someoneBullshit()
+			}
 		}
 	}
 

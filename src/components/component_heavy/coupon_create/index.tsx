@@ -25,6 +25,7 @@ import {
 	ValidSwipe
 } from "./styles";
 import { IError } from "../../../settings/services/api";
+import { Middlewares } from "../../../utils/middlewares";
 
 export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
 
@@ -78,9 +79,10 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 				clearClose()
 
 			} catch (error) {
-
-				CouponService.catchCreateCoupon(error as IError);
-
+				Middlewares.middlewareError(
+					() => CouponService.catchCreateCoupon(error as IError),
+					error
+				)
 			} finally {
 				setLoading(false)
 			}

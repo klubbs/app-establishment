@@ -28,9 +28,9 @@ export class Flash {
 
 	static invalidCode = () =>
 		showFlash({
-			type: 'WARNING',
-			title: 'Inválido',
-			desc: 'Código inválido.'
+			type: 'NEUTRAL',
+			title: 'Código Inválido',
+			desc: 'Talvez você tenha preenchido errrado'
 		})
 
 
@@ -49,6 +49,13 @@ export class Flash {
 			desc: 'Desculpe, já estamos limpando a bagunça.'
 		})
 
+
+	static dogsOut = () =>
+		showFlash({
+			type: 'DANGER',
+			title: 'O cachorro levou o servidor',
+			desc: 'Desculpe, estamos correndo atrás dele.'
+		})
 
 	static disconnectedWire = () =>
 		showFlash({

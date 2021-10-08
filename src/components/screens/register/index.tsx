@@ -103,11 +103,12 @@ export const RegisterScreen: React.FC = () => {
 				if (!isEmpty(isValid)) {
 
 					if (isValid.hasOwnProperty('mail')) {
-						Flash.customMessage(
-							'Não é um e-mail válido ou já esta em uso',
-							"Email inválido", 'WARNING'
-						)
-					} else {
+						Flash.customMessage(isValid.mail as string, "Inválido", 'WARNING')
+					}
+					else if (isValid.hasOwnProperty('cnpj')) {
+						Flash.customMessage(isValid.cnpj as string, "Inválido", 'WARNING')
+					}
+					else {
 
 						Flash.customMessage(
 							"Preencha o campo corretamente",
@@ -136,8 +137,6 @@ export const RegisterScreen: React.FC = () => {
 
 			setActiveMessage(tmp[newProperty][1])
 			setActiveFields({ ...tmp })
-
-		} catch (error) {
 
 		} finally {
 			setLoading(false)

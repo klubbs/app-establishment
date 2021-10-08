@@ -57,14 +57,9 @@ const AuthProvider: React.FC = ({ children }) => {
 	}
 
 	async function reloadProfile() {
-		try {
+		const response = await getEstablishmentInStorage()
 
-			const response = await getEstablishmentInStorage()
-
-			setEstablishment(response)
-		} catch (error) {
-			Flash.someoneBullshit()
-		}
+		setEstablishment(response)
 	}
 
 	async function reloadProfileInCloud() {

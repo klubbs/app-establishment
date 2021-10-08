@@ -5,6 +5,8 @@ import { WrapperPicker } from './styles';
 import { RegisterService } from '../../../services/register_service';
 import { ICategoryResponse } from '../../../services/@types/registerTypes';
 import { Flash } from '../../../utils/flash';
+import { isAPIException } from '../../../utils/documents_utils';
+import { Middlewares } from '../../../utils/middlewares';
 
 export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 
@@ -25,7 +27,7 @@ export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 					setSelectedValue('1ccb365c-774e-44d3-931f-47e6f463d18e')
 
 				} catch (error) {
-					Flash.spillCoffee()
+					Middlewares.middlewareError(() => Flash.spillCoffee(), error)
 				}
 			}
 		)()

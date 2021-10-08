@@ -93,6 +93,12 @@ export const beValidCpf = (cpf: string): boolean => {
 	return true
 }
 
+export function beValidMail(email: string): boolean {
+	const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+	return re.test(String(email))
+}
+
 export function keyHasInObjectValidator<T>(errors: ValidationErrors<T>, paramKey: keyof T): Object {
 	if (!isEmpty(errors)) {
 		if (errors.hasOwnProperty(nameof<T>(paramKey as any))) {
@@ -107,9 +113,9 @@ export function keyHasInObjectValidator<T>(errors: ValidationErrors<T>, paramKey
 
 export function isAPIException(error: any) {
 	if (
-		error.hasOwnProperty(nameof<IError>('error')) &&
-		error.hasOwnProperty(nameof<IError>('message')) &&
-		error.hasOwnProperty(nameof<IError>('statusCode'))
+		error?.hasOwnProperty(nameof<IError>('error')) &&
+		error?.hasOwnProperty(nameof<IError>('message')) &&
+		error?.hasOwnProperty(nameof<IError>('statusCode'))
 	) {
 		return true
 	} else {
