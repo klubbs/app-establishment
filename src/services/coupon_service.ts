@@ -120,5 +120,7 @@ class CouponValidator extends Validator<ICoupon> {
 		this.ruleFor('offPercentual').must((item) => {
 			return item >= 5
 		})
+
+		//TODO VAlidar numeros da semana com must()
 	}
 }
