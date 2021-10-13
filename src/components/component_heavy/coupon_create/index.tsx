@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Alert, Modal } from "react-native";
-import colors from "../../../../assets/constants/colors";
-import { InfoIcon } from "../../../../assets/icons/info_icon";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
 import { CouponService } from "../../../services/coupon_service";
 import { ICoupon } from "../../../services/@types/couponTypes";
@@ -15,17 +13,21 @@ import {
 	Wrapper,
 	Container,
 	Off,
-	Rules,
-	RulesSubtitle,
+	SubtitleMinimumTicket,
 	SubContainer,
 	ValidSubtitle,
 	DatePicker,
 	Cancel,
 	CancelClick,
-	ValidSwipe
+	WrapperMinimumTicket,
+	MinimumTicket,
+	WrapperCoupon,
+	WrapperWeeks,
+	SubtitleWeeks
 } from "./styles";
 import { IError } from "../../../settings/services/api";
 import { Middlewares } from "../../../utils/middlewares";
+import { DaysOfWeek } from "../../component/DaysOfWeek";
 
 export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
 
@@ -33,9 +35,10 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	const [loading, setLoading] = useState(false)
 	const [visibleComponent, setVisibleComponent] = useState(false)
 
-	const [rules, setrules] = useState('');
 	const [offValue, setOffValue] = useState(5);
 	const [dateValidAt, setdateValidAt] = useState(new Date(Date.now()));
+	const [daysOfWeek, setDaysOfWeek] = useState<number[]>([])
+	const [minimumTicket, setMinimumTicket] = useState("")
 
 
 	const onChangeDate = (event: any, selectedDate: any) => {
@@ -52,20 +55,21 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 
 				setLoading(true)
 
-				const fields = {
-					description: rules,
+				const fields: ICoupon = {
+					description: '',
 					offPercentual: offValue,
 					validAt: dateValidAt,
+					workingDays: daysOfWeek,
+					minimumTicket: minimumTicket
 				}
 
 				const validFields = CouponService.validate(fields);
 
 				if (!isEmpty(validFields)) {
 
-					if (validFields.hasOwnProperty(nameof<ICoupon>("description")))
+					if (validFields.hasOwnProperty(nameof<ICoupon>("workingDays")))
 						Flash.customMessage(
-							"Defina para os usuário as regras do cupom",
-							"Regras do cupom"
+							'Defina os dias da semana válidos para este cupom', ''
 						)
 
 
@@ -107,15 +111,30 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	};
 
 	const clearClose = () => {
-		setrules("")
-
 		setOffValue(5)
 
 		setdateValidAt(new Date(Date.now()))
 
+		setDaysOfWeek([])
+
+		setMinimumTicket("")
+
 		setVisibleComponent(false)
 
 		props.onCancellCb();
+	}
+
+	function handleDaysWeek(day: number) {
+
+		const already = daysOfWeek.includes(day)
+
+		if (already) {
+			const newState = daysOfWeek.filter(item => item !== day);
+			setDaysOfWeek(newState)
+		} else {
+			setDaysOfWeek([...daysOfWeek, day])
+		}
+
 	}
 
 	return (
@@ -133,23 +152,6 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 				<CancelClick onPress={() => clearClose()}>
 					<Cancel />
 				</CancelClick>
-				<Container>
-					<CouponCreateImage width={"95%"} height={"50%"} />
-					<Off>{offValue}%</Off>
-
-					<ValidSubtitle>Válido até  <ValidSwipe>* arraste para alterar *</ValidSwipe> </ValidSubtitle>
-					<DatePicker
-						minimumDate={new Date(Date.now())}
-						value={dateValidAt}
-						onChange={onChangeDate}
-					/>
-
-					<RulesSubtitle>Regras do cupom{" "}
-						<InfoIcon width={10} height={10} fill={colors.COLOR_YELLOW_BUTTON_TEXT} />
-					</RulesSubtitle>
-
-					<Rules value={rules} onChangeText={(e) => setrules(e)} />
-				</Container>
 
 				<SubContainer>
 					<PickerNumber
@@ -158,12 +160,38 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					/>
 				</SubContainer>
 
+				<Container>
+					<WrapperCoupon>
+						<CouponCreateImage width={"95%"} height={"80%"} />
+						<Off>{offValue}%</Off>
+						<ValidSubtitle>Válido até</ValidSubtitle>
+						<DatePicker
+							minimumDate={new Date(Date.now())}
+							value={dateValidAt}
+							onChange={onChangeDate}
+						/>
+					</WrapperCoupon>
+
+					<WrapperMinimumTicket>
+						<SubtitleMinimumTicket>Valor mínimo</SubtitleMinimumTicket>
+						<MinimumTicket
+							value={minimumTicket}
+							onChangeText={(e: string) => setMinimumTicket(e)}
+						/>
+					</WrapperMinimumTicket>
+
+					<WrapperWeeks>
+						<SubtitleWeeks>Dias da semana: </SubtitleWeeks>
+						<DaysOfWeek cb={handleDaysWeek} />
+					</WrapperWeeks>
+				</Container>
+
 				<Button
 					text={"CRIAR CUPOM"}
 					styleContainer={{ width: "90%" }}
 					onPress={() => onCreateCoupon()}
 				/>
 			</Wrapper>
-		</Modal>
+		</Modal >
 	);
 };

@@ -35,18 +35,18 @@ export const DashboardDocs: React.FC = () => {
 			}
 		>
 			<ValueSubtitle>{
-				establishment?.documentationStatus === "PENDING"
+				establishment?.documentation_status === "PENDING"
 					? "Sua documentação esta pendente"
 					: "Documentação em análise"
 			}
 			</ValueSubtitle>
 
 			{
-				establishment?.documentationStatus === "PROCESSING"
+				establishment?.documentation_status === "PROCESSING"
 				&& <RefreshSubtitle>Arraste para atualizar</RefreshSubtitle>}
 
 			{
-				establishment?.documentationStatus === "PENDING"
+				establishment?.documentation_status === "PENDING"
 				&& <DocsButton onPress={() => navigation.navigate('Documents')} />
 			}
 		</Wrapper >

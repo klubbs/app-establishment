@@ -4,7 +4,6 @@ import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './@types/
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import api, { IResponseMessage } from '../settings/services/api'
-import { isAPIException } from '../utils/documents_utils';
 
 export class CouponService {
 
@@ -28,7 +27,9 @@ export class CouponService {
 		return {
 			description: params.description,
 			off_percentual: params.offPercentual,
-			valid_at: params.validAt.ToUnixEpoch()
+			valid_at: params.validAt.ToUnixEpoch(),
+			working_days: params.workingDays,
+			minimum_ticket: Number(params.minimumTicket.replace(",", "."))
 		}
 
 	}
@@ -112,7 +113,9 @@ class CouponValidator extends Validator<ICoupon> {
 	constructor() {
 		super()
 
-		this.ruleFor('description').notEmpty().maxLength(250)
+		this.ruleFor('workingDays').must((item) => {
+			return item.length > 0
+		})
 
 		this.ruleFor('offPercentual').must((item) => {
 			return item >= 5

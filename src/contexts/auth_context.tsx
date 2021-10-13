@@ -68,7 +68,8 @@ const AuthProvider: React.FC = ({ children }) => {
 		const actualResponse = await getEstablishmentInStorage()
 
 		if (response) {
-			//O objeto de recuperacao de usuario não envia token, por isso ele vem como null
+			//Utilizamos o mesmo TYPES de loginResponse para esse caso de consulta,como recuperação
+			//não de estabelecimento não envia token sobrescrevemos ele aqui
 			response.token = actualResponse?.token as string;
 
 			await mergeEstablishmentInStorage(response)

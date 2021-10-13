@@ -29,7 +29,7 @@ export const HomeScreen: React.FC = ({ }) => {
 	}, [establishment])
 
 	function handleCouponButton() {
-		if (establishment?.documentationStatus !== "OK") {
+		if (establishment?.documentation_status !== "OK") {
 
 			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
 
@@ -45,7 +45,7 @@ export const HomeScreen: React.FC = ({ }) => {
 	}
 
 	function handleQrButton() {
-		if (establishment?.documentationStatus !== "OK") {
+		if (establishment?.documentation_status !== "OK") {
 
 			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
 
@@ -66,8 +66,8 @@ export const HomeScreen: React.FC = ({ }) => {
 			<>
 				<StatusBar barStyle={'light-content'} animated={true} />
 				<Wrapper>
-					{establishment?.documentationStatus !== "OK" && <DashboardDocs />}
-					{establishment?.documentationStatus === "OK" && <DashboardAmount />}
+					{establishment?.documentation_status !== "OK" && <DashboardDocs />}
+					{establishment?.documentation_status === "OK" && <DashboardAmount />}
 					<Transactions />
 					<ButtonQr onPress={handleQrButton} />
 				</Wrapper>
