@@ -93,8 +93,13 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 		}
 
 		Alert.alert(
-			"Gostaria de criar este cupom?",
-			'Você só pode criar um cupom a cada período de 24 horas',
+			"Criar cupom ?",
+			`Você só pode criar uma oferta de cupom a cada período de 24 horas:
+			${'\n'}${'\n'}Porcentagem de desconto : ${offValue}%
+			${'\n'}Válido até: ${dateValidAt.toLocaleDateString("pt-br",
+				{ year: 'numeric', month: 'long', day: 'numeric' })}
+			${'\n'}Valor mínimo: R$${minimumTicket.length === 0 ? "0,00" : minimumTicket}
+			`,
 			[
 				{
 					text: 'Sim',
@@ -125,7 +130,6 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 	}
 
 	function handleDaysWeek(day: number) {
-
 		const already = daysOfWeek.includes(day)
 
 		if (already) {
