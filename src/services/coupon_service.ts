@@ -74,14 +74,14 @@ export class CouponService {
 				case 'ineligible':
 					Flash.customMessage(
 						"Este cupom não é válido no seu estabelecimento",
-						"Seu estabelecimento não faz parte da carteira deste código de influenciador",
+						"Seu estabelecimento não faz parte da carteira deste cupom",
 						'WARNING')
 					break;
 
 				case 'coupon disabled':
 					Flash.customMessage(
-						"Cupom vencido ou desabilitado pelo estabelecimento",
-						"Este cupom não é mais válido",
+						"Oferta vencida ou desabilitada pelo estabelecimento",
+						"Esta oferta não é mais válida",
 						'WARNING')
 
 					break;

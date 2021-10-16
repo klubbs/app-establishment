@@ -84,7 +84,7 @@ export class Flash {
 	static permissionCreateManyCoupons = () =>
 		showFlash({
 			type: 'NEUTRAL',
-			title: 'Limite de cupons atingido !',
+			title: 'Limite de ofertas atingido !',
 			desc: 'Aguarde até amanhã para poder criar mais'
 		})
 
@@ -92,7 +92,7 @@ export class Flash {
 		showFlash({
 			type: 'SUCCESS',
 			title: 'PARABÉNS 🥳',
-			desc: 'Seu cupom já esta válido para ser utilizado!'
+			desc: 'Sua oferta já esta válida para ser utilizada!'
 		})
 	}
 

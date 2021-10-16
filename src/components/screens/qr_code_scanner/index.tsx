@@ -110,7 +110,7 @@ export const QrCodeScanner: React.FC = () => {
 				>
 					<SquareTop />
 					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-					<ScanDescSubtitle>Escaneie o cupom para fazer uma venda</ScanDescSubtitle>
+					<ScanDescSubtitle>Escaneie o cupom para validar uma oferta</ScanDescSubtitle>
 					<CenterWrapper>
 						<SquareLeft />
 						<Focused />

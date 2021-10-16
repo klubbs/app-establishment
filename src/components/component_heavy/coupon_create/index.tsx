@@ -69,7 +69,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 
 					if (validFields.hasOwnProperty(nameof<ICoupon>("workingDays")))
 						Flash.customMessage(
-							'Defina os dias da semana válidos para este cupom', ''
+							'Defina os dias da semana válidos para esta oferta', ''
 						)
 
 
@@ -93,7 +93,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 		}
 
 		Alert.alert(
-			"Criar cupom ?",
+			"Criar oferta ?",
 			`Você só pode criar uma oferta de cupom a cada período de 24 horas:
 			${'\n'}${'\n'}Porcentagem de desconto : ${offValue}%
 			${'\n'}Válido até: ${dateValidAt.toLocaleDateString("pt-br",
@@ -191,7 +191,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 				</Container>
 
 				<Button
-					text={"CRIAR CUPOM"}
+					text={"CRIAR OFERTA"}
 					styleContainer={{ width: "90%" }}
 					onPress={() => onCreateCoupon()}
 				/>
