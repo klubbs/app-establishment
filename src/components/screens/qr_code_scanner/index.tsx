@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
 import { Spinner } from '../../component/spinner';
-import { CouponService } from '../../../services/coupon_service';
+import { OfferService } from '../../../services/offerService';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
 import { IError } from '../../../settings/services/api';
@@ -61,7 +61,7 @@ export const QrCodeScanner: React.FC = () => {
 				Flash.customMessage("Esse não é um cupom válido", "Cupom inválido", "WARNING")
 				return;
 			}
-			await CouponService.scanCoupon(couponId, userId)
+			await OfferService.scanCoupon(couponId, userId)
 
 			Flash.customMessage(
 				"Você já pode validar outros cupons",
@@ -76,7 +76,7 @@ export const QrCodeScanner: React.FC = () => {
 				() => {
 					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
 					setHasError(true)
-					CouponService.catchScanCoupon(error as IError)
+					OfferService.catchScanCoupon(error as IError)
 				},
 				error
 			)

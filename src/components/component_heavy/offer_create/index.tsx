@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Alert, Modal } from "react-native";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
-import { CouponService } from "../../../services/coupon_service";
-import { ICoupon } from "../../../services/@types/couponTypes";
+import { OfferService } from "../../../services/offerService";
+import { IOffer } from "../../../services/@types/OfferTypes";
 import { isEmpty, nameof } from "../../../utils/extensions/object_extensions";
 import { Flash } from "../../../utils/flash";
 import Button from "../../component/button";
@@ -29,7 +29,7 @@ import { IError } from "../../../settings/services/api";
 import { Middlewares } from "../../../utils/middlewares";
 import { DaysOfWeek } from "../../component/DaysOfWeek";
 
-export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
+export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
 
 
 	const [loading, setLoading] = useState(false)
@@ -55,7 +55,7 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 
 				setLoading(true)
 
-				const fields: ICoupon = {
+				const fields: IOffer = {
 					description: '',
 					offPercentual: offValue,
 					validAt: dateValidAt,
@@ -63,11 +63,11 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					minimumTicket: minimumTicket
 				}
 
-				const validFields = CouponService.validate(fields);
+				const validFields = OfferService.validate(fields);
 
 				if (!isEmpty(validFields)) {
 
-					if (validFields.hasOwnProperty(nameof<ICoupon>("workingDays")))
+					if (validFields.hasOwnProperty(nameof<IOffer>("workingDays")))
 						Flash.customMessage(
 							'Defina os dias da semana válidos para esta oferta', ''
 						)
@@ -76,15 +76,15 @@ export const CouponCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (p
 					return;
 				}
 
-				await CouponService.createCoupon(fields)
+				await OfferService.createOffer(fields)
 
-				Flash.congratulationCreateCoupon()
+				Flash.congratulationCreateOffer()
 
 				clearClose()
 
 			} catch (error) {
 				Middlewares.middlewareError(
-					() => CouponService.catchCreateCoupon(error as IError),
+					() => OfferService.catchCreateOffer(error as IError),
 					error
 				)
 			} finally {

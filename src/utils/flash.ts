@@ -81,14 +81,14 @@ export class Flash {
 		})
 
 
-	static permissionCreateManyCoupons = () =>
+	static permissionCreateManyOffers = () =>
 		showFlash({
 			type: 'NEUTRAL',
 			title: 'Limite de ofertas atingido !',
 			desc: 'Aguarde até amanhã para poder criar mais'
 		})
 
-	static congratulationCreateCoupon = () => {
+	static congratulationCreateOffer = () => {
 		showFlash({
 			type: 'SUCCESS',
 			title: 'PARABÉNS 🥳',

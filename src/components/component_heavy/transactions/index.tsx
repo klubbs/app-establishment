@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
-import { CouponService } from '../../../services/coupon_service';
+import { OfferService } from '../../../services/offerService';
 import { TransactionItem } from '../../component/transaction_item';
 import { ITransactionItems } from './interfaces';
 import { PlaceholderMedia, PlaceholderLine, Fade } from "rn-placeholder";
@@ -20,7 +20,7 @@ export const Transactions: React.FC = () => {
 
 	async function getCheckouts() {
 		setRefreshing(true)
-		const data = await CouponService.getCheckoutTransactions()
+		const data = await OfferService.getCheckoutTransactions()
 
 		setCouponTransactions(data);
 		setRefreshing(false)

@@ -1,28 +1,28 @@
-import { Flash } from './../utils/flash';
-import { IError } from './../settings/services/api';
-import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './@types/couponTypes'
+import { Flash } from '../utils/flash';
+import { IError } from '../settings/services/api';
+import { ICheckoutTransactionsRequest, IOffer, IOfferRequest } from './@types/OfferTypes'
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import api, { IResponseMessage } from '../settings/services/api'
 
-export class CouponService {
+export class OfferService {
 
-	static validate(params: ICoupon): ValidationErrors<ICoupon> {
-		const validator = new CouponValidator()
+	static validate(params: IOffer): ValidationErrors<IOffer> {
+		const validator = new OfferValidator()
 
 		return validator.validate(params)
 	}
 
-	static async createCoupon(params: ICoupon): Promise<string> {
+	static async createOffer(params: IOffer): Promise<string> {
 
-		const contract = this.contractCreateCoupon(params)
+		const contract = this.contractCreateOffer(params)
 
 		const { data } = await api.post<IResponseMessage<string>>('stores/coupon/create', contract)
 
 		return data.message;
 	}
 
-	static contractCreateCoupon(params: ICoupon): ICouponRequest {
+	static contractCreateOffer(params: IOffer): IOfferRequest {
 
 		return {
 			description: params.description,
@@ -34,10 +34,10 @@ export class CouponService {
 
 	}
 
-	static catchCreateCoupon(errors: IError) {
+	static catchCreateOffer(errors: IError) {
 		if (errors) {
 			if (errors.statusCode === 412) {
-				Flash.permissionCreateManyCoupons()
+				Flash.permissionCreateManyOffers()
 			} else {
 				Flash.someoneBullshit()
 			}
@@ -109,7 +109,7 @@ export class CouponService {
 	}
 }
 
-class CouponValidator extends Validator<ICoupon> {
+class OfferValidator extends Validator<IOffer> {
 	constructor() {
 		super()
 

@@ -1,5 +1,5 @@
 //TODO: transformar somente em um type pois são iguais
-export interface ICoupon {
+export interface IOffer {
 	description: string
 	offPercentual: number
 	validAt: Date
@@ -7,7 +7,7 @@ export interface ICoupon {
 	workingDays: number[]
 }
 //TODO: transformar somente em um type pois são iguais
-export interface ICouponRequest {
+export interface IOfferRequest {
 	description: string
 	off_percentual: number
 	valid_at: number
