@@ -19,7 +19,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	experiments: {
 		"turboModules": true
 	},
-	version: "0.0.1",
+	version: "0.0.2",
 	ios: {
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
