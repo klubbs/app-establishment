@@ -11,42 +11,42 @@ export const Wrapper = styled.SafeAreaView`
 `
 
 export const ContainerScroll = styled.View`
-    width:85%;
-	 height:65%;
-`
-
-export const Container = styled.ScrollView.attrs({
-	contentContainerStyle: { justifyContent: 'center', alignItems: 'center', padding: 10 }
-})`
-    background-color:${colors.COLOR_WHITE};
-    border-radius:20px;
-    /* padding:10px; */
+    height:60%;
+	 width:90%;
+	 align-items: center;
+	 justify-content: space-evenly;
 `
 
 export const ContainerSwitch = styled.View`
     width:90%;
-    flex-direction:row;
-    justify-content: space-between;
+    flex-direction:column;
+    justify-content: space-evenly;
     align-items: center;
-    flex:0.2;
+    height: 30%;
+`
+export const WrapperSwitch = styled.View`
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
 `
 
 export const Terms = styled.Text`
-  color:${colors.COLOR_SECUNDARY_BLACK};
+  color:${colors.COLOR_WHITE_80};
   font-size:14px;
-  font-family:'Nunito_Regular';
+  font-family:'Nunito_ExtraLight';
 `
 
 export const BoldTerms = styled.Text`
-  color:${colors.COLOR_SECUNDARY_BLACK};
-  font-size:14px;
-  font-family:'Nunito_SemiBold';
+  color:${colors.COLOR_WHITE};
+  font-size:20px;
+  font-family:'Nunito_ExtraLight';
 `
 
-export const LightTerms = styled.Text`
-  color:${colors.COLOR_BLACK80};
+export const Tutorial = styled.Text`
+  color:${colors.COLOR_YELLOW};
   font-size:14px;
-  font-family:'Nunito_Light';
+  font-family:'Nunito_SemiBold';
 `
 
 export const Subtitle = styled.Text`
