@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { StatusBar } from 'react-native'
 import { ButtonQr } from '../../component/button_qr';
 import { DashboardAmount } from '../../component_heavy/dashboard_amount';
 import { Transactions } from '../../component_heavy/transactions';
 import { useNavigation } from '@react-navigation/native';
-import { ButtonCreateCoupon } from '../../component/button_create_coupon';
+import { ButtonCreateOffer } from '../../component/button_create_offer';
 import { ButtonDrawer } from '../../component/button_drawer';
-import { CouponCreate } from '../../component_heavy/coupon_create';
+import { OfferCreate } from '../../component_heavy/offer_create';
 import { Wrapper } from './styles'
 import { AuthContext } from '../../../contexts/auth_context';
 import { DashboardDocs } from '../../component_heavy/dashboardDocs';
@@ -15,20 +16,20 @@ import * as Haptic from 'expo-haptics';
 
 export const HomeScreen: React.FC = ({ }) => {
 
-	const [visibleCoupon, setVisibleCoupon] = useState(false)
+	const [visibleOffer, setVisibleOffer] = useState(false)
 	const { establishment } = useContext(AuthContext)
 
 	const navigation = useNavigation();
 
 	useEffect(() => {
 		navigation.setOptions({
-			headerRight: () => <ButtonCreateCoupon onPress={handleCouponButton} />,
+			headerRight: () => <ButtonCreateOffer onPress={handleOfferButton} />,
 			headerLeft: () => <ButtonDrawer />
 		})
 	}, [establishment])
 
-	function handleCouponButton() {
-		if (establishment?.documentationStatus !== "OK") {
+	function handleOfferButton() {
+		if (establishment?.documentation_status !== "OK") {
 
 			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
 
@@ -40,11 +41,11 @@ export const HomeScreen: React.FC = ({ }) => {
 			return;
 		}
 
-		setVisibleCoupon(!visibleCoupon)
+		setVisibleOffer(!visibleOffer)
 	}
 
 	function handleQrButton() {
-		if (establishment?.documentationStatus !== "OK") {
+		if (establishment?.documentation_status !== "OK") {
 
 			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
 
@@ -63,15 +64,16 @@ export const HomeScreen: React.FC = ({ }) => {
 	return (
 		(
 			<>
+				<StatusBar barStyle={'light-content'} animated={true} />
 				<Wrapper>
-					{establishment?.documentationStatus !== "OK" && <DashboardDocs />}
-					{establishment?.documentationStatus === "OK" && <DashboardAmount />}
+					{establishment?.documentation_status !== "OK" && <DashboardDocs />}
+					{establishment?.documentation_status === "OK" && <DashboardAmount />}
 					<Transactions />
 					<ButtonQr onPress={handleQrButton} />
 				</Wrapper>
-				<CouponCreate
-					visible={visibleCoupon}
-					onCancellCb={() => setVisibleCoupon(!visibleCoupon)}
+				<OfferCreate
+					visible={visibleOffer}
+					onCancellCb={() => setVisibleOffer(!visibleOffer)}
 				/>
 			</>
 		)

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as FileSystem from 'expo-file-system'
-import { ILoginResponse } from '../services/interfaces/ilogin'
+import { ILoginResponse } from '../services/@types/loginTypes'
 
 export async function createEstablishmentInStorage(establishment: ILoginResponse) {
 	await AsyncStorage.clear()

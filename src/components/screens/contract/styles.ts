@@ -10,24 +10,43 @@ export const Wrapper = styled.SafeAreaView`
     background-color: ${colors.COLOR_SECUNDARY_BLACK};
 `
 
-export const Container = styled.View`
-    width:90%;
-    height:65%;
-
-    color:${colors.COLOR_SECUNDARY_BLACK};
-    background-color:${colors.COLOR_WHITE};
-    border-radius:20px;
-    padding:10px;
-    font-size: 15px;
-    font-family:'Nunito_Light';
+export const ContainerScroll = styled.View`
+    height:60%;
+	 width:90%;
+	 align-items: center;
+	 justify-content: space-evenly;
 `
 
 export const ContainerSwitch = styled.View`
     width:90%;
-    flex-direction:row;
-    justify-content: space-between;
+    flex-direction:column;
+    justify-content: space-evenly;
     align-items: center;
-    flex:0.2;
+    height: 30%;
+`
+export const WrapperSwitch = styled.View`
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+`
+
+export const Terms = styled.Text`
+  color:${colors.COLOR_WHITE_80};
+  font-size:14px;
+  font-family:'Nunito_ExtraLight';
+`
+
+export const BoldTerms = styled.Text`
+  color:${colors.COLOR_WHITE};
+  font-size:20px;
+  font-family:'Nunito_ExtraLight';
+`
+
+export const Tutorial = styled.Text`
+  color:${colors.COLOR_YELLOW};
+  font-size:14px;
+  font-family:'Nunito_SemiBold';
 `
 
 export const Subtitle = styled.Text`
@@ -37,15 +56,15 @@ export const Subtitle = styled.Text`
 `
 
 export const ButtonNext = styled(Button).attrs(() => ({
-    text: 'De acordo',
-    styleContainer: { width: '90%', height: 60, top: 90, position: 'absolute', top: '95%' }
+	text: 'De acordo',
+	styleContainer: { width: '90%', height: 60, top: 90, position: 'absolute', top: '95%' }
 }))`
     position: absolute;
 `
 
 
 export const SwitchContract = styled.Switch.attrs(() => ({
-    trackColor: { false: colors.COLOR_SECUNDARY_BLACK, true: colors.COLOR_YELLOW }
+	trackColor: { false: colors.COLOR_SECUNDARY_BLACK, true: colors.COLOR_YELLOW }
 }))`
 
 `

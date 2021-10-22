@@ -7,5 +7,5 @@ export const Wrapper = styled.SafeAreaView`
 `
 
 export const ContainerScroll = styled.ScrollView`
-	padding:20px;
+	padding: 20px;
 `

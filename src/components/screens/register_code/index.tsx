@@ -8,6 +8,7 @@ import { RegisterService } from '../../../services/register_service'
 import { Spinner } from '../../component/spinner'
 import { IError } from '../../../settings/services/api'
 import { Flash } from '../../../utils/flash'
+import { Middlewares } from '../../../utils/middlewares'
 
 export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route }) => {
 	const { signIn } = useContext(AuthContext)
@@ -58,7 +59,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 
 			await signIn(route.params.mail, route.params.password)
 		} catch (error) {
-			RegisterService.catchRegister(error as IError)
+			Middlewares.middlewareError(() => RegisterService.catchRegister(error as IError), error)
 		} finally {
 			setLoadingSpinner(false)
 		}

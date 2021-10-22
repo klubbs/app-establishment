@@ -9,7 +9,7 @@ import {
 	mergeEstablishmentInStorage
 } from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
-import { ILoginResponse } from '../services/interfaces/ilogin'
+import { ILoginResponse } from '../services/@types/loginTypes'
 import { EventEmitter } from '../utils/emitter'
 import { ProfileService } from '../services/profileService'
 import { Flash } from '../utils/flash'
@@ -57,18 +57,9 @@ const AuthProvider: React.FC = ({ children }) => {
 	}
 
 	async function reloadProfile() {
-		try {
+		const response = await getEstablishmentInStorage()
 
-			const response = await getEstablishmentInStorage()
-
-			if (response) {
-				setEstablishment(response)
-
-				await reloadProfileInCloud()
-			}
-		} catch (error) {
-			Flash.someoneBullshit()
-		}
+		setEstablishment(response)
 	}
 
 	async function reloadProfileInCloud() {
@@ -77,7 +68,8 @@ const AuthProvider: React.FC = ({ children }) => {
 		const actualResponse = await getEstablishmentInStorage()
 
 		if (response) {
-			//O objeto de recuperacao de usuario não envia token, por isso ele vem como null
+			//Utilizamos o mesmo TYPES de loginResponse para esse caso de consulta,como recuperação
+			//não de estabelecimento não envia token sobrescrevemos ele aqui
 			response.token = actualResponse?.token as string;
 
 			await mergeEstablishmentInStorage(response)

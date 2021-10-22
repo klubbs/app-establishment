@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator, LogBox } from 'react-native';
+import { View, ActivityIndicator, LogBox, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
@@ -45,6 +45,7 @@ export default function App() {
 
 	return (
 		<AuthProvider>
+			<StatusBar barStyle={'dark-content'} animated={true} />
 			<FlashComponent />
 			<NavigationContainer>
 				<Navigations />

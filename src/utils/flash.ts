@@ -28,9 +28,9 @@ export class Flash {
 
 	static invalidCode = () =>
 		showFlash({
-			type: 'WARNING',
-			title: 'Inválido',
-			desc: 'Código inválido.'
+			type: 'NEUTRAL',
+			title: 'Código Inválido',
+			desc: 'Talvez você tenha preenchido errrado'
 		})
 
 
@@ -49,6 +49,13 @@ export class Flash {
 			desc: 'Desculpe, já estamos limpando a bagunça.'
 		})
 
+
+	static dogsOut = () =>
+		showFlash({
+			type: 'DANGER',
+			title: 'O cachorro levou o servidor',
+			desc: 'Desculpe, estamos correndo atrás dele.'
+		})
 
 	static disconnectedWire = () =>
 		showFlash({
@@ -74,18 +81,18 @@ export class Flash {
 		})
 
 
-	static permissionCreateManyCoupons = () =>
+	static permissionCreateManyOffers = () =>
 		showFlash({
 			type: 'NEUTRAL',
-			title: 'Limite de cupons atingido !',
+			title: 'Limite de ofertas atingido !',
 			desc: 'Aguarde até amanhã para poder criar mais'
 		})
 
-	static congratulationCreateCoupon = () => {
+	static congratulationCreateOffer = () => {
 		showFlash({
 			type: 'SUCCESS',
 			title: 'PARABÉNS 🥳',
-			desc: 'Seu cupom já esta válido para ser utilizado!'
+			desc: 'Sua oferta já esta válida para ser utilizada!'
 		})
 	}
 

@@ -54,12 +54,14 @@ api.interceptors.response.use(
 				error: validationError,
 				statusCode: Number(statusCode),
 			})
+		} else if (!error.status) {
+			//Network error
+			Flash.dogsOut()
 		} else {
-			// console.log("FEZ MERDA => ", error.message)
 			Flash.someoneBullshit()
 		}
 
-		return Promise.reject(error)
+		return Promise.reject({})
 	}
 )
 

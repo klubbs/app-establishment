@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
 import { Spinner } from '../../component/spinner';
-import { CouponService } from '../../../services/coupon_service';
+import { OfferService } from '../../../services/offerService';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
 import { IError } from '../../../settings/services/api';
@@ -19,6 +19,7 @@ import {
 	ScanDescSubtitle,
 	ScanOtherButton,
 } from './styles';
+import { Middlewares } from '../../../utils/middlewares';
 
 export const QrCodeScanner: React.FC = () => {
 
@@ -60,7 +61,7 @@ export const QrCodeScanner: React.FC = () => {
 				Flash.customMessage("Esse não é um cupom válido", "Cupom inválido", "WARNING")
 				return;
 			}
-			await CouponService.scanCoupon(couponId, userId)
+			await OfferService.scanCoupon(couponId, userId)
 
 			Flash.customMessage(
 				"Você já pode validar outros cupons",
@@ -71,9 +72,14 @@ export const QrCodeScanner: React.FC = () => {
 			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success)
 
 		} catch (error) {
-			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
-			setHasError(true)
-			CouponService.catchScanCoupon(error as IError)
+			Middlewares.middlewareError(
+				() => {
+					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
+					setHasError(true)
+					OfferService.catchScanCoupon(error as IError)
+				},
+				error
+			)
 		} finally {
 			setLoading(false)
 		}
@@ -104,7 +110,7 @@ export const QrCodeScanner: React.FC = () => {
 				>
 					<SquareTop />
 					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-					<ScanDescSubtitle>Escaneie o cupom para validar</ScanDescSubtitle>
+					<ScanDescSubtitle>Escaneie o cupom para validar uma oferta</ScanDescSubtitle>
 					<CenterWrapper>
 						<SquareLeft />
 						<Focused />

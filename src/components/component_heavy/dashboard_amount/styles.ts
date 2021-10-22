@@ -4,10 +4,9 @@ import Button from '../../component/button';
 
 
 
-export const Wrapper = styled.View`
-    flex: 1;
-    justify-content:space-around;
-    align-items: center;
+export const Wrapper = styled.ScrollView.attrs({
+	contentContainerStyle: { justifyContent: 'space-around', alignItems: 'center', flex: 1 }
+})`
     background-color: ${colors.COLOR_SECUNDARY_BLACK};
 `
 

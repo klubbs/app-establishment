@@ -18,6 +18,7 @@ import { LoginService } from '../../../services/login_service'
 import { IError } from '../../../settings/services/api'
 import { isEmpty } from '../../../utils/extensions/object_extensions';
 import { isAPIException } from '../../../utils/documents_utils';
+import { Middlewares } from '../../../utils/middlewares';
 
 export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ route }) => {
 
@@ -89,35 +90,37 @@ export const ForgetPasswordScreen: React.FC<ForgetPasswordScreenProps> = ({ rout
 			navigation.goBack()
 
 		} catch (error) {
+			Middlewares.middlewareError(() => {
+				if (isAPIException(error)) {
+					const actual = error as IError
+					const actualFieldError = actual.error[0].field.toUpperCase()
 
-			if (isAPIException(error)) {
-				const actual = error as IError
-				const actualFieldError = actual.error[0].field.toUpperCase()
+					switch (actual.statusCode) {
+						case 412:
+							if (actualFieldError === 'DENIED') {
+								Flash.invalidCode()
+								setActivePassword(false)
+							}
+							break;
 
-				switch (actual.statusCode) {
-					case 412:
-						if (actualFieldError === 'DENIED') {
-							Flash.invalidCode()
-							setActivePassword(false)
-						}
-						break;
+						case 409:
+							if (actualFieldError === 'ESTABLISHMENT') {
+								Flash.customMessage("Esse email não faz parte do nosso cadastro",
+									"Desculpe",
+									"NEUTRAL"
+								)
+							}
+							break;
 
-					case 409:
-						if (actualFieldError === 'ESTABLISHMENT') {
-							Flash.customMessage("Esse email não faz parte do nosso cadastro",
-								"Desculpe",
-								"NEUTRAL"
-							)
-						}
-						break;
-
-					default:
-						break;
+						default:
+							break;
+					}
 				}
-			}
+			}, error)
 
 		} finally { setLoadingSpinner(false) }
 	}
+
 
 	return (
 		<Wrapper>

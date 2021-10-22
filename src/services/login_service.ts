@@ -2,7 +2,7 @@ import { IEstablishmentRegister } from '../components/screens/register/interface
 import api, { IError, IResponseMessage } from '../settings/services/api'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import { Validator } from 'fluentvalidation-ts'
-import { ILogin, ILoginResponse } from './interfaces/ilogin'
+import { ILogin, ILoginResponse } from './@types/loginTypes'
 import { keyHasInObjectValidator } from '../utils/documents_utils'
 import { Flash } from '../utils/flash'
 
@@ -40,14 +40,23 @@ export class LoginService {
 		return keyHasInObjectValidator<ILogin>(errors, param as keyof ILogin)
 	}
 
-	static async AlreadyMail(mail: string): Promise<boolean> {
+	static async MailAlreadyInUse(mail: string): Promise<boolean> {
 
-		const { data } = await api.get<IResponseMessage<boolean>>('stores/mail', {
+		const { data } = await api.get<IResponseMessage<boolean>>('stores/validate/mail', {
 			params: { mail: mail }
 		})
 
 		return data.message;
 	}
+
+	static async CnpjAlreadyInUse(cnpj: string): Promise<boolean> {
+		const { data } = await api.get<IResponseMessage<boolean>>('stores/validate/cnpj', {
+			params: { cnpj: cnpj }
+		})
+
+		return data.message;
+	}
+
 }
 
 export class LoginServiceException {

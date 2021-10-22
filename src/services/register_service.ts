@@ -1,10 +1,8 @@
 import { IEstablishmentRegister } from './../components/screens/register/interfaces';
-import { isEmpty, nameof } from './../utils/extensions/object_extensions';
 import api, { IError, IResponseMessage } from "../settings/services/api";
-import { ICategoryResponse, IRegisterRequest } from "./interfaces/iregister";
-import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
-import { AsyncValidator, Validator } from 'fluentvalidation-ts';
-import { beValidCnpj, beValidCpf, keyHasInObjectValidator } from "../utils/documents_utils";
+import { ICategoryResponse, IRegisterRequest } from "./@types/registerTypes";
+import { AsyncValidator, } from 'fluentvalidation-ts';
+import { beValidCnpj, beValidCpf, beValidMail, keyHasInObjectValidator } from "../utils/documents_utils";
 import { Flash } from "../utils/flash";
 import { LoginService } from './login_service';
 
@@ -30,12 +28,12 @@ export class RegisterService {
 	}
 
 
-	static async ValidateProperty(value: any, param: keyof IEstablishmentRegister): Promise<Object> {
-		const validator = new RegisterValidator();
+	static async ValidateProperty(
+		value: any,
+		param: keyof IEstablishmentRegister
+	): Promise<Partial<IEstablishmentRegister>> {
 
-		if (param === 'mail' && value === '') {
-			return { mail: 'invalid' };
-		}
+		const validator = new RegisterValidator();
 
 		const errors = await validator.validateAsync(
 			{ [param]: value }
@@ -101,22 +99,27 @@ class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 			.withMessage('Preencha o nome do estabelecimento.')
 			.when(src => src.name !== undefined)
 
-		this.ruleFor('mail')
-			.emailAddress()
-			.withMessage('Preencha com um e-mail.')
-			.when(src => src.mail !== undefined)
+		// this.ruleFor('mail')
+		// 	.emailAddress()
+		// 	.withMessage('Preencha com um e-mail válido.')
+		// 	.when(src => src.mail !== undefined)
 
 		this.ruleFor('mail')
 			.mustAsync(async (mail: string) => {
 				try {
-					const already = await LoginService.AlreadyMail(mail)
+
+					if (!beValidMail(mail)) {
+						return false
+					}
+
+					const already = await LoginService.MailAlreadyInUse(mail)
 
 					return !already
 				} catch (error) {
 					return false
 				}
 			})
-			.withMessage('E-mail inválido.')
+			.withMessage('E-mail inválido ou já em uso.')
 			.when(src => src.mail !== undefined)
 
 		this.ruleFor('ownerName')
@@ -154,10 +157,21 @@ class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 			.when(src => src.ownerCpf !== undefined)
 
 		this.ruleFor('cnpj')
-			.notEmpty()
-			.must(beValidCnpj)
-			.withMessage('Preencha com um CNPJ válido.')
+			.mustAsync(async (cnpj: string) => {
+				try {
+
+					if (!beValidCnpj(cnpj)) {
+						return false
+					}
+
+					const already = await LoginService.CnpjAlreadyInUse(cnpj)
+
+					return !already
+				} catch (error) { return false }
+			})
+			.withMessage('CNPJ inválido ou já em uso.')
 			.when(src => src.cnpj !== undefined)
+
 
 		this.ruleFor('password')
 			.minLength(5)

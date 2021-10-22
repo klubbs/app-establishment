@@ -1,43 +1,46 @@
-import { Flash } from './../utils/flash';
-import { IError } from './../settings/services/api';
-import { ICheckoutTransactionsRequest, ICoupon, ICouponRequest } from './interfaces/icoupon'
+import { Flash } from '../utils/flash';
+import { IError } from '../settings/services/api';
+import { ICheckoutTransactionsRequest, IOffer, IOfferRequest } from './@types/OfferTypes'
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import api, { IResponseMessage } from '../settings/services/api'
 
-export class CouponService {
+export class OfferService {
 
-	static validate(params: ICoupon): ValidationErrors<ICoupon> {
-		const validator = new CouponValidator()
+	static validate(params: IOffer): ValidationErrors<IOffer> {
+		const validator = new OfferValidator()
 
 		return validator.validate(params)
 	}
 
-	static async createCoupon(params: ICoupon): Promise<string> {
+	static async createOffer(params: IOffer): Promise<string> {
 
-		const contract = this.contractCreateCoupon(params)
+		const contract = this.contractCreateOffer(params)
 
 		const { data } = await api.post<IResponseMessage<string>>('stores/coupon/create', contract)
 
 		return data.message;
 	}
 
-	static contractCreateCoupon(params: ICoupon): ICouponRequest {
+	static contractCreateOffer(params: IOffer): IOfferRequest {
 
 		return {
 			description: params.description,
 			off_percentual: params.offPercentual,
-			valid_at: params.validAt.ToUnixEpoch()
+			valid_at: params.validAt.ToUnixEpoch(),
+			working_days: params.workingDays,
+			minimum_ticket: Number(params.minimumTicket.replace(",", "."))
 		}
 
 	}
 
-	static catchCreateCoupon(errors: IError) {
-
-		if (errors.statusCode === 412) {
-			Flash.permissionCreateManyCoupons()
-		} else {
-			Flash.someoneBullshit()
+	static catchCreateOffer(errors: IError) {
+		if (errors) {
+			if (errors.statusCode === 412) {
+				Flash.permissionCreateManyOffers()
+			} else {
+				Flash.someoneBullshit()
+			}
 		}
 	}
 
@@ -71,14 +74,14 @@ export class CouponService {
 				case 'ineligible':
 					Flash.customMessage(
 						"Este cupom não é válido no seu estabelecimento",
-						"Seu estabelecimento não faz parte da carteira deste código de influenciador",
+						"Seu estabelecimento não faz parte da carteira deste cupom",
 						'WARNING')
 					break;
 
 				case 'coupon disabled':
 					Flash.customMessage(
-						"Cupom vencido ou desabilitado pelo estabelecimento",
-						"Este cupom não é mais válido",
+						"Oferta vencida ou desabilitada pelo estabelecimento",
+						"Esta oferta não é mais válida",
 						'WARNING')
 
 					break;
@@ -106,14 +109,18 @@ export class CouponService {
 	}
 }
 
-class CouponValidator extends Validator<ICoupon> {
+class OfferValidator extends Validator<IOffer> {
 	constructor() {
 		super()
 
-		this.ruleFor('description').notEmpty().maxLength(250)
+		this.ruleFor('workingDays').must((item) => {
+			return item.length > 0
+		})
 
 		this.ruleFor('offPercentual').must((item) => {
 			return item >= 5
 		})
+
+		//TODO VAlidar numeros da semana com must()
 	}
 }

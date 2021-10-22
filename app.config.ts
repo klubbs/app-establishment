@@ -2,14 +2,14 @@ import 'dotenv/config';
 import { ExpoConfig, ConfigContext } from '@expo/config';
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
-	name: "Klubbs Estabelecimentos",
+	name: "Estabelecimentos",
 	owner: "klubbs",
 	slug: "klubbs-establishment",
 	scheme: 'klubbs-establishment',
 	icon: './assets/icon.png',
 	orientation: "portrait",
 	splash: {
-		image: "./assets/images/welcome-login-icons-image.png",
+		image: "./assets/images/splash.png",
 		resizeMode: "contain",
 		backgroundColor: "#2D2F35"
 	},
@@ -19,13 +19,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	experiments: {
 		"turboModules": true
 	},
-	version: "0.0.1",
+	version: "0.0.2",
 	ios: {
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
-		buildNumber: "0.0.1",
+		buildNumber: "0.0.7",
 		infoPlist: {
-			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que possa validar vendas por QR Code."
+			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que você consiga escolher uma imagem da sua galeria.",
+			NSCameraUsageDescription: "Precisamos da sua autorização para que você possa validar vendas por QR Code."
 		}
 	},
 	android: {

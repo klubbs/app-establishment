@@ -13,7 +13,7 @@ import { ProfileImage } from '../../../components/component/profileImage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileService } from '../../../services/profileService';
 import { mergeEstablishmentInStorage } from '../../../utils/async_storage';
-import { ILoginResponse } from '../../../services/interfaces/ilogin';
+import { ILoginResponse } from '../../../services/@types/loginTypes';
 import { Spinner } from '../../../components/component/spinner';
 
 export const DrawerContent: React.FC = () => {
@@ -42,34 +42,36 @@ export const DrawerContent: React.FC = () => {
 	}
 
 	async function onUpdateImageProfile() {
-		const { status } = await MediaLibrary.requestPermissionsAsync()
 
-		if (status !== 'granted') {
-			//   setVisibleModalPermission(true)
-			return;
-		}
+		try {
 
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1
-		});
+			const { status } = await MediaLibrary.requestPermissionsAsync()
 
-		if (result.cancelled) {
-			return
-		}
-		setLoading(true)
+			if (status !== 'granted') {
+				return;
+			}
 
-		const newImage = await ProfileService.updateImageProfile(result)
+			let result = await ImagePicker.launchImageLibraryAsync({
+				mediaTypes: ImagePicker.MediaTypeOptions.Images,
+				allowsEditing: true,
+				aspect: [4, 3],
+				quality: 1
+			});
 
-		await mergeEstablishmentInStorage({ ...establishment as ILoginResponse, image: newImage })
+			if (result.cancelled) {
+				return
+			}
+			setLoading(true)
 
-		await CacheManager.clearCache()
+			const newImage = await ProfileService.updateImageProfile(result)
 
-		await reloadProfile()
+			await mergeEstablishmentInStorage({ ...establishment as ILoginResponse, image: newImage })
 
-		setLoading(false)
+			await CacheManager.clearCache()
+
+			await reloadProfile()
+
+		} finally { setLoading(false) }
 	}
 
 	return (
@@ -84,11 +86,16 @@ export const DrawerContent: React.FC = () => {
 				label="Painel"
 				onPress={() => navigation.navigate({ name: 'Home' })}
 			/>
-			{/*
+
 			<MenuItem
 				label="Configurações"
 				onPress={() => navigation.navigate({ name: 'Configurations' })}
-			/> */}
+			/>
+
+			<MenuItem
+				label="Ajuda"
+				onPress={() => navigation.navigate({ name: 'Help' })}
+			/>
 
 			<CloseItem
 				label="Sair"

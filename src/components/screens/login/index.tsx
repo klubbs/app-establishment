@@ -19,6 +19,7 @@ import {
 	Container,
 	KeyboardContainer
 } from './styles'
+import { Middlewares } from '../../../utils/middlewares'
 
 export const LoginScreen: React.FC = () => {
 	const { signIn } = useContext(AuthContext)
@@ -42,9 +43,7 @@ export const LoginScreen: React.FC = () => {
 
 			await signIn(login, password)
 		} catch (error) {
-			if (isAPIException(error)) {
-				Flash.incorrectLogin()
-			}
+			Middlewares.middlewareError(() => Flash.incorrectLogin(), error)
 
 		} finally { setLoadingSpinner(false) }
 	}
