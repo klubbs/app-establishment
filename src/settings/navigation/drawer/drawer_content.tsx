@@ -1,7 +1,7 @@
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useContext, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import colors from '../../../../assets/constants/colors';
 import styled from 'styled-components'
 import { CacheManager } from "react-native-expo-image-cache";
@@ -48,6 +48,18 @@ export const DrawerContent: React.FC = () => {
 			const { status } = await MediaLibrary.requestPermissionsAsync()
 
 			if (status !== 'granted') {
+				Alert.alert(
+					"Conceda acesso a galeria",
+					"Para que você possa acessar a galeria precisamos da sua permissão",
+					[
+						{
+							text: "Não",
+							onPress: () => navigation.goBack(),
+							style: "cancel"
+						},
+						{ text: "OK", onPress: () => Linking.openSettings() }
+					]
+				)
 				return;
 			}
 
