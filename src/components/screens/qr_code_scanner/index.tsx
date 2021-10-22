@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
@@ -37,7 +37,23 @@ export const QrCodeScanner: React.FC = () => {
 			setHasPermission(granted);
 
 			if (!granted) {
-				navigation.goBack();
+				Alert.alert(
+					"Conceda acesso a câmera",
+					"Para que você possa acessar a câmera precisamos da sua permissão",
+					[
+						{
+							text: "Não",
+							onPress: () => navigation.goBack(),
+							style: "cancel"
+						},
+						{
+							text: "OK", onPress: () => {
+								Linking.openSettings();
+								navigation.goBack()
+							}
+						}
+					]
+				)
 			}
 		})();
 	}, []);
