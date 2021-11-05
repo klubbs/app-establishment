@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Modal } from "react-native";
+import { Alert, TouchableOpacity, Modal, Platform } from "react-native";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
 import { OfferService } from "../../../services/offerService";
 import { IOffer } from "../../../services/@types/OfferTypes";
@@ -23,29 +23,35 @@ import {
 	MinimumTicket,
 	WrapperCoupon,
 	WrapperWeeks,
-	SubtitleWeeks
+	SubtitleWeeks,
+	AndroidTime,
+	TouchablePickerAndroid
 } from "./styles";
 import { IError } from "../../../settings/services/api";
 import { Middlewares } from "../../../utils/middlewares";
 import { DaysOfWeek } from "../../component/DaysOfWeek";
+import { Feather } from '@expo/vector-icons'
 
 export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
 
 
 	const [loading, setLoading] = useState(false)
 	const [visibleComponent, setVisibleComponent] = useState(false)
+	const [showAndroidPicker, setShowAndroidPicker] = useState(false)
 
 	const [offValue, setOffValue] = useState(5);
-	const [dateValidAt, setdateValidAt] = useState(new Date(Date.now()));
+	const [dateValidAt, setdateValidAt] = useState(new Date());
 	const [daysOfWeek, setDaysOfWeek] = useState<number[]>([])
 	const [minimumTicket, setMinimumTicket] = useState("")
 
 
 	const onChangeDate = (event: any, selectedDate: any) => {
-		const currentDate = selectedDate || dateValidAt;
+		const currentDate: Date = selectedDate || dateValidAt;
 
+		setShowAndroidPicker(Platform.OS === 'ios');
 		setdateValidAt(currentDate);
 	};
+
 
 	const onCreateCoupon = async () => {
 		setVisibleComponent(true)
@@ -118,7 +124,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 	const clearClose = () => {
 		setOffValue(5)
 
-		setdateValidAt(new Date(Date.now()))
+		setdateValidAt(new Date())
 
 		setDaysOfWeek([])
 
@@ -148,6 +154,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 			transparent={true}
 			visible={props.visible}
 		>
+
 			<Spinner loading={loading} />
 			{visibleComponent && <FlashComponent />}
 
@@ -166,14 +173,39 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 
 				<Container>
 					<WrapperCoupon>
-						<CouponCreateImage width={"95%"} height={"80%"} />
+						<CouponCreateImage
+							width={'90%'}
+							height={'85%'}
+						/>
 						<Off>{offValue}%</Off>
 						<ValidSubtitle>Válido até</ValidSubtitle>
-						<DatePicker
-							minimumDate={new Date(Date.now())}
-							value={dateValidAt}
-							onChange={onChangeDate}
-						/>
+						{
+							Platform.OS === 'ios' &&
+							<DatePicker
+								minimumDate={new Date()}
+								value={dateValidAt}
+								onChange={onChangeDate}
+							/>
+						}
+						{
+							Platform.OS === 'android' &&
+							<TouchablePickerAndroid
+								onPress={() => setShowAndroidPicker(true)}
+							>
+								<AndroidTime>
+									{dateValidAt.toCustomLocaleDateString()}{'  '}
+									<Feather name={'chevron-down'} size={15} />
+								</AndroidTime>
+							</TouchablePickerAndroid>
+						}
+						{
+							Platform.OS === 'android' && showAndroidPicker &&
+							<DatePicker
+								minimumDate={new Date()}
+								value={dateValidAt}
+								onChange={onChangeDate}
+							/>
+						}
 					</WrapperCoupon>
 
 					<WrapperMinimumTicket>
@@ -183,6 +215,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 							onChangeText={(e: string) => setMinimumTicket(e)}
 						/>
 					</WrapperMinimumTicket>
+
 
 					<WrapperWeeks>
 						<SubtitleWeeks>Dias da semana: </SubtitleWeeks>

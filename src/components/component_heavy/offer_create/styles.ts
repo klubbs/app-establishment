@@ -3,6 +3,8 @@ import colors from '../../../../assets/constants/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { CancelIcon } from '../../../../assets/icons/cancel_icon';
 import { InputWithMask } from '../../component/input-with-mask';
+import { heightPercentageToDP, isSmallAndroid, widthPercentageToDP } from '../../../utils/dimensions';
+import { Platform } from 'react-native';
 
 export const Wrapper = styled.View`
     flex: 1;
@@ -16,9 +18,9 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
-    height: 45%;
+    height: ${heightPercentageToDP(50)};
     width: 90%;
-    border-radius: 20px;
+    border-radius: ${widthPercentageToDP(2)};
 `
 
 export const SubContainer = styled.View`
@@ -26,10 +28,10 @@ export const SubContainer = styled.View`
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
-    height: 10%;
+    bottom: 30px;
+    height:  ${heightPercentageToDP(8)};;
     width: 90%;
-    border-radius: 20px;
+    border-radius: ${widthPercentageToDP(2)};
 `
 
 export const WrapperCoupon = styled.View`
@@ -41,34 +43,48 @@ export const WrapperCoupon = styled.View`
 
 export const Off = styled.Text`
     position: absolute;
-    top: 25%;
-    left: 10%;
+    top: ${Platform.select({ ios: '25%', android: isSmallAndroid() ? '15%' : '25%' })};
+    left: 12%;
     color:${colors.COLOR_YELLOW_BUTTON_TEXT};
     font-size:25px;
     font-family:'Nunito_Bold';
 `
 
+export const AndroidTime = styled.Text`
+    color:${colors.COLOR_WHITE};
+    font-size:18px;
+    border-radius: 10px;
+    font-family:'Nunito_Bold';
+`
+
+export const TouchablePickerAndroid = styled.TouchableOpacity`
+    position: absolute;
+    bottom: 18%;
+`
+
 export const ValidSubtitle = styled.Text`
     align-self: flex-start;
     position: absolute;
-    top: 40%;
-    right: 10%;
+    top: 36%;
+    right: 15%;
     color:${colors.COLOR_WHITE_40};
     font-size:13px;
     font-family:'Nunito_Bold';
 `
 
 export const CancelClick = styled.TouchableOpacity`
-    bottom:40px;
+    bottom:${heightPercentageToDP(8)};
     right: 40%;
-	 width:50px;
-	 height:50px;
+	width:50px;
+    height:5%;
+    justify-content: center;
+    margin-top:5%;
 `
 
 export const Cancel = styled(CancelIcon).attrs(() => ({
-	width: 30,
-	height: 30,
-	fill: colors.COLOR_WHITE
+    width: 30,
+    height: 30,
+    fill: colors.COLOR_WHITE
 }))`
 `
 
@@ -93,16 +109,16 @@ export const Cancel = styled(CancelIcon).attrs(() => ({
 
 
 export const DatePicker = styled(DateTimePicker).attrs(({
-	testID: "dateTimePicker",
-	mode: 'date',
-	locale: 'pt-BR',
-	display: "spinner",
-	textColor: colors.COLOR_WHITE
+    testID: "dateTimePicker",
+    mode: 'date',
+    locale: 'pt-BR',
+    display: "spinner",
+    textColor: colors.COLOR_WHITE
 }))`
     height: 90px;
     width: 90%;
     position:absolute;
-    top:50%;
+    top:48%;
 `
 
 
@@ -122,18 +138,19 @@ export const SubtitleMinimumTicket = styled.Text`
 `
 
 export const MinimumTicket = styled(InputWithMask).attrs(({
-	placeholder: 'R$0,00',
-	keyboardType: 'numeric',
-	type: 'money',
-	options: {
-		unit: '',
-	}
+    placeholder: 'R$0,00',
+    keyboardType: 'numeric',
+    type: 'money',
+    options: {
+        unit: '',
+    }
 }))`
 	text-align:center;
 	width: 40%;
 	color:${colors.COLOR_SECUNDARY_BLACK};
 	font-family: 'Nunito_Bold';
 	background-color: ${colors.COLOR_BLACK10};
+    text-align-vertical:center;
 `
 
 
@@ -147,7 +164,7 @@ export const SubtitleWeeks = styled.Text`
 `
 
 export const WrapperWeeks = styled.View`
-	flex:0.5;
+	flex:0.6;
 	justify-content: center;
-	align-items: flex-start;
+    align-items: flex-start;
 `

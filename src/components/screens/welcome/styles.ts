@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import styled from 'styled-components/native'
 import colors from '../../../../assets/constants/colors';
 
@@ -19,9 +19,9 @@ export const ImageBackgroundWelcomeIcons = styled.ImageBackground`
 export const ContainerButtons = styled.View`
     height: 30%;
     width: 100%;
-    justify-content: center;
     padding-left: 5%;
     padding-right: 5%;
+    justify-content: center;
     align-items: center;
     flex-direction: row;
 `

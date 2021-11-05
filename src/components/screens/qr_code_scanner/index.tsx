@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Linking, Alert } from 'react-native';
+import { View, StyleSheet, Linking, Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
@@ -115,15 +115,18 @@ export const QrCodeScanner: React.FC = () => {
 		<>
 			<Spinner loading={loading} />
 			<View style={{
-				flex: 1,
-				backgroundColor: colors.COLOR_SECUNDARY_BLACK,
-				justifyContent: 'center', alignItems: 'center'
+				flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK,
+				justifyContent: 'center',
+				alignItems: 'center'
 			}}>
 				<BarCodeScanner
 					onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-
-					style={StyleSheet.absoluteFillObject}
-				>
+					style={
+						Platform.select({
+							ios: { ...StyleSheet.absoluteFillObject },
+							android: { width: '140%', height: '100%' }
+						})
+					}>
 					<SquareTop />
 					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
 					<ScanDescSubtitle>Escaneie o cupom para validar uma oferta</ScanDescSubtitle>

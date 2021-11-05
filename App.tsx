@@ -9,6 +9,7 @@ import './src/utils/extensions/object_extensions';
 import AuthProvider from './src/contexts/auth_context';
 import FlashComponent from 'flash-notify';
 import * as SplashScreen from 'expo-splash-screen';
+import colors from './assets/constants/colors';
 
 
 LogBox.ignoreLogs(['Expected style']);
@@ -45,11 +46,14 @@ export default function App() {
 
 	return (
 		<AuthProvider>
-			<StatusBar barStyle={'dark-content'} animated={true} />
-			<FlashComponent />
 			<NavigationContainer>
+				<StatusBar
+					backgroundColor={colors.COLOR_WHITE}
+					barStyle={'dark-content'}
+					animated={true} />
 				<Navigations />
 			</NavigationContainer>
+			<FlashComponent />
 		</AuthProvider>
 	);
 }

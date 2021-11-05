@@ -5,8 +5,8 @@ export const WelcomeLogoImage: React.FC<SvgProps> = (props: SvgProps) => {
 	return (
 		<Svg
 			width={180}
-			height={314}
-			viewBox="0 0 834 314"
+			height={200}
+			viewBox="0 0 834 200"
 			fill="none"
 			{...props}
 		>

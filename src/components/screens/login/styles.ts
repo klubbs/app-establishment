@@ -2,6 +2,8 @@ import styled from 'styled-components/native'
 import colors from '../../../../assets/constants/colors';
 import { InputWithIcon } from '../../component/input-with-icon';
 import Button from '../../component/button';
+import { Dimensions, Platform } from 'react-native';
+import { isSmallAndroid } from '../../../utils/dimensions';
 
 export const Wrapper = styled.View`
     flex: 1;
@@ -24,24 +26,29 @@ export const Subtitle = styled.Text`
 
 const InputBase = styled(InputWithIcon)`
     width:100%;
-    height:60px;
+    height:${Platform
+    .select({
+      ios: '60px',
+      android: isSmallAndroid() ? '45px' : '60px'
+    })};
     margin-bottom: 30px;
+    text-align-vertical:center;
 `
 export const Username = styled(InputBase).attrs(() => ({
-	placeholder: 'e-mail',
-	keyboardType: 'email-address'
+  placeholder: 'e-mail',
+  keyboardType: 'email-address'
 }))`
     margin-top:40%;
 `
 
 export const Password = styled(InputBase).attrs(() => ({
-	placeholder: 'senha',
-	keyboardType: 'default',
-	secureTextEntry: true
+  placeholder: 'senha',
+  keyboardType: 'default',
+  secureTextEntry: true
 }))``
 
 export const ButtonLogin = styled(Button).attrs(() => ({
-	styleContainer: { alignSelf: 'center' }
+  styleContainer: { alignSelf: 'center' }
 }))``
 
 
@@ -64,7 +71,7 @@ export const Container = styled.View`
 `
 
 export const KeyboardContainer = styled.KeyboardAvoidingView.attrs(props => ({
-	behavior: 'position'
+  behavior: 'position'
 }))`
 	width:100%
 `

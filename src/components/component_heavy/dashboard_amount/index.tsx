@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { RefreshControl } from 'react-native'
+import { Platform, RefreshControl } from 'react-native'
 import { Skeleton } from '@motify/skeleton'
 import { MotiView } from 'moti'
 import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton, BlurBox } from './styles';
@@ -64,9 +64,15 @@ export const DashboardAmount: React.FC = () => {
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={showSkeleton} colorMode={'light'}>
-						<Amount>{
-							amount
-								.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+						<Amount>
+							{
+								Platform.select({
+									ios: amount
+										.toLocaleString('pt-br',
+											{ style: 'currency', currency: 'BRL' }),
+									android: `R$ ${amount}`
+								})
+							}
 						</Amount>
 					</Skeleton>
 				</MotiView>

@@ -56,6 +56,7 @@ const InputBase = styled(InputWithIcon).attrs((props: { invalid: boolean }) => (
 	background-color:${colors.COLOR_WHITE};
 	height:${(WINDOW_HEIGHT > 680) ? '60px' : '45px'};
 	margin-bottom: 30px;
+	text-align-vertical:center;
 `
 
 const InputMaskBase = styled(InputWithMask).attrs((props) => ({
@@ -65,6 +66,7 @@ const InputMaskBase = styled(InputWithMask).attrs((props) => ({
 	height:${(WINDOW_HEIGHT > 680) ? '60px' : '45px'};
 	margin-bottom: 30px;
 	background-color:${colors.COLOR_WHITE};
+	text-align-vertical:center;
 `
 
 export const Name = styled(InputBase).attrs((props) => ({

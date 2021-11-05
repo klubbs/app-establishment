@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export { }
 
 declare global {
@@ -10,6 +12,7 @@ declare global {
 		ToUnixEpoch(): number;
 		ToDateFormat(epoch: number): Date;
 		RemmaningDaysInMonth(): number;
+		toCustomLocaleDateString(): string;
 	}
 
 	interface Number {
@@ -64,4 +67,18 @@ Date.prototype.RemmaningDaysInMonth = function (): number {
 	time.setMonth(date.getMonth() + 1);
 	time.setDate(0);
 	return time.getDate() > date.getDate() ? time.getDate() - date.getDate() : 0;
+}
+
+Date.prototype.toCustomLocaleDateString = function (): string {
+	if (Platform.OS === 'ios')
+		return this.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+	else {
+
+		const dayOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"]
+
+		const monthName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+
+		return `${dayOfWeek[this.getDay() - 1]}, ${this.getDate()} ${monthName[this.getMonth()]}, ${this.getFullYear()}`;
+	}
 }

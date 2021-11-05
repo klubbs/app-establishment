@@ -12,9 +12,6 @@ const Drawer = createDrawerNavigator();
 
 export const DrawerNavigation: React.FC = () => {
 
-    const dimensions = useWindowDimensions();
-
-
     return (
         <Drawer.Navigator
             initialRouteName="Start"
