@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, StatusBar } from 'react-native';
+import { Linking } from 'react-native';
 import { MenuItem } from '../../component/menuItem';
 
 import { Wrapper, ContainerScroll } from './styles';
@@ -8,7 +8,6 @@ export const HelpScreen: React.FC = () => {
 	return (
 		<Wrapper>
 			<ContainerScroll>
-				<StatusBar barStyle={'dark-content'} animated={true} />
 				<MenuItem
 					key={'0'}
 					description='Acesse o nosso tutorial'

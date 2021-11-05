@@ -48,8 +48,8 @@ export default function App() {
 		<AuthProvider>
 			<NavigationContainer>
 				<StatusBar
-					backgroundColor={colors.COLOR_WHITE}
-					barStyle={'dark-content'}
+					backgroundColor={colors.COLOR_SECUNDARY_BLACK}
+					barStyle={'light-content'}
 					animated={true} />
 				<Navigations />
 			</NavigationContainer>

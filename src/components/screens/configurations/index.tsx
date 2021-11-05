@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Linking, StatusBar } from 'react-native';
+import { Linking } from 'react-native';
 import { MenuItem } from '../../component/menuItem';
 
 import { Wrapper, ContainerScroll } from './styles';
@@ -11,7 +11,6 @@ export const ConfigurationsScreen: React.FC = () => {
 
 	return (
 		<Wrapper>
-			<StatusBar barStyle={'dark-content'} animated={true} />
 			<ContainerScroll>
 
 				<MenuItem
