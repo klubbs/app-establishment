@@ -57,7 +57,7 @@ jobs:
 
       - name: Download S3 file to publish in Apple Store
         run: |
-          aws s3 cp s3://klubbs-devops/android/#####file-name-here##### google-key-account.json
+          aws s3 cp s3://klubbs-devops/android/pc-api-4645832410875810463-754-d807856b6c63.json google-key-account.json
 
       - if: github.event.inputs.deploy == 'B'
         name: Build Version
