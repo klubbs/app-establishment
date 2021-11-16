@@ -23,17 +23,6 @@ export class OfferService {
 	}
 
 	static contractCreateOffer(params: IOffer): IOfferRequest {
-
-		const start = 21 * 60
-		const end = 23 * 60 + 59
-
-		const now = params.validAt.getHours() * 60 + params.validAt.getMinutes();
-		const offset = params.validAt.getTimezoneOffset() / 60
-
-		if (offset === 3 && start <= now && now <= end) {
-			params.validAt.addDays(-1)
-		}
-
 		params.validAt.setHours(12)
 
 		return {
