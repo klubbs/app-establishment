@@ -75,20 +75,19 @@ export class OfferService {
 				case 'ineligible':
 					Flash.customMessage(
 						"Este cupom não é válido no seu estabelecimento",
-						"Seu estabelecimento não faz parte da carteira deste cupom",
+						"Não existe oferta do seu estabelecimento neste cupom",
 						'WARNING')
 					break;
 
-				case 'coupon disabled':
+				case 'rules':
 					Flash.customMessage(
-						"Oferta vencida ou desabilitada pelo estabelecimento",
-						"Esta oferta não é mais válida",
+						"Oferta Inválida",
+						"Esta oferta não é válida hoje",
 						'WARNING')
 
 					break;
 
 				case 'establishment':
-
 					Flash.customMessage(
 						"Seu estabelecimento ainda não esta adequado a fazer checkouts",
 						"Establecimento rejeitado",
