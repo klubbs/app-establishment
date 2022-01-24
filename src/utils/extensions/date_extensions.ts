@@ -74,11 +74,12 @@ Date.prototype.toCustomLocaleDateString = function (): string {
 		return this.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
 	else {
 
-		const dayOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"]
+		const dayOfWeek = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"]
 
 		const monthName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
 			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
-		return `${dayOfWeek[this.getDay() - 1]}, ${this.getDate()} ${monthName[this.getMonth()]}, ${this.getFullYear()}`;
+
+		return `${dayOfWeek[this.getDay()]}, ${this.getDate()} ${monthName[this.getMonth()]},${this.getFullYear()}`;
 	}
 }

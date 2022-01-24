@@ -5,16 +5,13 @@ import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 
-const axiosConfig = {
+const api = axios.create({
 	baseURL: Constants.manifest?.extra?.API_URL,
-}
+	timeout: 20000
 
-const api = axios.create(axiosConfig)
+})
 
 api.interceptors.request.use(async (config) => {
-
-	config.timeout = 20000;
-
 	const token = await getTokenInStorage()
 
 	if (token !== null) {
