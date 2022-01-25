@@ -1,6 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { TimePicker, Wrapper, SubtitleContainer, Subtitle } from './styles';
 
 // import { Container } from './styles';

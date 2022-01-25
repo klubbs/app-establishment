@@ -6,6 +6,7 @@ import { InputWithMask } from '../../component/input-with-mask';
 import { heightPercentageToDP, isSmallAndroid, widthPercentageToDP } from '../../../utils/dimensions';
 import { Platform } from 'react-native';
 
+
 export const Wrapper = styled.View`
     flex: 1;
     justify-content: center;
@@ -89,30 +90,9 @@ export const Cancel = styled(CancelIcon).attrs(() => ({
 `
 
 
-// export const Rules = styled.TextInput.attrs(props => ({
-// 	selectionColor: colors.COLOR_YELLOW,
-// 	autoCapitalize: 'none',
-// 	multiline: true,
-// 	blurOnSubmit: true,
-// 	returnKeyType: 'done',
-// 	placeholder: 'Defina as regras do cupom aqui',
-// 	placeholderTextColor: colors.COLOR_BLACK40
-// }))`
-//     color:${colors.COLOR_SECUNDARY_BLACK};
-//     background-color:${'#E8E8E8'};
-//     width:95%;
-//     height: 30%;
-//     border-radius:5px;
-//     padding:10px;
-//     font-size: 15px;
-// `;
-
-
 export const DatePicker = styled(DateTimePicker).attrs(({
     testID: "dateTimePicker",
-    mode: 'date',
     locale: 'pt-BR',
-    display: "spinner",
     textColor: colors.COLOR_WHITE
 }))`
     height: 90px;

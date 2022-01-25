@@ -31,6 +31,9 @@ import { IError } from "../../../settings/services/api";
 import { Middlewares } from "../../../utils/middlewares";
 import { DaysOfWeek } from "../../component/DaysOfWeek";
 import { Feather } from '@expo/vector-icons'
+import colors from "../../../../assets/constants/colors";
+
+
 
 export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
 
@@ -182,6 +185,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 						{
 							Platform.OS === 'ios' &&
 							<DatePicker
+								display={'spinner'}
 								minimumDate={new Date()}
 								value={dateValidAt}
 								onChange={onChangeDate}
@@ -201,6 +205,10 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 						{
 							Platform.OS === 'android' && showAndroidPicker &&
 							<DatePicker
+								style={{
+									backgroundColor: colors.COLOR_YELLOW
+								}}
+								display={'default'}
 								minimumDate={new Date()}
 								value={dateValidAt}
 								onChange={onChangeDate}
