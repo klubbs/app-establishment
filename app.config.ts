@@ -6,7 +6,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	owner: "klubbs",
 	slug: "klubbs-establishment",
 	scheme: 'klubbs-establishment',
-	icon: './assets/icon.png',
 	orientation: "portrait",
 	splash: {
 		image: "./assets/images/splash.png",
@@ -24,6 +23,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
 		buildNumber: "0.0.8",
+		icon: './assets/icon.png',
 		infoPlist: {
 			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que você consiga escolher uma imagem da sua galeria.",
 			NSCameraUsageDescription: "Precisamos da sua autorização para que você possa validar vendas por QR Code."
@@ -31,7 +31,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 1
+		versionCode: 1,
+		icon: './assets/android-icon.png',
+		backgroundColor: '#515151'
 	},
 	extra: {
 		API_URL: process.env.ENVIRONMENT_API_URL,

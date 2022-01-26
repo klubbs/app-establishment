@@ -30,7 +30,7 @@ export const SubContainer = styled.View`
     justify-content: center;
     align-items: center;
     bottom: 30px;
-    height:  ${heightPercentageToDP(8)};;
+    height:  ${heightPercentageToDP(9)};;
     width: 90%;
     border-radius: ${widthPercentageToDP(2)};
 `
