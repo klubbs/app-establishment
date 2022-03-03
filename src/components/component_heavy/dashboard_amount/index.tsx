@@ -3,48 +3,30 @@ import { Platform, RefreshControl } from 'react-native'
 import { Skeleton } from '@motify/skeleton'
 import { MotiView } from 'moti'
 import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton, BlurBox } from './styles';
-import { FinanceService } from '../../../services/financeService';
-import { Flash } from '../../../utils/flash';
 import colors from '../../../../assets/constants/colors';
 import { AuthContext } from '../../../contexts/auth_context';
-import { isAPIException } from '../../../utils/documents_utils';
-import { Middlewares } from '../../../utils/middlewares';
+import { DashboardContext } from '../../../contexts/dashboard_context';
+import { RequestBalance } from '../requestBalance';
 
 export const DashboardAmount: React.FC = () => {
 
-	const { reloadProfileInCloud } = useContext(AuthContext)
+	const { getDashboard, amount, refreshing, futureCheckouts } = useContext(DashboardContext)
 
-	const [amount, setAmount] = useState(0.00)
 	const [showSkeleton, setShowSkeleton] = useState(true)
-	const [refreshing, setRefreshing] = useState(true)
-
 
 	useEffect(() => {
-		getDashboardAmount()
+		getDashboardWithSkeleton();
 	}, [])
 
-	async function getDashboardAmount() {
+	async function getDashboardWithSkeleton() {
 
 		try {
-			setRefreshing(true)
 			setShowSkeleton(true)
 
-			await reloadProfileInCloud()
-
-			const response = await FinanceService.GetDashboardAmount();
-
-			setAmount(response.amount)
-
-		} catch (error) {
-			Middlewares.middlewareError(
-				() => Flash
-					.customMessage("Ocorreu um erro ao recuperar seu painel", "Desculpe", "NEUTRAL"),
-				error
-			)
+			await getDashboard();
 
 		} finally {
 			setShowSkeleton(false)
-			setRefreshing(false)
 		}
 
 	}
@@ -54,13 +36,13 @@ export const DashboardAmount: React.FC = () => {
 			refreshControl={
 				<RefreshControl
 					refreshing={refreshing}
-					onRefresh={getDashboardAmount}
+					onRefresh={getDashboardWithSkeleton}
 					tintColor={colors.COLOR_WHITE}
 					colors={[colors.COLOR_WHITE]}
 				/>
 			}
 		>
-			<ValueSubtitle>Débito acumulado</ValueSubtitle>
+			<ValueSubtitle>Seu saldo</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={showSkeleton} colorMode={'light'}>
@@ -76,15 +58,12 @@ export const DashboardAmount: React.FC = () => {
 						</Amount>
 					</Skeleton>
 				</MotiView>
-				{
-					amount > 0 &&
-					<DueDateSubtitle>
-						{`${new Date().RemmaningDaysInMonth()}`} dias para o vencimento
-					</DueDateSubtitle>
+				{!futureCheckouts &&
+					<DueDateSubtitle> Saldo insuficiente para novas transações 😰</DueDateSubtitle>
 				}
-				{amount <= 0 && <DueDateSubtitle>Não tem débito 👏</DueDateSubtitle>}
 			</WrapperAmount>
-			<PayButton disabled={true} text={'Pagar'} onPress={() => console.log()} />
+			<PayButton disabled={false} onPress={() => console.log()} />
+			<RequestBalance />
 		</Wrapper >
 	);
 }

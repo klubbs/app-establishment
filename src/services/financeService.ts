@@ -4,9 +4,10 @@ import { GetDashboardResponse } from "./@types/financeTypes";
 
 export class FinanceService {
 
-	static async GetDashboardAmount(): Promise<GetDashboardResponse> {
+	static async GetDashboardBalance(): Promise<GetDashboardResponse> {
 
-		const { data } = await api.get<IResponseMessage<GetDashboardResponse>>('finance/stores/bill')
+		const { data } = await api
+			.get<IResponseMessage<GetDashboardResponse>>('finance/stores/available')
 
 		return data.message
 	}

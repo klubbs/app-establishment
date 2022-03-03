@@ -38,7 +38,7 @@ export const PayButton = styled(Button).attrs((props) => ({
 		width: '40%', height: '15%',
 		backgroundColor: props.disabled ? colors.COLOR_WHITE_40 : colors.COLOR_YELLOW
 	},
-	text: 'Pagar',
+	text: 'Adicionar saldo',
 	styleButton: props.disabled ? { color: colors.COLOR_WHITE_80 } : {}
 }))`
 `

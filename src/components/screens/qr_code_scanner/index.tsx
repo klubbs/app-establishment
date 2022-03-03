@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, Linking, Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -20,10 +20,12 @@ import {
 	ScanOtherButton,
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
+import { DashboardContext } from '../../../contexts/dashboard_context';
 
 export const QrCodeScanner: React.FC = () => {
 
 	const navigation = useNavigation();
+	const { futureCheckouts } = useContext(DashboardContext)
 
 	const [hasPermission, setHasPermission] = useState<boolean>(false);
 	const [scanned, setScanned] = useState(false);
@@ -93,8 +95,7 @@ export const QrCodeScanner: React.FC = () => {
 					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
 					setHasError(true)
 					OfferService.catchScanCoupon(error as IError)
-				},
-				error
+				}, error
 			)
 		} finally {
 			setLoading(false)
@@ -129,7 +130,11 @@ export const QrCodeScanner: React.FC = () => {
 					}>
 					<SquareTop />
 					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-					<ScanDescSubtitle>Escaneie o cupom para validar uma oferta</ScanDescSubtitle>
+					<ScanDescSubtitle futureCheckouts={futureCheckouts}>{
+						futureCheckouts
+							? 'Escaneie o cupom para validar uma oferta'
+							: 'Saldo insuficiente para novas transações'
+					}</ScanDescSubtitle>
 					<CenterWrapper>
 						<SquareLeft />
 						<Focused />

@@ -33,7 +33,7 @@ export const TransactionItem: React.FC<ITransactionItemParams> = (props) => {
 			</WrapperMiddle>
 
 			<WrapperRight>
-				<Amount>+R$ {props.amount}</Amount>
+				<Amount>R$ {props.amount}</Amount>
 			</WrapperRight>
 		</Wrapper>
 	);

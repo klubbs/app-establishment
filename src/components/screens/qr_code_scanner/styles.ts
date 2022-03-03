@@ -45,8 +45,8 @@ export const ScanSubtitle = styled.Text`
   font-family:'Nunito_SemiBold';
 `
 
-export const ScanDescSubtitle = styled.Text`
-  color:${colors.COLOR_WHITE_80};
+export const ScanDescSubtitle = styled.Text<{ futureCheckouts: boolean }>`
+  color:${props => props.futureCheckouts ? colors.COLOR_WHITE_80 : colors.COLOR_RED};
   position: absolute;
   top: 24%;
   left: ${Platform.select({ ios: '18%', android: '23%' })};

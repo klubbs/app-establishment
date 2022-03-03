@@ -15,10 +15,3 @@ export interface IOfferRequest {
 	minimum_ticket: number
 }
 
-export interface ICheckoutTransactionsRequest {
-	id: string;
-	code: string;
-	influencer_name: string
-	created_at: number;
-	amount: number;
-}

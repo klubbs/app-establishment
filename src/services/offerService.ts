@@ -45,13 +45,6 @@ export class OfferService {
 		}
 	}
 
-	static async getCheckoutTransactions(): Promise<ICheckoutTransactionsRequest[]> {
-		const { data } = await api
-			.get<IResponseMessage<ICheckoutTransactionsRequest[]>>('checkouts/stores')
-
-		return data.message
-	}
-
 	static async scanCoupon(couponId: string, userId: string) {
 		await api.post('checkouts', { coupon_id: couponId, user_id: userId })
 	}
@@ -91,6 +84,15 @@ export class OfferService {
 					Flash.customMessage(
 						"Seu estabelecimento ainda não esta adequado a fazer checkouts",
 						"Establecimento rejeitado",
+						'WARNING')
+
+					break;
+
+				case 'balance':
+
+					Flash.customMessage(
+						"Saldo baixo",
+						"Saldo insuficiente para novas transações",
 						'WARNING')
 
 					break;

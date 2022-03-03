@@ -6,7 +6,8 @@ import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 
 const api = axios.create({
-	baseURL: Constants.manifest?.extra?.API_URL,
+	baseURL: 'http://192.168.1.109:5000/',
+	// baseURL: Constants.manifest?.extra?.API_URL,
 	timeout: 20000
 
 })
@@ -26,6 +27,7 @@ api.interceptors.response.use(
 	},
 	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 
+		console.log(error)
 		if (isAPIException(error?.response?.data)) {
 			// console.log("ERRO DA API => ", error.response.data)
 			const statusCode = error.response.data?.statusCode

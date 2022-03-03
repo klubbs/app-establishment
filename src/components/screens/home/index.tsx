@@ -11,6 +11,7 @@ import { AuthContext } from '../../../contexts/auth_context';
 import { DashboardDocs } from '../../component_heavy/dashboardDocs';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
+import DashboardProvider from '../../../contexts/dashboard_context';
 
 
 export const HomeScreen: React.FC = ({ }) => {

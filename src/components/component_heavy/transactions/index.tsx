@@ -1,38 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FlatList, View } from 'react-native';
-import { OfferService } from '../../../services/offerService';
 import { TransactionItem } from '../../component/transaction_item';
-import { ITransactionItems } from './interfaces';
 import { PlaceholderMedia, PlaceholderLine, Fade } from "rn-placeholder";
 
 import { TransactionsSubtitle, Wrapper, NothingTransactionSubtitle, PlaceHolderWrapper, PlaceHolderContent } from './styles';
+import { DashboardContext } from '../../../contexts/dashboard_context';
 
 
 
 export const Transactions: React.FC = () => {
 
-	const [couponTransactions, setCouponTransactions] = useState<ITransactionItems[] | null>(null)
-	const [refreshing, setRefreshing] = useState(false)
-
-	useEffect(() => {
-		setTimeout(() => { getCheckouts() }, 2000)
-	}, [])
-
-	async function getCheckouts() {
-		setRefreshing(true)
-		const data = await OfferService.getCheckoutTransactions()
-
-		setCouponTransactions(data);
-		setRefreshing(false)
-	}
-
+	const { checkouts, refreshing, getDashboard } = useContext(DashboardContext)
 
 	return (
 		<Wrapper>
 			<TransactionsSubtitle>Transações</TransactionsSubtitle>
 
 			{
-				couponTransactions === null &&
+				checkouts === null &&
 				<PlaceHolderWrapper
 					Animation={Fade}
 					Left={PlaceholderMedia}
@@ -44,14 +29,14 @@ export const Transactions: React.FC = () => {
 			}
 
 			{
-				couponTransactions?.length === 0 &&
+				checkouts?.length === 0 &&
 				<NothingTransactionSubtitle>Nenhuma transação ainda</NothingTransactionSubtitle>
 			}
 
-			{couponTransactions && <FlatList
+			{checkouts && <FlatList
 				refreshing={refreshing}
-				onRefresh={getCheckouts}
-				data={couponTransactions}
+				onRefresh={getDashboard}
+				data={checkouts}
 				keyExtractor={item => `${item.id}`}
 				style={{ width: '100%' }}
 				showsVerticalScrollIndicator={false}
