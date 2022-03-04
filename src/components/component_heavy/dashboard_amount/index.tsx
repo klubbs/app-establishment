@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Platform, RefreshControl } from 'react-native'
 import { Skeleton } from '@motify/skeleton'
 import { MotiView } from 'moti'
@@ -7,9 +7,11 @@ import colors from '../../../../assets/constants/colors';
 import { AuthContext } from '../../../contexts/auth_context';
 import { DashboardContext } from '../../../contexts/dashboard_context';
 import { RequestBalance } from '../requestBalance';
+import { IRequestBalanceRef } from '../requestBalance/@types';
 
 export const DashboardAmount: React.FC = () => {
 
+	const requestBalanceRef = useRef<IRequestBalanceRef>(null)
 	const { getDashboard, amount, refreshing, futureCheckouts } = useContext(DashboardContext)
 
 	const [showSkeleton, setShowSkeleton] = useState(true)
@@ -62,8 +64,8 @@ export const DashboardAmount: React.FC = () => {
 					<DueDateSubtitle> Saldo insuficiente para novas transações 😰</DueDateSubtitle>
 				}
 			</WrapperAmount>
-			<PayButton disabled={false} onPress={() => console.log()} />
-			<RequestBalance />
+			<PayButton disabled={false} onPress={() => requestBalanceRef.current?.openModal()} />
+			<RequestBalance ref={requestBalanceRef} />
 		</Wrapper >
 	);
 }

@@ -51,7 +51,7 @@ export const ScanDescSubtitle = styled.Text<{ futureCheckouts: boolean }>`
   top: 24%;
   left: ${Platform.select({ ios: '18%', android: '23%' })};
   font-size:15px;
-  font-family:'Nunito_Light';
+  font-family:'Nunito_Regular';
 `
 
 export const ScanOtherButton = styled(Button).attrs((props: { error: boolean }) => ({

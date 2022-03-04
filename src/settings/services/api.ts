@@ -6,8 +6,7 @@ import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 
 const api = axios.create({
-	baseURL: 'http://192.168.1.109:5000/',
-	// baseURL: Constants.manifest?.extra?.API_URL,
+	baseURL: Constants.manifest?.extra?.API_URL,
 	timeout: 20000
 
 })

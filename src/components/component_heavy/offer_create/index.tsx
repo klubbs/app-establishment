@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, TouchableOpacity, Modal, Platform } from "react-native";
+import { Alert, TouchableOpacity, Modal, Platform, GestureResponderHandlers } from "react-native";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
 import { OfferService } from "../../../services/offerService";
 import { IOffer } from "../../../services/@types/OfferTypes";
@@ -151,6 +151,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 	}
 
 	return (
+
 		<Modal
 			presentationStyle={'overFullScreen'}
 			animationType={"slide"}

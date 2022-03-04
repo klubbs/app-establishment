@@ -12,4 +12,8 @@ export class FinanceService {
 		return data.message
 	}
 
+	static async RequestBalance(balance: string): Promise<void> {
+		await api.post('finance/stores/balance', null, { params: { balance: balance } })
+	}
+
 }
