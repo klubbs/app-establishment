@@ -7,7 +7,7 @@
 		// "source.organizeImports": true
 	},
 	"editor.wordWrapColumn": 100,
-	"editor.renderIndentGuides": true,
 	"editor.wordWrap": "bounded",
-	"workbench.colorTheme": "Dracula"
+	"workbench.colorTheme": "Dracula",
+	"editor.guides.indentation": true
 }
