@@ -14,7 +14,7 @@ import { AuthContext } from '../../../contexts/auth_context'
 import { ForgetPasswordScreenProps } from '../../../settings/@types/iauth_stack_params'
 import { Spinner } from '../../component/spinner'
 import { Flash } from '../../../utils/flash'
-import { LoginService } from '../../../services/login_service'
+import { LoginService } from '../../../services/login-service'
 import { IError } from '../../../settings/services/api'
 import { isEmpty } from '../../../utils/extensions/object_extensions';
 import { isAPIException } from '../../../utils/documents_utils';

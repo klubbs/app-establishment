@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { ITransactionItems } from "../components/component_heavy/transactions/interfaces";
-import { FinanceService } from "../services/financeService";
+import { FinanceService } from "../services/finance-service";
 import { Flash } from "../utils/flash";
 import { Middlewares } from "../utils/middlewares";
 import { AuthContext } from "./auth_context";

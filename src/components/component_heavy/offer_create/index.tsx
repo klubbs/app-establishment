@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Alert, TouchableOpacity, Modal, Platform, GestureResponderHandlers } from "react-native";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
-import { OfferService } from "../../../services/offerService";
-import { IOffer } from "../../../services/@types/OfferTypes";
+import { OfferService } from "../../../services/offer-service";
+import { IOffer } from "../../../services/@types/@offer-service";
 import { isEmpty, nameof } from "../../../utils/extensions/object_extensions";
 import { Flash } from "../../../utils/flash";
 import Button from "../../component/button";

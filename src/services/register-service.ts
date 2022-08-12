@@ -1,15 +1,16 @@
-import { IEstablishmentRegister } from './../components/screens/register/interfaces';
-import api, { IError, IResponseMessage } from "../settings/services/api";
-import { ICategoryResponse, IRegisterRequest } from "./@types/registerTypes";
+import { IEstablishmentRegister } from '../components/screens/register/interfaces';
+import { connectionHandler, IError, IResponseMessage } from "../settings/services/api";
+import { ICategoryResponse, IRegisterRequest } from "./@types/@register-service";
 import { AsyncValidator, } from 'fluentvalidation-ts';
 import { beValidCnpj, beValidCpf, beValidMail, keyHasInObjectValidator } from "../utils/documents_utils";
 import { Flash } from "../utils/flash";
-import { LoginService } from './login_service';
+import { LoginService } from './login-service';
 
 export class RegisterService {
 
 	static async getCategories() {
-		const { data } = await api.get<IResponseMessage<ICategoryResponse[]>>('stores/business-category')
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.get<IResponseMessage<ICategoryResponse[]>>('stores/business-category')
 
 		return data.message
 	}
@@ -18,13 +19,15 @@ export class RegisterService {
 
 		const contractData = this.contract(params, code);
 
-		const { data } = await api.post<IResponseMessage<{ Id: string }>>('stores', contractData);
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.post<IResponseMessage<{ Id: string }>>('stores', contractData);
 
 		return data.message;
 	}
 
 	static async sendRegisterMailCode(mail: string) {
-		await api.post('stores/code/register/mail', null, { params: { mail: mail } })
+		await connectionHandler('KLUBBS_API_URL')
+			.post('stores/code/register/mail', null, { params: { mail: mail } })
 	}
 
 
@@ -36,7 +39,7 @@ export class RegisterService {
 		const validator = new RegisterValidator();
 
 		const errors = await validator.validateAsync(
-			{ [param]: value }
+			{ [param]: value } as any
 		)
 
 		return keyHasInObjectValidator<IEstablishmentRegister>(
@@ -98,11 +101,6 @@ class RegisterValidator extends AsyncValidator<IEstablishmentRegister> {
 			.notEmpty()
 			.withMessage('Preencha o nome do estabelecimento.')
 			.when(src => src.name !== undefined)
-
-		// this.ruleFor('mail')
-		// 	.emailAddress()
-		// 	.withMessage('Preencha com um e-mail válido.')
-		// 	.when(src => src.mail !== undefined)
 
 		this.ruleFor('mail')
 			.mustAsync(async (mail: string) => {

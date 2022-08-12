@@ -1,7 +1,6 @@
-import { IResponseMessage } from '../settings/services/api';
+import { connectionHandler, IResponseMessage } from '../settings/services/api';
 import * as ImagePicker from 'expo-image-picker';
-import api from '../settings/services/api';
-import { ILoginResponse } from './@types/loginTypes';
+import { ILoginResponse } from './@types/@login-service';
 
 export class ProfileService {
 
@@ -11,9 +10,14 @@ export class ProfileService {
 		let formData = new FormData()
 
 		formData
-			.append('image', { uri: image.uri, type: 'image/jpg', name: image?.uri.split('/').pop() })
+			.append(
+				'image',
+				{
+					uri: image.uri, type: 'image/jpg', name: image?.uri.split('/').pop()
+				}
+			)
 
-		const { data } = await api
+		const { data } = await connectionHandler('KLUBBS_API_URL')
 			.put<IResponseMessage<{ image: string }>>(`stores/profile/image`, formData)
 
 		return data.message.image
@@ -37,11 +41,12 @@ export class ProfileService {
 			uri: cnpj.uri, type: 'image/jpg', name: cnpj.uri.split('/').pop()
 		})
 
-		await api.post(`stores/profile/docs`, form)
+		await connectionHandler('KLUBBS_API_URL').post(`stores/profile/docs`, form)
 	}
 
 	static async getEstablishment(): Promise<ILoginResponse> {
-		const { data } = await api.get<IResponseMessage<ILoginResponse>>('stores')
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.get<IResponseMessage<ILoginResponse>>('stores')
 
 		return data.message
 	}

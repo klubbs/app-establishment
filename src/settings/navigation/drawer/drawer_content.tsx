@@ -11,9 +11,9 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../../contexts/auth_context';
 import { ProfileImage } from '../../../components/component/profileImage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ProfileService } from '../../../services/profileService';
+import { ProfileService } from '../../../services/profile-service';
 import { mergeEstablishmentInStorage } from '../../../utils/async_storage';
-import { ILoginResponse } from '../../../services/@types/loginTypes';
+import { ILoginResponse } from '../../../services/@types/@login-service';
 import { Spinner } from '../../../components/component/spinner';
 
 export const DrawerContent: React.FC = () => {

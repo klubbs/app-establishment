@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { IEstablishmentRegister } from '../components/screens/register/interfaces'
-import { RegisterService } from '../services/register_service'
-import { LoginService } from '../services/login_service'
+import { RegisterService } from '../services/register-service'
+import { LoginService } from '../services/login-service'
 import {
 	createEstablishmentInStorage,
 	clearAsyncStorage,
@@ -9,9 +9,9 @@ import {
 	mergeEstablishmentInStorage
 } from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
-import { ILoginResponse } from '../services/@types/loginTypes'
+import { ILoginResponse } from '../services/@types/@login-service'
 import { EventEmitter } from '../utils/emitter'
-import { ProfileService } from '../services/profileService'
+import { ProfileService } from '../services/profile-service'
 import { Flash } from '../utils/flash'
 
 export const AuthContext = createContext(

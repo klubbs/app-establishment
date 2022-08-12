@@ -38,7 +38,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		}
 	},
 	extra: {
-		API_URL: process.env.ENVIRONMENT_API_URL,
+		KLUBBS_API_URL: process.env.ENVIRONMENT_KLUBBS_API_URL,
+		KLUBBS_AUTHZN_URL: process.env.ENVIRONMENT_KLUBBS_AUTHZN_URL,
 		PLACES_API: process.env.ENVIRONMENT_PLACES_API
 	}
 });

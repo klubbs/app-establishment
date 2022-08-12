@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import colors from '../../../../assets/constants/colors';
 import { Spinner } from '../../component/spinner';
-import { OfferService } from '../../../services/offerService';
+import { OfferService } from '../../../services/offer-service';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
 import { IError } from '../../../settings/services/api';

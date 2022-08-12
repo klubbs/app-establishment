@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { RegisterService } from '../../../services/register_service'
+import { RegisterService } from '../../../services/register-service'
 import { isEmpty, nameof } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
 import { PickerModelBusiness } from '../../component/picker_model_business'

@@ -2,8 +2,6 @@ import React from 'react'
 import { WelcomeLogoImage } from '../../../../assets/images/welcome-logo-image'
 import Button from '../../component/button'
 import { useNavigation } from '@react-navigation/native'
-import { RegisterService } from '../../../services/register_service'
-import Constants from 'expo-constants'
 import {
 	Wrapper,
 	ImageBackgroundWelcomeIcons,

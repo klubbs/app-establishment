@@ -4,7 +4,7 @@ import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmatio
 import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles'
 import { AuthContext } from '../../../contexts/auth_context'
 import { RegisterCodeScreenProps } from '../../../settings/@types/iauth_stack_params'
-import { RegisterService } from '../../../services/register_service'
+import { RegisterService } from '../../../services/register-service'
 import { Spinner } from '../../component/spinner'
 import { IError } from '../../../settings/services/api'
 import { Flash } from '../../../utils/flash'
@@ -45,7 +45,7 @@ export const RegisterCodeScreen: React.FC<RegisterCodeScreenProps> = ({ route })
 		)
 	}
 
-	const onRegisterEstablishment = async () => {
+	async function onRegisterEstablishment() {
 		try {
 
 			if (code.length < 5) {

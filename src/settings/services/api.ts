@@ -1,67 +1,101 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { getTokenInStorage } from '../../utils/async_storage'
+import { getEstablishmentInStorage, getRefreshTokenInStorage, getTokenInStorage } from '../../utils/async_storage'
 import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
+import jwt_decode, { JwtPayload } from 'jwt-decode'
+import { AuthService } from '../../services/auth-service'
 
-const api = axios.create({
-	baseURL: Constants.manifest?.extra?.API_URL,
-	timeout: 20000
 
-})
-
-api.interceptors.request.use(async (config) => {
-	const token = await getTokenInStorage()
-
-	if (token !== null) {
-		config.headers.Authorization = `Bearer ${token}`
+export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') => {
+	const url = {
+		'KLUBBS_AUTHZN_URL': Constants.manifest?.extra?.KLUBBS_AUTHZN_URL,
+		'KLUBBS_API_URL': Constants.manifest?.extra?.KLUBBS_API_URL
 	}
-	return config
-})
 
-api.interceptors.response.use(
-	(response) => {
-		return response
-	},
-	async (error): Promise<{ message: string; error: any; statusCode: number }> => {
+	const instance = axios.create({
+		baseURL: url[type],
+		timeout: 20000
+	})
 
-		console.log(error)
-		if (isAPIException(error?.response?.data)) {
-			// console.log("ERRO DA API => ", error.response.data)
-			const statusCode = error.response.data?.statusCode
+	if (type !== 'KLUBBS_AUTHZN_URL') {
+		instance.interceptors.request.use(async (config) => {
 
-			const validationError = error.response.data?.error
-			const message = error.response.data?.message
+			let token = await getTokenInStorage();
 
-			switch (statusCode) {
-				case 401:
-					EventEmitter.emit('LOGOUT', {});
-					break;
+			if (!token) {
 
-				case 500:
-					Flash.spillCoffee();
-					break;
+				token = await AuthService.generateAppCredential()
 
-				default:
-					break;
+				config.headers.Authorization = `Bearer ${token}`
+
+				return config
 			}
 
-			return Promise.reject({
-				message,
-				error: validationError,
-				statusCode: Number(statusCode),
-			})
-		} else if (!error.status) {
-			//Network error
-			Flash.dogsOut()
-		} else {
-			Flash.someoneBullshit()
-		}
+			const isEpired = jwt_decode<JwtPayload>(token).exp as number * 1000 < Date.now()
 
-		return Promise.reject({})
+			if (isEpired) {
+				const store = await getEstablishmentInStorage()
+
+				if (store) {
+					const refresh = await getRefreshTokenInStorage() || ''
+
+					token = await AuthService.refresh(token, refresh);
+				} else {
+					token = await AuthService.generateAppCredential()
+				}
+			}
+
+			config.headers.Authorization = `Bearer ${token}`
+
+			return config
+		})
 	}
-)
+
+	instance.interceptors.response.use(
+		(response) => {
+			return response
+		},
+		async (error): Promise<{ message: string; error: any; statusCode: number }> => {
+			if (isAPIException(error?.response?.data)) {
+				// console.log("ERRO DA API => ", error.response.data)
+				const statusCode = error.response.data?.statusCode
+
+				const validationError = error.response.data?.error
+				const message = error.response.data?.message
+
+				switch (statusCode) {
+					case 401:
+						EventEmitter.emit('LOGOUT', {});
+						break;
+
+					case 500:
+						Flash.spillCoffee();
+						break;
+
+					default:
+						break;
+				}
+
+				return Promise.reject({
+					message,
+					error: validationError,
+					statusCode: Number(statusCode),
+				})
+			} else if (!error.status) {
+				//Network error
+				Flash.dogsOut()
+			} else {
+				Flash.someoneBullshit()
+			}
+
+			return Promise.reject({})
+		}
+	)
+
+	return instance
+}
 
 export type IResponseMessage<T> = {
 	message: T
@@ -73,5 +107,3 @@ export type IError = {
 	error: { field: string; validation: string }[]
 	statusCode: number
 }
-
-export default api

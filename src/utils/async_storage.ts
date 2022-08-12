@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as FileSystem from 'expo-file-system'
-import { ILoginResponse } from '../services/@types/loginTypes'
+import { ILoginResponse } from '../services/@types/@login-service'
 
 export async function createEstablishmentInStorage(establishment: ILoginResponse) {
 	await AsyncStorage.clear()
@@ -21,6 +21,10 @@ export async function mergeEstablishmentInStorage(establishment: ILoginResponse)
 
 export const getTokenInStorage = async (): Promise<string | null> => {
 	return await AsyncStorage.getItem('@TOKEN:Key')
+}
+
+export const getRefreshTokenInStorage = async (): Promise<string | null> => {
+	return await AsyncStorage.getItem('@REFRESH_TOKEN:Key')
 }
 
 export const getEstablishmentInStorage = async (): Promise<ILoginResponse | null> => {

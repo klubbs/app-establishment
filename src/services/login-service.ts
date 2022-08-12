@@ -1,30 +1,33 @@
 import { IEstablishmentRegister } from '../components/screens/register/interfaces'
-import api, { IError, IResponseMessage } from '../settings/services/api'
+import { connectionHandler, IError, IResponseMessage } from '../settings/services/api'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import { Validator } from 'fluentvalidation-ts'
-import { ILogin, ILoginResponse } from './@types/loginTypes'
+import { ILogin, ILoginResponse } from './@types/@login-service'
 import { keyHasInObjectValidator } from '../utils/documents_utils'
 import { Flash } from '../utils/flash'
 
 export class LoginService {
 	static async login(mail: string, password: string): Promise<ILoginResponse> {
 
-		const { data } = await api.get<IResponseMessage<ILoginResponse>>('stores/login', {
-			auth: {
-				username: mail,
-				password: password,
-			},
-		})
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.get<IResponseMessage<ILoginResponse>>('stores/login', {
+				auth: {
+					username: mail,
+					password: password,
+				},
+			})
 
 		return data.message
 	}
 
 	static async sendForgetPasswordCode(mail: string) {
-		await api.post('stores/code/forget/mail', null, { params: { mail: mail } })
+		await connectionHandler('KLUBBS_API_URL')
+			.post('stores/code/forget/mail', null, { params: { mail: mail } })
 	}
 
 	static async updatePassword(mail: string, password: string, code: string) {
-		await api.put('stores/update/password', { code: code, mail: mail, password: password })
+		await connectionHandler('KLUBBS_API_URL')
+			.put('stores/update/password', { code: code, mail: mail, password: password })
 	}
 
 	static validateLogin(params: ILogin): ValidationErrors<ILogin> {
@@ -35,24 +38,22 @@ export class LoginService {
 	static ValidateProperty(value: any, param: keyof ILogin): Object {
 		const validator = new LoginValidator();
 
-		const errors = validator.validate({ [param]: value })
+		const errors = validator.validate({ [param]: value } as any)
 
 		return keyHasInObjectValidator<ILogin>(errors, param as keyof ILogin)
 	}
 
 	static async MailAlreadyInUse(mail: string): Promise<boolean> {
 
-		const { data } = await api.get<IResponseMessage<boolean>>('stores/validate/mail', {
-			params: { mail: mail }
-		})
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.get<IResponseMessage<boolean>>('stores/validate/mail', { params: { mail: mail } })
 
 		return data.message;
 	}
 
 	static async CnpjAlreadyInUse(cnpj: string): Promise<boolean> {
-		const { data } = await api.get<IResponseMessage<boolean>>('stores/validate/cnpj', {
-			params: { cnpj: cnpj }
-		})
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.get<IResponseMessage<boolean>>('stores/validate/cnpj', { params: { cnpj: cnpj } })
 
 		return data.message;
 	}

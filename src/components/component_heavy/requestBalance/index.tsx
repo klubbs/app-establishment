@@ -3,7 +3,7 @@ import { Modal, Platform, Animated, View } from 'react-native';
 import Button from '../../component/button';
 import { BackgroundBlur, Container, YellowBalanceContainer, WhiteBalanceContainer, Balance, CancelClick, Cancel, BalanceSubtitle, RealBalance, ContainerWrapper } from './styles';
 import { IRequestBalanceRef } from './@types';
-import { FinanceService } from '../../../services/financeService';
+import { FinanceService } from '../../../services/finance-service';
 import { Flash } from '../../../utils/flash';
 import { Spinner } from '../../component/spinner';
 import * as Haptic from 'expo-haptics';

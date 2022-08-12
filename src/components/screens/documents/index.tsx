@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback } from 'react';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
-import { ProfileService } from '../../../services/profileService';
+import { ProfileService } from '../../../services/profile-service';
 import { Flash } from '../../../utils/flash';
 import { Spinner } from '../../component/spinner';
 import { AuthContext } from '../../../contexts/auth_context';

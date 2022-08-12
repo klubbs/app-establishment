@@ -1,9 +1,9 @@
 import { Flash } from '../utils/flash';
-import { IError } from '../settings/services/api';
-import { ICheckoutTransactionsRequest, IOffer, IOfferRequest } from './@types/OfferTypes'
+import { connectionHandler, IError } from '../settings/services/api';
+import { IOffer, IOfferRequest } from './@types/@offer-service'
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
-import api, { IResponseMessage } from '../settings/services/api'
+import { IResponseMessage } from '../settings/services/api'
 
 export class OfferService {
 
@@ -17,7 +17,8 @@ export class OfferService {
 
 		const contract = this.contractCreateOffer(params)
 
-		const { data } = await api.post<IResponseMessage<string>>('stores/coupon/create', contract)
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.post<IResponseMessage<string>>('stores/coupon/create', contract)
 
 		return data.message;
 	}
@@ -46,7 +47,8 @@ export class OfferService {
 	}
 
 	static async scanCoupon(couponId: string, userId: string) {
-		await api.post('checkouts', { coupon_id: couponId, user_id: userId })
+		await connectionHandler('KLUBBS_API_URL')
+			.post('checkouts', { coupon_id: couponId, user_id: userId })
 	}
 
 	static catchScanCoupon(errors: IError) {
@@ -75,7 +77,7 @@ export class OfferService {
 				case 'rules':
 					Flash.customMessage(
 						"Oferta Inválida",
-						"Esta oferta não é válida hoje",
+						"Esta oferta não é válida no dia de hoje",
 						'WARNING')
 
 					break;
