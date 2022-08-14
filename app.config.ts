@@ -7,7 +7,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	slug: "klubbs-establishment",
 	scheme: 'klubbs-establishment',
 	orientation: "portrait",
-	icon: './assets/icon.png',
+	icon: './assets/images/icon.png',
 	splash: {
 		image: "./assets/images/splash.png",
 		resizeMode: "contain",
@@ -15,9 +15,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	updates: {
 		fallbackToCacheTimeout: 0
-	},
-	experiments: {
-		"turboModules": true
 	},
 	version: "0.0.4",
 	ios: {
@@ -33,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		package: "app.klubbs.establishment",
 		versionCode: 2,
 		adaptiveIcon: {
-			foregroundImage: './assets/android-icon.png',
+			foregroundImage: './assets/images/android-icon.png',
 			backgroundColor: '#515151'
 		}
 	},

@@ -1,12 +1,17 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { getEstablishmentInStorage, getRefreshTokenInStorage, getTokenInStorage } from '../../utils/async_storage'
+import {
+	getEstablishmentInStorage,
+	getRefreshTokenInStorage,
+	getTokenInStorage
+} from '../../utils/async_storage'
 import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { AuthService } from '../../services/auth-service'
-
+import { RefreshTokenResponse } from '../../services/@types/@auth-service'
+import { decode, encode } from 'base-64';
 
 export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') => {
 	const url = {
@@ -25,8 +30,10 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 			let token = await getTokenInStorage();
 
 			if (!token) {
+				const { data } = await instance
+					.get<IResponseMessage<{ token: string }>>('auth-zn/auth/credentials/application')
 
-				token = await AuthService.generateAppCredential()
+				token = data.message.token
 
 				config.headers.Authorization = `Bearer ${token}`
 
@@ -41,9 +48,20 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 				if (store) {
 					const refresh = await getRefreshTokenInStorage() || ''
 
-					token = await AuthService.refresh(token, refresh);
+					const { data } = await instance
+						.get<IResponseMessage<RefreshTokenResponse>>('auth-zn/auth/refresh', {
+							params: {
+								token: token,
+								refresh_token: refresh
+							}
+						})
+
+					token = data.message.token;
 				} else {
-					token = await AuthService.generateAppCredential()
+					const { data } = await instance
+						.get<IResponseMessage<{ token: string }>>('auth-zn/auth/credentials/application')
+
+					token = data.message.token
 				}
 			}
 
@@ -96,6 +114,16 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 
 	return instance
 }
+
+(function DefaultInitializations() {
+	if (!global.btoa) {
+		global.btoa = encode;
+	}
+
+	if (!global.atob) {
+		global.atob = decode;
+	}
+})();
 
 export type IResponseMessage<T> = {
 	message: T
