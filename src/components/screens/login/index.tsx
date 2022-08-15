@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Alert } from 'react-native'
-import { AuthContext } from '../../../contexts/auth_context'
+import { AuthContext } from '../../../contexts/auth-context'
 import { LoginService } from '../../../services/login-service'
 import { isEmpty } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
@@ -19,11 +19,13 @@ import {
 	KeyboardContainer
 } from './styles'
 import { Middlewares } from '../../../utils/middlewares'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { IAuthStackParams } from '../../../settings/@types/iauth-stack-params'
 
 export const LoginScreen: React.FC = () => {
 	const { signIn } = useContext(AuthContext)
 
-	const navigation = useNavigation();
+	const navigation = useNavigation<StackNavigationProp<IAuthStackParams>>();
 	const [loadingSpinner, setLoadingSpinner] = useState(false)
 
 	const [login, setLogin] = useState<string>('')

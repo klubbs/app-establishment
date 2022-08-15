@@ -1,10 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { AppStackNavigator } from '../app_stack';
-import { DrawerContent } from './drawer_content';
+import { AppStackNavigator } from '../app-stack';
+import { DrawerContent } from './drawer-content';
 import colors from '../../../../assets/constants/colors';
 import { useWindowDimensions } from 'react-native';
-import DashboardProvider from '../../../contexts/dashboard_context';
+import DashboardProvider from '../../../contexts/dashboard-context';
 
 // import { Container } from './styles';
 

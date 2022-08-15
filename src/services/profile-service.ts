@@ -1,4 +1,4 @@
-import { connectionHandler, IResponseMessage } from '../settings/services/api';
+import { connectionHandler, IResponseMessage } from '../settings/connection';
 import * as ImagePicker from 'expo-image-picker';
 import { ILoginResponse } from './@types/@login-service';
 

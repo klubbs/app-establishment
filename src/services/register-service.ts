@@ -1,5 +1,5 @@
 import { IEstablishmentRegister } from '../components/screens/register/interfaces';
-import { connectionHandler, IError, IResponseMessage } from "../settings/services/api";
+import { connectionHandler, IError, IResponseMessage } from "../settings/connection";
 import { ICategoryResponse, IRegisterRequest } from "./@types/@register-service";
 import { AsyncValidator, } from 'fluentvalidation-ts';
 import { beValidCnpj, beValidCpf, beValidMail, keyHasInObjectValidator } from "../utils/documents_utils";

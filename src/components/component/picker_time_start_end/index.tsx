@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native'
 import { TimePicker, Wrapper, SubtitleContainer, Subtitle } from './styles';
-
-// import { Container } from './styles';
 
 export const PickerTimeStartEnd: React.FC<{ startValue: Date, endvalue: Date, onChangeCbStart: any, onChangeCbEnd: any }> = (props) => {
 
@@ -27,8 +25,7 @@ export const PickerTimeStartEnd: React.FC<{ startValue: Date, endvalue: Date, on
 		}
 	};
 
-	function RenderStartPicker() {
-
+	const RenderStartPicker = useCallback(() => {
 		if (Platform.OS == 'ios') {
 			return (
 				<React.Fragment>
@@ -61,10 +58,9 @@ export const PickerTimeStartEnd: React.FC<{ startValue: Date, endvalue: Date, on
 		}
 
 		return <RenderStartSubtitle />
-	}
+	}, [enabledStart])
 
-	function RenderEndPicker() {
-
+	const RenderEndPicker = useCallback(() => {
 		if (Platform.OS == 'ios') {
 			return (
 				<React.Fragment>
@@ -97,7 +93,8 @@ export const PickerTimeStartEnd: React.FC<{ startValue: Date, endvalue: Date, on
 		}
 
 		return <RenderEndSubtitle />
-	}
+
+	}, [enableEnd])
 
 	return (
 		<Wrapper>

@@ -5,21 +5,23 @@ import { Alert, Linking } from 'react-native';
 import colors from '../../../../assets/constants/colors';
 import styled from 'styled-components'
 import { CacheManager } from "react-native-expo-image-cache";
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../../../contexts/auth_context';
+import { AuthContext } from '../../../contexts/auth-context';
 import { ProfileImage } from '../../../components/component/profileImage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileService } from '../../../services/profile-service';
 import { mergeStoreInStorage } from '../../../utils/async_storage';
 import { ILoginResponse } from '../../../services/@types/@login-service';
 import { Spinner } from '../../../components/component/spinner';
+import { IAppStackParams } from '../../@types/iapp-stack-params';
 
 export const DrawerContent: React.FC = () => {
 
 	const { logout, reloadProfile, establishment } = useContext(AuthContext)
-	const navigation = useNavigation();
+	const navigation = useNavigation<StackNavigationProp<IAppStackParams>>();
 
 	const [loading, setLoading] = useState(false)
 
@@ -96,17 +98,17 @@ export const DrawerContent: React.FC = () => {
 
 			<MenuItem
 				label="Painel"
-				onPress={() => navigation.navigate({ name: 'Home' })}
+				onPress={() => navigation.navigate('Home')}
 			/>
 
 			<MenuItem
 				label="Configurações"
-				onPress={() => navigation.navigate({ name: 'Configurations' })}
+				onPress={() => navigation.navigate('Configurations')}
 			/>
 
 			<MenuItem
 				label="Ajuda"
-				onPress={() => navigation.navigate({ name: 'Help' })}
+				onPress={() => navigation.navigate('Help')}
 			/>
 
 			<CloseItem

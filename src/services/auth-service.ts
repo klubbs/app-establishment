@@ -1,4 +1,4 @@
-import { createInstanceAuthZn, IResponseMessage } from "../settings/services/api"
+import { createInstanceAuthZn, IResponseMessage } from "../settings/connection"
 import { refreshTokensInStorage } from "../utils/async_storage"
 import { RefreshTokenResponse } from "./@types/@auth-service"
 

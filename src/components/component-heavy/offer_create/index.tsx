@@ -27,7 +27,7 @@ import {
 	AndroidTime,
 	TouchablePickerAndroid
 } from "./styles";
-import { IError } from "../../../settings/services/api";
+import { IError } from "../../../settings/connection";
 import { Middlewares } from "../../../utils/middlewares";
 import { DaysOfWeek } from "../../component/DaysOfWeek";
 import { Feather } from '@expo/vector-icons'

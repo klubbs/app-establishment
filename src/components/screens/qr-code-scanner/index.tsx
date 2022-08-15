@@ -7,7 +7,7 @@ import { Spinner } from '../../component/spinner';
 import { OfferService } from '../../../services/offer-service';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
-import { IError } from '../../../settings/services/api';
+import { IError } from '../../../settings/connection';
 import {
 	CenterWrapper,
 	Focused,
@@ -20,7 +20,7 @@ import {
 	ScanOtherButton,
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
-import { DashboardContext } from '../../../contexts/dashboard_context';
+import { DashboardContext } from '../../../contexts/dashboard-context';
 
 export const QrCodeScanner: React.FC = () => {
 

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import colors from '../../../../assets/constants/colors';
-import { AuthContext } from '../../../contexts/auth_context';
+import { AuthContext } from '../../../contexts/auth-context';
 
 import { ImageProfileComponent, ContainerEmpty } from './styles';
 import { ShopIcon } from '../../../../assets/icons/shop_icon';

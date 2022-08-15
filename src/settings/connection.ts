@@ -1,15 +1,15 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
+import { isAPIException } from '../utils/documents_utils'
+import { EventEmitter } from '../utils/emitter'
+import { Flash } from '../utils/flash'
+import jwt_decode, { JwtPayload } from 'jwt-decode'
+import { AuthService } from '../services/auth-service'
 import {
 	getStoreInStorage,
 	getRefreshTokenInStorage,
 	getTokenInStorage
-} from '../../utils/async_storage'
-import { isAPIException } from '../../utils/documents_utils'
-import { EventEmitter } from '../../utils/emitter'
-import { Flash } from '../../utils/flash'
-import jwt_decode, { JwtPayload } from 'jwt-decode'
-import { AuthService } from '../../services/auth-service'
+} from '../utils/async_storage'
 
 const URL = {
 	'KLUBBS_AUTHZN_URL': Constants.manifest?.extra?.KLUBBS_AUTHZN_URL,
@@ -49,7 +49,7 @@ export const connectionHandler = (type: 'KLUBBS_API_URL') => {
 				const message = error.response.data?.message
 
 				switch (statusCode) {
-					case 401:
+					case 403:
 						EventEmitter.emit('LOGOUT', {});
 						break;
 

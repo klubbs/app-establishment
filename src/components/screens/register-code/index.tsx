@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from 'react'
 import { CodeField, Cursor, useClearByFocusCell } from 'react-native-confirmation-code-field'
 
 import { Wrapper, RegisterButton, Input, Subtitle, Email } from './styles'
-import { AuthContext } from '../../../contexts/auth_context'
+import { AuthContext } from '../../../contexts/auth-context'
 import { RegisterCodeScreenProps } from '../../../settings/@types/iauth-stack-params'
 import { RegisterService } from '../../../services/register-service'
 import { Spinner } from '../../component/spinner'
-import { IError } from '../../../settings/services/api'
+import { IError } from '../../../settings/connection'
 import { Flash } from '../../../utils/flash'
 import { Middlewares } from '../../../utils/middlewares'
 

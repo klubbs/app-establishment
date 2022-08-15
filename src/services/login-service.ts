@@ -1,4 +1,4 @@
-import { connectionHandler, createInstanceAuthZn, IError, IResponseMessage } from '../settings/services/api'
+import { connectionHandler, createInstanceAuthZn, IError, IResponseMessage } from '../settings/connection'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import { Validator } from 'fluentvalidation-ts'
 import { ILogin, ILoginResponse } from './@types/@login-service'

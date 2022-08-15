@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { ProfileService } from '../../../services/profile-service';
 import { Flash } from '../../../utils/flash';
 import { Spinner } from '../../component/spinner';
-import { AuthContext } from '../../../contexts/auth_context';
+import { AuthContext } from '../../../contexts/auth-context';
 import { useNavigation } from '@react-navigation/native';
 import {
 	Wrapper,

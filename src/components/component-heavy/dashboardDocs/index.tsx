@@ -3,15 +3,17 @@ import { RefreshControl } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
 import { Wrapper, ValueSubtitle, DocsButton, RefreshSubtitle } from './styles';
-import { AuthContext } from '../../../contexts/auth_context';
+import { AuthContext } from '../../../contexts/auth-context';
 import { Flash } from '../../../utils/flash';
 import colors from '../../../../assets/constants/colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { IAppStackParams } from '../../../settings/@types/iapp-stack-params';
 
 export const DashboardDocs: React.FC = () => {
 
 	const [refreshing, setRefreshing] = useState(false);
 
-	const navigation = useNavigation();
+	const navigation = useNavigation<StackNavigationProp<IAppStackParams>>();
 	const { establishment, reloadProfileInCloud } = useContext(AuthContext)
 
 	async function handleRefresh() {

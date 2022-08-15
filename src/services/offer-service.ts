@@ -1,9 +1,9 @@
 import { Flash } from '../utils/flash';
-import { connectionHandler, IError } from '../settings/services/api';
+import { connectionHandler, IError } from '../settings/connection';
 import { IOffer, IOfferRequest } from './@types/@offer-service'
 import { Validator } from 'fluentvalidation-ts'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
-import { IResponseMessage } from '../settings/services/api'
+import { IResponseMessage } from '../settings/connection'
 
 export class OfferService {
 

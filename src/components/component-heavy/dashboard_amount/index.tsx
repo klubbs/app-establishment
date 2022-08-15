@@ -4,8 +4,8 @@ import { Skeleton } from '@motify/skeleton'
 import { MotiView } from 'moti'
 import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton, BlurBox } from './styles';
 import colors from '../../../../assets/constants/colors';
-import { AuthContext } from '../../../contexts/auth_context';
-import { DashboardContext } from '../../../contexts/dashboard_context';
+import { AuthContext } from '../../../contexts/auth-context';
+import { DashboardContext } from '../../../contexts/dashboard-context';
 import { RequestBalance } from '../requestBalance';
 import { IRequestBalanceRef } from '../requestBalance/@types';
 

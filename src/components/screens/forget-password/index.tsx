@@ -10,12 +10,12 @@ import {
 	Password,
 	ContainerAnimated
 } from './styles'
-import { AuthContext } from '../../../contexts/auth_context'
+import { AuthContext } from '../../../contexts/auth-context'
 import { ForgetPasswordScreenProps } from '../../../settings/@types/iauth-stack-params'
 import { Spinner } from '../../component/spinner'
 import { Flash } from '../../../utils/flash'
 import { LoginService } from '../../../services/login-service'
-import { IError } from '../../../settings/services/api'
+import { IError } from '../../../settings/connection'
 import { isEmpty } from '../../../utils/extensions/object_extensions';
 import { isAPIException } from '../../../utils/documents_utils';
 import { Middlewares } from '../../../utils/middlewares';

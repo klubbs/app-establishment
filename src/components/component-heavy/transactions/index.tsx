@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 import { TransactionItem } from '../../component/transaction_item';
 import { PlaceholderMedia, PlaceholderLine, Fade } from "rn-placeholder";
 import { TransactionsSubtitle, Wrapper, NothingTransactionSubtitle, PlaceHolderWrapper, PlaceHolderContent } from './styles';
-import { DashboardContext } from '../../../contexts/dashboard_context';
+import { DashboardContext } from '../../../contexts/dashboard-context';
 
 
 

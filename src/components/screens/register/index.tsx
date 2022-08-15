@@ -12,6 +12,8 @@ import { useAnimationState } from 'moti'
 import {
 	Cnpj, CompleteButton, Cpf, Description, GooglePlaces, Mail, Name, NameResponsible, Password, Phone, Wrapper, Question, Container, AnimatedContainer, BottomContainer
 } from './styles'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { IAuthStackParams } from '../../../settings/@types/iauth-stack-params'
 
 
 const useFadeInDown = () => {
@@ -28,7 +30,7 @@ const useFadeInDown = () => {
 }
 
 export const RegisterScreen: React.FC = () => {
-	const navigation = useNavigation()
+	const navigation = useNavigation<StackNavigationProp<IAuthStackParams>>()
 	const fadeInDown = useFadeInDown()
 
 	const [loading, setLoading] = useState(false)
@@ -48,7 +50,6 @@ export const RegisterScreen: React.FC = () => {
 		mail: [false, 'Qual será seu e-mail de login:'],
 		password: [false, 'Coloque sua melhor senha:'],
 	})
-
 	const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
 		name: '',
 		phone: '',

@@ -1,4 +1,4 @@
-import { connectionHandler, IResponseMessage } from '../settings/services/api';
+import { connectionHandler, IResponseMessage } from '../settings/connection';
 import { GetDashboardResponse } from "./@types/@finance-service";
 
 export class FinanceService {

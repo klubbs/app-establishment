@@ -5,7 +5,7 @@ import { View, ActivityIndicator, LogBox, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
-import AuthProvider from './src/contexts/auth_context';
+import AuthProvider from './src/contexts/auth-context';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from './assets/constants/colors';
 import FlashComponent from 'flash-notify'
