@@ -1,18 +1,17 @@
+import './src/utils/extensions/date_extensions';
+import './src/utils/extensions/object_extensions';
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, LogBox, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
-
-import './src/utils/extensions/date_extensions';
-import './src/utils/extensions/object_extensions';
 import AuthProvider from './src/contexts/auth_context';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from './assets/constants/colors';
 import FlashComponent from 'flash-notify'
 
-
 LogBox.ignoreLogs(['Expected style']);
+
 export default function App() {
 
 	useEffect(() => {

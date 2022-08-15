@@ -9,7 +9,6 @@ import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 import jwt_decode, { JwtPayload } from 'jwt-decode'
-import { AuthService } from '../../services/auth-service'
 import { RefreshTokenResponse } from '../../services/@types/@auth-service'
 import { decode, encode } from 'base-64';
 
@@ -31,7 +30,7 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 
 			if (!token) {
 				const { data } = await instance
-					.get<IResponseMessage<{ token: string }>>('auth-zn/auth/credentials/application')
+					.get<IResponseMessage<{ token: string }>>('auth/credentials/application')
 
 				token = data.message.token
 
@@ -49,7 +48,7 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 					const refresh = await getRefreshTokenInStorage() || ''
 
 					const { data } = await instance
-						.get<IResponseMessage<RefreshTokenResponse>>('auth-zn/auth/refresh', {
+						.get<IResponseMessage<RefreshTokenResponse>>('auth/refresh', {
 							params: {
 								token: token,
 								refresh_token: refresh
@@ -59,7 +58,7 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 					token = data.message.token;
 				} else {
 					const { data } = await instance
-						.get<IResponseMessage<{ token: string }>>('auth-zn/auth/credentials/application')
+						.get<IResponseMessage<{ token: string }>>('auth/credentials/application')
 
 					token = data.message.token
 				}

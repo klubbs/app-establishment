@@ -9,10 +9,10 @@ import { Flash } from '../utils/flash'
 export class LoginService {
 	static async login(mail: string, password: string): Promise<ILoginResponse> {
 
-		const { data } = await connectionHandler('KLUBBS_API_URL')
-			.get<IResponseMessage<ILoginResponse>>('stores/login', {
-				auth: {
-					username: mail,
+		const { data } = await connectionHandler('KLUBBS_AUTHZN_URL')
+			.get<IResponseMessage<ILoginResponse>>('auth/login/store', {
+				params: {
+					mail: mail,
 					password: password,
 				},
 			})
@@ -30,19 +30,6 @@ export class LoginService {
 			.put('stores/update/password', { code: code, mail: mail, password: password })
 	}
 
-	static validateLogin(params: ILogin): ValidationErrors<ILogin> {
-		const validator = new LoginValidator()
-
-		return validator.validate(params)
-	}
-	static ValidateProperty(value: any, param: keyof ILogin): Object {
-		const validator = new LoginValidator();
-
-		const errors = validator.validate({ [param]: value } as any)
-
-		return keyHasInObjectValidator<ILogin>(errors, param as keyof ILogin)
-	}
-
 	static async MailAlreadyInUse(mail: string): Promise<boolean> {
 
 		const { data } = await connectionHandler('KLUBBS_API_URL')
@@ -57,6 +44,20 @@ export class LoginService {
 
 		return data.message;
 	}
+
+	static validateLogin(params: ILogin): ValidationErrors<ILogin> {
+		const validator = new LoginValidator()
+
+		return validator.validate(params)
+	}
+	static ValidateProperty(value: any, param: keyof ILogin): Object {
+		const validator = new LoginValidator();
+
+		const errors = validator.validate({ [param]: value } as any)
+
+		return keyHasInObjectValidator<ILogin>(errors, param as keyof ILogin)
+	}
+
 
 }
 
