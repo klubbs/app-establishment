@@ -3,10 +3,10 @@ import { IEstablishmentRegister } from '../components/screens/register/interface
 import { RegisterService } from '../services/register-service'
 import { LoginService } from '../services/login-service'
 import {
-	createEstablishmentInStorage,
+	createStoreInStorage,
 	clearAsyncStorage,
-	getEstablishmentInStorage,
-	mergeEstablishmentInStorage
+	getStoreInStorage,
+	mergeStoreInStorage
 } from '../utils/async_storage'
 import * as SplashScreen from 'expo-splash-screen';
 import { ILoginResponse } from '../services/@types/@login-service'
@@ -42,7 +42,7 @@ const AuthProvider: React.FC = ({ children }) => {
 	const signIn = async (mail: string, password: string) => {
 		const establishment = await LoginService.login(mail, password)
 
-		await createEstablishmentInStorage(establishment)
+		await createStoreInStorage(establishment)
 
 		setEstablishment(establishment)
 	}
@@ -57,7 +57,7 @@ const AuthProvider: React.FC = ({ children }) => {
 	}
 
 	async function reloadProfile() {
-		const response = await getEstablishmentInStorage()
+		const response = await getStoreInStorage()
 
 		setEstablishment(response)
 	}
@@ -65,14 +65,14 @@ const AuthProvider: React.FC = ({ children }) => {
 	async function reloadProfileInCloud() {
 		const response = await ProfileService.getEstablishment();
 
-		const actualResponse = await getEstablishmentInStorage()
+		const actualResponse = await getStoreInStorage()
 
 		if (response) {
 			//Utilizamos o mesmo TYPES de loginResponse para esse caso de consulta,como recuperação
 			//não de estabelecimento não envia token sobrescrevemos ele aqui
 			response.token = actualResponse?.token as string;
 
-			await mergeEstablishmentInStorage(response)
+			await mergeStoreInStorage(response)
 			setEstablishment(response);
 		}
 	}

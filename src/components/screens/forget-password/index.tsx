@@ -11,7 +11,7 @@ import {
 	ContainerAnimated
 } from './styles'
 import { AuthContext } from '../../../contexts/auth_context'
-import { ForgetPasswordScreenProps } from '../../../settings/@types/iauth_stack_params'
+import { ForgetPasswordScreenProps } from '../../../settings/@types/iauth-stack-params'
 import { Spinner } from '../../component/spinner'
 import { Flash } from '../../../utils/flash'
 import { LoginService } from '../../../services/login-service'

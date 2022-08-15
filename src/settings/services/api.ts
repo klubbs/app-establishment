@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
 import {
-	getEstablishmentInStorage,
+	getStoreInStorage,
 	getRefreshTokenInStorage,
 	getTokenInStorage
 } from '../../utils/async_storage'
@@ -9,71 +9,37 @@ import { isAPIException } from '../../utils/documents_utils'
 import { EventEmitter } from '../../utils/emitter'
 import { Flash } from '../../utils/flash'
 import jwt_decode, { JwtPayload } from 'jwt-decode'
-import { RefreshTokenResponse } from '../../services/@types/@auth-service'
-import { decode, encode } from 'base-64';
+import { AuthService } from '../../services/auth-service'
 
-export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') => {
-	const url = {
-		'KLUBBS_AUTHZN_URL': Constants.manifest?.extra?.KLUBBS_AUTHZN_URL,
-		'KLUBBS_API_URL': Constants.manifest?.extra?.KLUBBS_API_URL
-	}
+const URL = {
+	'KLUBBS_AUTHZN_URL': Constants.manifest?.extra?.KLUBBS_AUTHZN_URL,
+	'KLUBBS_API_URL': Constants.manifest?.extra?.KLUBBS_API_URL
+}
+
+export const createInstanceAuthZn = axios.create({
+	baseURL: URL['KLUBBS_AUTHZN_URL'],
+	timeout: 20000
+})
+
+export const connectionHandler = (type: 'KLUBBS_API_URL') => {
 
 	const instance = axios.create({
-		baseURL: url[type],
+		baseURL: URL[type],
 		timeout: 20000
 	})
 
-	if (type !== 'KLUBBS_AUTHZN_URL') {
-		instance.interceptors.request.use(async (config) => {
+	instance.interceptors.request.use(async (config) => {
 
-			let token = await getTokenInStorage();
+		const token = await createCredentialToken()
 
-			if (!token) {
-				const { data } = await instance
-					.get<IResponseMessage<{ token: string }>>('auth/credentials/application')
+		config.headers.Authorization = `Bearer ${token}`
 
-				token = data.message.token
+		return config
+	})
 
-				config.headers.Authorization = `Bearer ${token}`
-
-				return config
-			}
-
-			const isEpired = jwt_decode<JwtPayload>(token).exp as number * 1000 < Date.now()
-
-			if (isEpired) {
-				const store = await getEstablishmentInStorage()
-
-				if (store) {
-					const refresh = await getRefreshTokenInStorage() || ''
-
-					const { data } = await instance
-						.get<IResponseMessage<RefreshTokenResponse>>('auth/refresh', {
-							params: {
-								token: token,
-								refresh_token: refresh
-							}
-						})
-
-					token = data.message.token;
-				} else {
-					const { data } = await instance
-						.get<IResponseMessage<{ token: string }>>('auth/credentials/application')
-
-					token = data.message.token
-				}
-			}
-
-			config.headers.Authorization = `Bearer ${token}`
-
-			return config
-		})
-	}
 
 	instance.interceptors.response.use(
-		(response) => {
-			return response
-		},
+		(response) => response,
 		async (error): Promise<{ message: string; error: any; statusCode: number }> => {
 			if (isAPIException(error?.response?.data)) {
 				// console.log("ERRO DA API => ", error.response.data)
@@ -114,15 +80,31 @@ export const connectionHandler = (type: 'KLUBBS_AUTHZN_URL' | 'KLUBBS_API_URL') 
 	return instance
 }
 
-(function DefaultInitializations() {
-	if (!global.btoa) {
-		global.btoa = encode;
+
+async function createCredentialToken() {
+
+	let token = await getTokenInStorage();
+
+	if (!token) {
+		return await AuthService.generateAppCredential()
 	}
 
-	if (!global.atob) {
-		global.atob = decode;
+	const isExpired = jwt_decode<JwtPayload>(token).exp as number * 1000 < Date.now()
+
+	if (!isExpired) {
+		return token;
 	}
-})();
+
+	const store = await getStoreInStorage()
+
+	if (!store) {
+		return await AuthService.generateAppCredential()
+	}
+
+	const refresh = await getRefreshTokenInStorage() || ''
+
+	return await AuthService.refresh(token, refresh)
+}
 
 export type IResponseMessage<T> = {
 	message: T

@@ -6,12 +6,12 @@ import { Dimensions } from 'react-native';
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 export const TimePicker = styled(DateTimePicker).attrs(() => ({
-	testID: "dateTimePicker",
-	mode: 'time',
-	locale: 'pt-BR',
-	display: "spinner",
-	minuteInterval: 5,
-	textColor: colors.COLOR_SECUNDARY_BLACK
+    testID: "dateTimePicker",
+    mode: 'time',
+    locale: 'pt-BR',
+    display: "spinner",
+    minuteInterval: 5,
+    textColor: colors.COLOR_SECUNDARY_BLACK
 }))`
     height: 70px;
     width: 60%;

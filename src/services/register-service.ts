@@ -48,6 +48,10 @@ export class RegisterService {
 		)
 	}
 
+	static hourIsValid(start: Date, end: Date) {
+		return start.getTime() < end.getTime()
+	}
+
 	static contract(params: IEstablishmentRegister, code: string): IRegisterRequest {
 		return {
 			name: params.name,

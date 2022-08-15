@@ -42,7 +42,9 @@ const DashboardProvider: React.FC = ({ children }) => {
         } catch (error) {
             Middlewares.middlewareError(
                 () => Flash
-                    .customMessage("Ocorreu um erro ao recuperar seu painel", "Desculpe", "NEUTRAL"), error
+                    .customMessage(
+                        "Ocorreu um erro ao recuperar seu painel",
+                        "Desculpe", "NEUTRAL"), error
             )
 
         } finally {

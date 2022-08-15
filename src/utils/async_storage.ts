@@ -1,34 +1,40 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as FileSystem from 'expo-file-system'
 import { ILoginResponse } from '../services/@types/@login-service'
 
-export async function createEstablishmentInStorage(establishment: ILoginResponse) {
+export async function createStoreInStorage(store: ILoginResponse) {
 	await AsyncStorage.clear()
 
-	await AsyncStorage.multiSet([
-		['@TOKEN:Key', establishment.token],
-		['@ESTABLISHMENT:Key', JSON.stringify(establishment)],
-	])
+	await refreshTokensInStorage(store.token, store.refresh_token);
+
+	await AsyncStorage.setItem('@KLUBBS_STORE:KEY', JSON.stringify(store))
 }
 
 export async function clearAsyncStorage() {
 	await AsyncStorage.clear()
 }
 
-export async function mergeEstablishmentInStorage(establishment: ILoginResponse) {
-	await AsyncStorage.mergeItem('@ESTABLISHMENT:Key', JSON.stringify(establishment))
+export async function refreshTokensInStorage(token: string, refresh?: string) {
+	if (refresh) {
+		await AsyncStorage.setItem('@KLUBBS_REFRESH_TOKEN:KEY', refresh)
+	}
+
+	await AsyncStorage.setItem('@KLUBBS_TOKEN:KEY', token)
+}
+
+export async function mergeStoreInStorage(establishment: ILoginResponse) {
+	await AsyncStorage.mergeItem('@KLUBBS_STORE:KEY', JSON.stringify(establishment))
 }
 
 export const getTokenInStorage = async (): Promise<string | null> => {
-	return await AsyncStorage.getItem('@TOKEN:Key')
+	return await AsyncStorage.getItem('@KLUBBS_TOKEN:KEY')
 }
 
 export const getRefreshTokenInStorage = async (): Promise<string | null> => {
-	return await AsyncStorage.getItem('@REFRESH_TOKEN:Key')
+	return await AsyncStorage.getItem('@KLUBBS_REFRESH_TOKEN:KEY')
 }
 
-export const getEstablishmentInStorage = async (): Promise<ILoginResponse | null> => {
-	const result = await AsyncStorage.getItem('@ESTABLISHMENT:Key')
+export const getStoreInStorage = async (): Promise<ILoginResponse | null> => {
+	const result = await AsyncStorage.getItem('@KLUBBS_STORE:KEY')
 
 	if (result === null) {
 		return null;

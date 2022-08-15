@@ -17,5 +17,6 @@ export interface ILoginResponse {
 	latitude: number;
 	longitude: number;
 	token: string;
+	refresh_token: string;
 	documentation_status: string
 }

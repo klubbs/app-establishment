@@ -1,5 +1,4 @@
-import { IEstablishmentRegister } from '../components/screens/register/interfaces'
-import { connectionHandler, IError, IResponseMessage } from '../settings/services/api'
+import { connectionHandler, createInstanceAuthZn, IError, IResponseMessage } from '../settings/services/api'
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
 import { Validator } from 'fluentvalidation-ts'
 import { ILogin, ILoginResponse } from './@types/@login-service'
@@ -9,7 +8,7 @@ import { Flash } from '../utils/flash'
 export class LoginService {
 	static async login(mail: string, password: string): Promise<ILoginResponse> {
 
-		const { data } = await connectionHandler('KLUBBS_AUTHZN_URL')
+		const { data } = await createInstanceAuthZn
 			.get<IResponseMessage<ILoginResponse>>('auth/login/store', {
 				params: {
 					mail: mail,

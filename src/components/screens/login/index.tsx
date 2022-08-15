@@ -42,7 +42,7 @@ export const LoginScreen: React.FC = () => {
 
 			await signIn(login, password)
 		} catch (error) {
-			Middlewares.middlewareError(Flash.incorrectLogin(), error)
+			Middlewares.middlewareError(() => Flash.incorrectLogin(), error)
 
 		} finally { setLoadingSpinner(false) }
 	}

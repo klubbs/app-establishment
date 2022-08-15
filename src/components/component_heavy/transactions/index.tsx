@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { FlatList, View } from 'react-native';
 import { TransactionItem } from '../../component/transaction_item';
 import { PlaceholderMedia, PlaceholderLine, Fade } from "rn-placeholder";
-
 import { TransactionsSubtitle, Wrapper, NothingTransactionSubtitle, PlaceHolderWrapper, PlaceHolderContent } from './styles';
 import { DashboardContext } from '../../../contexts/dashboard_context';
 

@@ -100,12 +100,21 @@ export const RegisterScreen: React.FC = () => {
 				const isValid = await RegisterService
 					.ValidateProperty(establishment[property], property);
 
+				if (property == 'closedAt'
+					&& !RegisterService.hourIsValid(establishment.openedAt, establishment.closedAt)
+				) {
+					Flash.customMessage(
+						'Horário de fechamento menor que o de abertura',
+						'Prencha o campo corretamente', 'WARNING'
+					)
+					return
+				}
+
 				if (!isEmpty(isValid)) {
 
 					if (isValid.hasOwnProperty('mail')) {
 						Flash.customMessage(isValid.mail as string, "Inválido", 'WARNING')
-					}
-					else if (isValid.hasOwnProperty('cnpj')) {
+					} else if (isValid.hasOwnProperty('cnpj')) {
 						Flash.customMessage(isValid.cnpj as string, "Inválido", 'WARNING')
 					}
 					else {
@@ -222,7 +231,8 @@ export const RegisterScreen: React.FC = () => {
 					<PickerTimeStartEnd
 						startValue={establishment.openedAt}
 						endvalue={establishment.closedAt}
-						onChangeCbEnd={(e: Date) => setEstablishment({ ...establishment, closedAt: e })}
+						onChangeCbEnd={(e: Date) =>
+							setEstablishment({ ...establishment, closedAt: e })}
 						onChangeCbStart={(e: Date) =>
 							setEstablishment({ ...establishment, openedAt: e })
 						}

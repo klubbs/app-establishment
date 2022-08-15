@@ -1,13 +1,13 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { IAuthStackParams } from '../@types/iauth_stack_params'
+import { IAuthStackParams } from '../@types/iauth-stack-params'
 import { WelcomeScreen } from '../../components/screens/welcome'
 import { RegisterScreen } from '../../components/screens/register'
 import colors from '../../../assets/constants/colors'
 import { ContractScreen } from '../../components/screens/contract'
-import { RegisterCodeScreen } from '../../components/screens/register_code'
+import { RegisterCodeScreen } from '../../components/screens/register-code'
 import { LoginScreen } from '../../components/screens/login'
-import { ForgetPasswordScreen } from '../../components/screens/forgetPassword'
+import { ForgetPasswordScreen } from '../../components/screens/forget-password'
 
 const AuthStack = createStackNavigator<IAuthStackParams>()
 
