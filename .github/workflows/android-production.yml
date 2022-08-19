@@ -2,11 +2,6 @@ name: Production - ANDROID
 
 on:
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Build(B) or Pusblish(P)'
-        required: true
-        default: ''
 jobs:
   Build:
     runs-on: ubuntu-latest
