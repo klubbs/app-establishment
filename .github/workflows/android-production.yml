@@ -1,4 +1,4 @@
-name: Production - ANDROID
+name: 🚀 PRODUCTION (Android) - Build | Publish Store
 
 on:
   workflow_dispatch:
