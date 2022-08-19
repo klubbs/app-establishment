@@ -261,7 +261,10 @@ export const RegisterScreen: React.FC = () => {
 				<BottomContainer>
 					{
 						!activeFields.name[0] &&
-						<CompleteButton back={!activeFields.name[0]} onPress={() => handleNext(true)} />
+						<CompleteButton
+							back={!activeFields.name[0]}
+							onPress={() => handleNext(true)}
+						/>
 					}
 					<CompleteButton onPress={() => handleNext(false)} />
 				</BottomContainer>

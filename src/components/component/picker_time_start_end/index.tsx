@@ -65,7 +65,8 @@ export const PickerTimeStartEnd: React.FC<{ startValue: Date, endvalue: Date, on
 			return (
 				<React.Fragment>
 					<TimePicker
-						value={props.endvalue ?? new Date(Date.now())} onChange={onChangeEnd} minimumDate={props.startValue}
+						value={props.endvalue ?? new Date(Date.now())}
+						onChange={onChangeEnd}
 					/>
 					<Subtitle>Fechamento</Subtitle>
 				</React.Fragment>
@@ -85,7 +86,8 @@ export const PickerTimeStartEnd: React.FC<{ startValue: Date, endvalue: Date, on
 			return (
 				<React.Fragment>
 					<TimePicker
-						value={props.endvalue ?? new Date(Date.now())} onChange={onChangeEnd} minimumDate={props.startValue}
+						value={props.endvalue ?? new Date(Date.now())}
+						onChange={onChangeEnd}
 					/>
 					<RenderEndSubtitle />
 				</React.Fragment>

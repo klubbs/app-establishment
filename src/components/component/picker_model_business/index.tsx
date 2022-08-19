@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Picker } from '@react-native-picker/picker';
-import colors from '../../../../assets/constants/colors';
-import { WrapperPicker } from './styles';
+
+import { WrapperPicker, CategoryDescription, TouchableCategory, WrapperPickerItem } from './styles';
 import { RegisterService } from '../../../services/register-service';
 import { ICategoryResponse } from '../../../services/@types/@register-service';
 import { Flash } from '../../../utils/flash';
-import { isAPIException } from '../../../utils/documents_utils';
 import { Middlewares } from '../../../utils/middlewares';
+
+const TODOS_ID = '94d9ccaf-9a03-4b1d-9dc7-bec0931b1381'
+const PIZZARIA_ID = '1ccb365c-774e-44d3-931f-47e6f463d18e'
 
 export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 
-	const [values, setValues] = useState<ICategoryResponse[]>([])
-	const [selectedValue, setSelectedValue] = useState<string>('')
+	const [categories, setCategories] = useState<ICategoryResponse[]>([])
+	const [selectedValue, setSelectedValue] = useState<ICategoryResponse | null>(null)
 
 	useEffect(() => {
 
@@ -20,11 +21,12 @@ export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 				try {
 					const response = await RegisterService.getCategories();
 
-					setValues(response
-						.filter(item => item.id !== '94d9ccaf-9a03-4b1d-9dc7-bec0931b1381'))
+					setCategories(response.filter(item => item.id !== TODOS_ID))
 
-					props.onChangeCb('1ccb365c-774e-44d3-931f-47e6f463d18e')
-					setSelectedValue('1ccb365c-774e-44d3-931f-47e6f463d18e')
+					const pizza = response.find(i => i.id == PIZZARIA_ID) as ICategoryResponse
+
+					props.onChangeCb(pizza.id)
+					setSelectedValue(pizza)
 
 				} catch (error) {
 					Middlewares.middlewareError(() => Flash.spillCoffee(), error)
@@ -34,26 +36,31 @@ export const PickerModelBusiness: React.FC<{ onChangeCb: any }> = (props) => {
 
 	}, [])
 
+	function handleChange(id: string) {
+		const toChange = categories.find(i => i.id == id);
+
+		if (toChange) {
+			props.onChangeCb(toChange.id);
+			setSelectedValue(toChange);
+		}
+	}
+
+
 	return (
 		<WrapperPicker
-			selectedValue={selectedValue}
-			onValueChange={(itemValue: string, itemIndex) => {
-				props.onChangeCb(itemValue)
-				setSelectedValue(itemValue)
+			selectedValue={selectedValue?.id}
+			onValueChange={handleChange}
+		>
+			{
+				categories.map((key, index) => {
+					return (<WrapperPickerItem
+						label={key.description}
+						value={key.id}
+						key={key.id}
+					/>
+					)
+				})
 			}
-			}>
-			{values.map((key, index) => {
-				return (<Picker.Item
-					label={key.description}
-					value={key.id}
-					key={key.id}
-					color={colors.COLOR_SECUNDARY_BLACK}
-					style={{
-						fontFamily: 'Nunito_Light',
-						fontSize: 15
-					}}
-				/>)
-			})}
-		</WrapperPicker>
-	);
+		</WrapperPicker >
+	)
 }
