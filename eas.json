@@ -11,7 +11,12 @@
       "distribution": "internal"
     },
     "production": {
-      "channel": "production"
+      "channel": "production",
+      "env": {
+        "KLUBBS_API_URL": "https://api-klubbs-u0vwc1drzhnlvg-us-east-1.klubbs.com.br:5000/",
+        "KLUBBS_AUTHZN_URL": "https://services-api-klubbs-u0vwc1drzhnlvg.klubbs.com.br/auth-zn/",
+        "PLACES_API": "AIzaSyAqk5k-5KOP64Sra-bLGyrsEBZs8q4ZEOk"
+      }
     }
   },
   "submit": {
