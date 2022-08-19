@@ -1,18 +1,17 @@
+import './src/utils/extensions/date_extensions';
+import './src/utils/extensions/object_extensions';
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, LogBox, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Navigations } from './src/settings/navigation';
 import { useFonts } from 'expo-font';
-import { decode, encode } from 'base-64';
-import './src/utils/extensions/date_extensions';
-import './src/utils/extensions/object_extensions';
-import AuthProvider from './src/contexts/auth_context';
-import FlashComponent from 'flash-notify';
+import AuthProvider from './src/contexts/auth-context';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from './assets/constants/colors';
-
+import FlashComponent from 'flash-notify'
 
 LogBox.ignoreLogs(['Expected style']);
+
 export default function App() {
 
 	useEffect(() => {
@@ -57,13 +56,3 @@ export default function App() {
 		</AuthProvider>
 	);
 }
-
-(function DefaultInitializations() {
-	if (!global.btoa) {
-		global.btoa = encode;
-	}
-
-	if (!global.atob) {
-		global.atob = decode;
-	}
-})();

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../contexts/auth_context';
-import { AuthStackNavigator } from './auth_stack';
-import { DrawerNavigation } from './drawer/drawer_stack';
+import { AuthContext } from '../../contexts/auth-context';
+import { AuthStackNavigator } from './auth-stack';
+import { DrawerNavigation } from './drawer/drawer-stack';
 
 // import { Container } from './styles';
 

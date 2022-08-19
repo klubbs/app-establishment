@@ -2,11 +2,6 @@ name: Production - IOS
 
 on:
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Build(B) or Pusblish(P)'
-        required: true
-        default: ''
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -16,59 +11,54 @@ jobs:
         node-version: [14.x]
 
     steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
 
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: 16.x
+          cache: yarn
 
-      - name: Configure Expo credentials
-        uses: expo/expo-github-action@v5
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v7
         with:
-          expo-version: 4.x
-          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
-          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-version: latest
+          eas-version: latest
+          expo-token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Configure AWS credentials
+      - name: 🏗 Setup AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # - name: Download S3 files to prepare app
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      # - if: github.event.inputs.deploy == 'P'
+      #   name: Publish Version
+      #   env:
+      #     ENVIRONMENT_KLUBBS_API_URL: ${{secrets.ENVIRONMENT_KLUBBS_API_URL }}
+      #     ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
+      #     ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
       #   run: |
-      #     aws s3 cp s3://credentials-apple/ios-google-service-info.plist ios-google-service-info.plist
+      #       echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
+      #       expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
 
-      - name: Download Yarn dependencies
-        run: |
-            ls
-            npm install --global yarn
-            yarn
-
-      - if: github.event.inputs.deploy == 'P'
-        name: Publish Version
+      - name: 🚀 Build Version
         env:
-          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
-        run: |
-            echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
-            expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
-
-      - if: github.event.inputs.deploy == 'B'
-        name: Build Version
-        env:
-          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+          ENVIRONMENT_KLUBBS_API_URL: ${{ secrets.ENVIRONMENT_KLUBBS_API_URL }}
+          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
+          ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API }}
         run: |
             echo "----- BUILD -----"
             expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
             echo "----- DOWNLOAD IPA -----"
             curl -o app.ipa "$(expo url:ipa --non-interactive)"
 
-      - if: github.event.inputs.deploy == 'B'
-        name: Upload do artefato
+      - name: 📦 Upload do artefato
         uses: actions/upload-artifact@v2
         with:
          name: appbuild
@@ -77,7 +67,6 @@ jobs:
   Transport_Apple_Store_Connect:
     needs: Build
     runs-on:  macos-latest
-    if: github.event.inputs.deploy == 'B'
     steps:
 
       - uses: actions/download-artifact@v2

@@ -7,7 +7,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	slug: "klubbs-establishment",
 	scheme: 'klubbs-establishment',
 	orientation: "portrait",
-	icon: './assets/icon.png',
 	splash: {
 		image: "./assets/images/splash.png",
 		resizeMode: "contain",
@@ -16,14 +15,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	updates: {
 		fallbackToCacheTimeout: 0
 	},
-	experiments: {
-		"turboModules": true
-	},
-	version: "0.0.3",
+	version: "0.0.5",
 	ios: {
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
-		buildNumber: "0.0.8",
+		buildNumber: "0.0.10",
+		icon: './assets/images/icon.png',
 		infoPlist: {
 			NSPhotoLibraryUsageDescription: "Necessistamos da sua autorização para que você consiga escolher uma imagem da sua galeria.",
 			NSCameraUsageDescription: "Precisamos da sua autorização para que você possa validar vendas por QR Code."
@@ -31,14 +28,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 1,
+		versionCode: 5,
 		adaptiveIcon: {
-			foregroundImage: './assets/android-icon.png',
-			backgroundColor: '#515151'
+			foregroundImage: './assets/images/android-icon.png',
+			backgroundColor: '#1F1F1F'
 		}
 	},
 	extra: {
-		API_URL: process.env.ENVIRONMENT_API_URL,
+		KLUBBS_API_URL: process.env.ENVIRONMENT_KLUBBS_API_URL,
+		KLUBBS_AUTHZN_URL: process.env.ENVIRONMENT_KLUBBS_AUTHZN_URL,
 		PLACES_API: process.env.ENVIRONMENT_PLACES_API
 	}
 });

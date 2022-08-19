@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { RegisterService } from '../../../services/register_service'
+import { RegisterService } from '../../../services/register-service'
 import { isEmpty, nameof } from '../../../utils/extensions/object_extensions'
 import { Flash } from '../../../utils/flash'
 import { PickerModelBusiness } from '../../component/picker_model_business'
@@ -12,6 +12,8 @@ import { useAnimationState } from 'moti'
 import {
 	Cnpj, CompleteButton, Cpf, Description, GooglePlaces, Mail, Name, NameResponsible, Password, Phone, Wrapper, Question, Container, AnimatedContainer, BottomContainer
 } from './styles'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { IAuthStackParams } from '../../../settings/@types/iauth-stack-params'
 
 
 const useFadeInDown = () => {
@@ -28,7 +30,7 @@ const useFadeInDown = () => {
 }
 
 export const RegisterScreen: React.FC = () => {
-	const navigation = useNavigation()
+	const navigation = useNavigation<StackNavigationProp<IAuthStackParams>>()
 	const fadeInDown = useFadeInDown()
 
 	const [loading, setLoading] = useState(false)
@@ -48,7 +50,6 @@ export const RegisterScreen: React.FC = () => {
 		mail: [false, 'Qual será seu e-mail de login:'],
 		password: [false, 'Coloque sua melhor senha:'],
 	})
-
 	const [establishment, setEstablishment] = useState<IEstablishmentRegister>({
 		name: '',
 		phone: '',
@@ -100,12 +101,21 @@ export const RegisterScreen: React.FC = () => {
 				const isValid = await RegisterService
 					.ValidateProperty(establishment[property], property);
 
+				if (property == 'closedAt'
+					&& !RegisterService.hourIsValid(establishment.openedAt, establishment.closedAt)
+				) {
+					Flash.customMessage(
+						'Horário de fechamento menor que o de abertura',
+						'Prencha o campo corretamente', 'WARNING'
+					)
+					return
+				}
+
 				if (!isEmpty(isValid)) {
 
 					if (isValid.hasOwnProperty('mail')) {
 						Flash.customMessage(isValid.mail as string, "Inválido", 'WARNING')
-					}
-					else if (isValid.hasOwnProperty('cnpj')) {
+					} else if (isValid.hasOwnProperty('cnpj')) {
 						Flash.customMessage(isValid.cnpj as string, "Inválido", 'WARNING')
 					}
 					else {
@@ -222,7 +232,8 @@ export const RegisterScreen: React.FC = () => {
 					<PickerTimeStartEnd
 						startValue={establishment.openedAt}
 						endvalue={establishment.closedAt}
-						onChangeCbEnd={(e: Date) => setEstablishment({ ...establishment, closedAt: e })}
+						onChangeCbEnd={(e: Date) =>
+							setEstablishment({ ...establishment, closedAt: e })}
 						onChangeCbStart={(e: Date) =>
 							setEstablishment({ ...establishment, openedAt: e })
 						}
@@ -250,7 +261,10 @@ export const RegisterScreen: React.FC = () => {
 				<BottomContainer>
 					{
 						!activeFields.name[0] &&
-						<CompleteButton back={!activeFields.name[0]} onPress={() => handleNext(true)} />
+						<CompleteButton
+							back={!activeFields.name[0]}
+							onPress={() => handleNext(true)}
+						/>
 					}
 					<CompleteButton onPress={() => handleNext(false)} />
 				</BottomContainer>

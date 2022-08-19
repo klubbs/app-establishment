@@ -1,5 +1,5 @@
 import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors';
-import { IError } from '../settings/services/api';
+import { IError } from '../settings/connection';
 import { isEmpty, nameof } from "./extensions/object_extensions";
 
 export const beValidCnpj = (cnpj: string): boolean => {

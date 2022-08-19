@@ -1,17 +1,18 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styled from 'styled-components/native'
 import colors from '../../../../assets/constants/colors';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 export const TimePicker = styled(DateTimePicker).attrs(() => ({
-	testID: "dateTimePicker",
-	mode: 'time',
-	locale: 'pt-BR',
-	display: "spinner",
-	minuteInterval: 5,
-	textColor: colors.COLOR_SECUNDARY_BLACK
+    testID: "dateTimePicker",
+    mode: 'time',
+    locale: 'pt-BR',
+    display: Platform.OS == 'ios' ? 'spinner' : "default",
+    minuteInterval: 5,
+    textColor: colors.COLOR_SECUNDARY_BLACK,
+
 }))`
     height: 70px;
     width: 60%;

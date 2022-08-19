@@ -7,14 +7,13 @@ import {
 	Subtitle, SwitchContract, ButtonNext, Terms, BoldTerms, ContainerScroll, Tutorial,
 	WrapperSwitch
 } from './styles'
-import { ContractScreenProps } from '../../../settings/@types/iauth_stack_params'
+import { ContractScreenProps, IAuthStackParams } from '../../../settings/@types/iauth-stack-params'
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export const ContractScreen: React.FC<ContractScreenProps> = ({ route }) => {
-	const navigation = useNavigation()
+	const navigation = useNavigation<StackNavigationProp<IAuthStackParams>>()
 
 	const [accepted, setAccepted] = useState<boolean>(false)
-
-	useEffect(() => { }, [])
 
 	return (
 		<Wrapper>
