@@ -37,10 +37,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # - name: Download S3 files to prepare app
-      #   run: |
-      #     aws s3 cp s3://credentials-apple/ios-google-service-info.plist ios-google-service-info.plist
-
       - name: Download Yarn dependencies
         run: |
             ls
@@ -50,7 +46,8 @@ jobs:
       - if: github.event.inputs.deploy == 'P'
         name: Publish Version
         env:
-          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
+          ENVIRONMENT_KLUBBS_API_URL: ${{secrets.ENVIRONMENT_KLUBBS_API_URL }}
+          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
           ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
         run: |
             echo "Publicar versão canal -> production-${GITHUB_REF##*/}"
@@ -59,8 +56,9 @@ jobs:
       - if: github.event.inputs.deploy == 'B'
         name: Build Version
         env:
-          ENVIRONMENT_API_URL: ${{ secrets.ENVIRONMENT_API_URL }}
-          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+          ENVIRONMENT_KLUBBS_API_URL: ${{ secrets.ENVIRONMENT_KLUBBS_API_URL }}
+          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
+          ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API }}
         run: |
             echo "----- BUILD -----"
             expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
