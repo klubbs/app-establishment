@@ -1,4 +1,4 @@
-name: Production - IOS
+name: 🚀 PRODUCTION (IOS) - Build | Publish Store
 
 on:
   workflow_dispatch:

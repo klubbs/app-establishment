@@ -1,12 +1,7 @@
-name: Production - ANDROID
+name: 🚀 PRODUCTION (Android) - Build | Publish Store
 
 on:
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: 'Build(B) or Pusblish(P)'
-        required: true
-        default: ''
 jobs:
   Build:
     runs-on: ubuntu-latest
