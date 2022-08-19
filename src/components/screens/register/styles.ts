@@ -127,8 +127,8 @@ height: 120px;
 export const CompleteButton = styled(Button).attrs((props: { back?: boolean }) => ({
 	text: props.back ? 'Voltar' : 'Próximo',
 	styleContainer: props.back
-		? { width: 150, height: 60, left: 0, position: 'absolute', bottom: 0 }
-		: { width: 150, height: 60, right: 0, position: 'absolute', bottom: 0 }
+		? { width: 145, height: 60, left: 0, position: 'absolute', bottom: 0 }
+		: { width: 145, height: 60, right: 0, position: 'absolute', bottom: 0 }
 })) <{ back?: boolean }>``
 
 
