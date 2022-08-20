@@ -28,7 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 6,
+		versionCode: 7,
 		adaptiveIcon: {
 			foregroundImage: './assets/images/android-icon.png',
 			backgroundColor: '#1F1F1F'
