@@ -1,4 +1,4 @@
-name: 🚀 PROD => Android - Build | Publish Store
+name: 🚀 PROD Android - Build | Publish Store
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
 
       - name: 🏗 Setup repo
         uses: actions/checkout@v2
-      
+
       - name: 🏗 Setup Node
         uses: actions/setup-node@v2
         with:
@@ -42,11 +42,11 @@ jobs:
         run: |
           aws s3 cp s3://klubbs-devops/android/pc-api-4645832410875810463-754-d807856b6c63.json google-key-account.json
 
+      - name: 🏗 Download S3 EAS Environment
+        run: |
+          aws s3 cp s3://klubbs-devops/expo/klubbs-establishment/eas.json
+
       - name: 🚀 Build and Publish New Version
-        env:
-          ENVIRONMENT_KLUBBS_API_URL: ${{ secrets.ENVIRONMENT_KLUBBS_API_URL }}
-          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
-          ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API }}
         run: |
             echo "----- BUILD -----"
             eas build --platform android --profile production --non-interactive --auto-submit
