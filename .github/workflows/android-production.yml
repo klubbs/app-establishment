@@ -52,8 +52,8 @@ jobs:
       #     ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
       #     ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API}}
         run: |
-            eas build --platform android --profile production --non-interactive --local
-	    eas submit --platform android --profile production --non-interactive
+eas build --platform android --profile production --non-interactive --local
+eas submit --platform android --profile production --non-interactive
 
       # - name: 🚀 Build and Publish New Version
       #   run: |
