@@ -48,12 +48,16 @@ jobs:
       #       expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
 
       - name: 🚀 Build Version
+        env:
+          ENVIRONMENT_KLUBBS_API_URL: ${{ secrets.ENVIRONMENT_KLUBBS_API_URL }}
+          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
+          ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API}}
         run: |
-		      eas build --platform ios --profile production --non-interactive
+			 eas build --platform ios --profile production --non-interactive --local
 
-				brew install jq
+			 brew install jq
 
-            curl -o app.ipa "$(eas build:list --json --limit=1 --platform=ios | jq '.[0].artifacts.buildUrl' --non-interactive)"
+			 curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.ipa')"
 
 
       - name: 📦 Upload do artefato
