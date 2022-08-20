@@ -48,15 +48,13 @@ jobs:
       #       expo publish --release-channel production-${GITHUB_REF##*/} --non-interactive
 
       - name: 🚀 Build Version
-        env:
-          ENVIRONMENT_KLUBBS_API_URL: ${{ secrets.ENVIRONMENT_KLUBBS_API_URL }}
-          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
-          ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API }}
         run: |
-            echo "----- BUILD -----"
-            expo build:ios --release-channel production-${GITHUB_REF##*/} --non-interactive
-            echo "----- DOWNLOAD IPA -----"
-            curl -o app.ipa "$(expo url:ipa --non-interactive)"
+		      eas build --platform ios --profile production --non-interactive
+
+				brew install jq
+
+            curl -o app.ipa "$(eas build:list --json --limit=1 --platform=ios | jq '.[0].artifacts.buildUrl' --non-interactive)"
+
 
       - name: 📦 Upload do artefato
         uses: actions/upload-artifact@v2
@@ -64,7 +62,7 @@ jobs:
          name: appbuild
          path: ./app.ipa
 
-  Transport_Apple_Store_Connect:
+  APPLE_STORE_TRANSPORT:
     needs: Build
     runs-on:  macos-latest
     steps:
@@ -73,23 +71,22 @@ jobs:
         with:
           name: appbuild
 
-      - name: Configure AWS credentials
+      - name: 🏗 Setup AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Download S3 file to publish in Apple Store
+      - name: 📦 Download and Install Fastlane Key Apple Store
         run: |
           aws s3 cp s3://klubbs-devops/ios/fastlane-key-ios.json fastlane-key-ios.json
 
-      - name: Fastlane - Install
-        run: |
-          brew install fastlane
-          fastlane update_fastlane
+			 brew install fastlane
 
-      - name: Fastlane - Transport
+			 fastlane update_fastlane
+
+      - name: 🚀 Fastlane Publish Apple Store
         run: fastlane deliver --verbose --ipa "app.ipa" --skip_screenshots --skip_metadata --precheck_include_in_app_purchases false --api_key_path ./fastlane-key-ios.json
 
       - uses: geekyeggo/delete-artifact@v1
