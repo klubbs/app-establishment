@@ -47,10 +47,10 @@ jobs:
           aws s3 cp s3://klubbs-devops/expo/klubbs-establishment/eas.json eas.json
 
       - name: 🚀 Build and Publish New Version
-		  env:
-      	ENVIRONMENT_KLUBBS_API_URL: ${{secrets.ENVIRONMENT_KLUBBS_API_URL }}
-         ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
-         ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
+        env:
+          ENVIRONMENT_KLUBBS_API_URL: ${{secrets.ENVIRONMENT_KLUBBS_API_URL }}
+          ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
+          ENVIRONMENT_PLACES_API: ${{secrets.ENVIRONMENT_PLACES_API}}
         run: |
             eas build --platform android --profile production --non-interactive --local
 
