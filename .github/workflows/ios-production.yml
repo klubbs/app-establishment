@@ -54,9 +54,6 @@ jobs:
           ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API}}
         run: |
 			 eas build --platform ios --profile production --non-interactive --local
-
-			 brew install jq
-
 			 curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.ipa')"
 
 
