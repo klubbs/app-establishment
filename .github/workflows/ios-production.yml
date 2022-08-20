@@ -53,10 +53,7 @@ jobs:
           ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
           ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API}}
         run: |
-	eas build --platform ios --profile production --non-interactive --local
-
-curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.ipa')"
-
+          eas build --platform ios --profile production --non-interactive --local                curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.ipa')"
 
       - name: 📦 Upload do artefato
         uses: actions/upload-artifact@v2
@@ -82,11 +79,7 @@ curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -
 
       - name: 📦 Download and Install Fastlane Key Apple Store
         run: |
-          aws s3 cp s3://klubbs-devops/ios/fastlane-key-ios.json fastlane-key-ios.json
-
-	  brew install fastlane
-
-	  fastlane update_fastlane
+          aws s3 cp s3://klubbs-devops/ios/fastlane-key-ios.json fastlane-key-ios.json          brew install fastlane                                                             fastlane update_fastlane
 
       - name: 🚀 Fastlane Publish Apple Store
         run: fastlane deliver --verbose --ipa "app.ipa" --skip_screenshots --skip_metadata --precheck_include_in_app_purchases false --api_key_path ./fastlane-key-ios.json
