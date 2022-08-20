@@ -53,8 +53,8 @@ jobs:
           ENVIRONMENT_KLUBBS_AUTHZN_URL: ${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }}
           ENVIRONMENT_PLACES_API: ${{ secrets.ENVIRONMENT_PLACES_API}}
         run: |
-	eas build --platform ios --profile production --non-interactive --local
-	curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.ipa')"
+		  eas build --platform ios --profile production --non-interactive --local
+		  curl -o app.ipa "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.ipa')"
 
       - name: 📦 Upload do artefato
         uses: actions/upload-artifact@v2
