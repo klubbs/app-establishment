@@ -80,7 +80,7 @@ jobs:
 
       - name: 📦 Download and Install Fastlane Key Apple Store
         run: |
-          aws s3 cp s3://klubbs-devops/ios/fastlane-key-ios.json fastlane-key-ios.json brew install fastlane fastlane update_fastlane
+          aws s3 cp s3://klubbs-devops/ios/fastlane-key-ios.json fastlane-key-ios.json          brew install fastlane fastlane update_fastlane
 
       - name: 🚀 Fastlane Publish Apple Store
         run: fastlane deliver --verbose --ipa "app.ipa" --skip_screenshots --skip_metadata --precheck_include_in_app_purchases false --api_key_path ./fastlane-key-ios.json
