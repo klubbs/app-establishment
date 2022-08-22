@@ -54,3 +54,18 @@ jobs:
         run: |
           eas build --platform android --profile production --non-interactive --local
           eas submit --platform android --profile production --path "$(find /home/runner/work/app-establishment/app-establishment/ -name '*.aab')" --non-interactive
+
+      # PUT IF RELEASE BRANCHS
+      - name: 📦 Extract Branch Name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: 🔀 Automatic Merge Into Main
+        uses: mtanzi/action-automerge@v1
+        # if: github.ref == 'refs/heads/release'
+        with:
+          github_token: ${{ github.token }}
+          source: ${{ steps.extract_branch.outputs.branch }}
+          target: 'main'
+          webhook_url: #if present add the Slack webhook
