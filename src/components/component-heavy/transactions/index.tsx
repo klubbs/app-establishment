@@ -42,10 +42,10 @@ export const Transactions: React.FC = () => {
 				renderItem={({ item }) =>
 					<View style={{ height: 60 }}>
 						<TransactionItem
-							influencer={item.influencer_name}
-							date={item.created_at?.ToDateFormat()}
-							coupon={item.code}
-							amount={item.amount}
+							influencer={item.partner_coupon_name}
+							date={item.checkouted_at?.ToDateFormat()}
+							coupon={item.coupon_code}
+							amount={item.checkout_amount}
 						/>
 					</View>
 				}

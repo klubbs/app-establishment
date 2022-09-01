@@ -115,11 +115,13 @@ export const QrCodeScanner: React.FC = () => {
 	return (
 		<>
 			<Spinner loading={loading} />
-			<View style={{
-				flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK,
-				justifyContent: 'center',
-				alignItems: 'center'
-			}}>
+			<View
+				style={{
+					flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK,
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+			>
 				<BarCodeScanner
 					onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
 					style={

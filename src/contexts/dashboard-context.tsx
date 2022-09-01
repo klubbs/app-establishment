@@ -15,7 +15,7 @@ export const DashboardContext = createContext(
     }
 )
 
-const DashboardProvider: React.FC = ({ children }) => {
+const DashboardProvider: React.FC = ({ children }: any) => {
 
     const { reloadProfileInCloud, establishment } = useContext(AuthContext)
 
@@ -35,9 +35,9 @@ const DashboardProvider: React.FC = ({ children }) => {
 
             const response = await FinanceService.GetDashboardBalance();
 
-            setAmount(response.amount);
+            setAmount(response.wallet_amount);
             setCheckouts(response.checkouts);
-            setFutureCheckouts(response.checkout_in_future)
+            // setFutureCheckouts(response.checkout_in_future)
 
         } catch (error) {
             Middlewares.middlewareError(
