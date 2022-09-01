@@ -46,9 +46,9 @@ export class OfferService {
 		}
 	}
 
-	static async scanCoupon(couponId: string, userId: string) {
+	static async scanCoupon(checkoutId: string, storeAmount: string) {
 		await connectionHandler('KLUBBS_API_URL')
-			.post('checkouts', { coupon_id: couponId, user_id: userId })
+			.post('checkouts', { checkout_id: checkoutId, store_checkout_amount: storeAmount })
 	}
 
 	static catchScanCoupon(errors: IError) {
@@ -57,55 +57,50 @@ export class OfferService {
 			const actualError = errors.error[0].field.toLowerCase();
 
 			switch (actualError) {
-				case 'coupon':
-					Flash.customMessage("Cupom inválido", "Esse não é um cupom válido", 'WARNING')
-					break;
-
-				case 'wallet':
+				case 'checkout completed':
 					Flash.customMessage(
-						"Cupom não está na carteira",
-						"O cliente não adicionou o cupom a carteira", 'WARNING')
+						"Esse checkout já foi validado",
+						"Checkout já validado",
+						'NEUTRAL'
+					)
 					break;
 
-				case 'ineligible':
+				case 'responsible checkout':
 					Flash.customMessage(
-						"Este cupom não é válido no seu estabelecimento",
-						"Não existe oferta do seu estabelecimento neste cupom",
-						'WARNING')
+						'Checkout em andamento é de outro estabelecimento',
+						"Não responsável pelo checkout",
+						'WARNING'
+					)
 					break;
 
-				case 'rules':
+				case 'range amount':
 					Flash.customMessage(
-						"Oferta Inválida",
-						"Esta oferta não é válida no dia de hoje",
-						'WARNING')
-
+						"O valor informado entre vocês está muito incosistente",
+						"Valor informado é inconsistente",
+						'NEUTRAL'
+					)
 					break;
 
-				case 'establishment':
+				case 'store permission':
 					Flash.customMessage(
 						"Seu estabelecimento ainda não esta adequado a fazer checkouts",
 						"Establecimento rejeitado",
-						'WARNING')
-
+						'WARNING'
+					)
 					break;
 
 				case 'balance':
-
 					Flash.customMessage(
-						"Saldo baixo",
-						"Saldo insuficiente para novas transações",
-						'WARNING')
-
+						"O saldo é inválido para completar este checkout",
+						"Saldo inválido",
+						'NEUTRAL'
+					)
 					break;
 
 				default:
 
 					break;
 			}
-
-
-
 
 		} else {
 			Flash.someoneBullshit()

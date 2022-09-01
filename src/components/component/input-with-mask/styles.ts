@@ -15,4 +15,6 @@ export const InputMask = styled(TextInputMask).attrs(props => ({
     padding:10px;
     font-size: 15px;
     font-family:'Nunito_Light';
+    text-align-vertical:center;
+    text-align:center ;
   `;

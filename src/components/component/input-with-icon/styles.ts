@@ -3,11 +3,12 @@ import colors from '../../../../assets/constants/colors';
 
 
 export const Input = styled.TextInput.attrs(props => ({
-    autoCapitalize: 'none',
-    clearButtonMode: 'while-editing',
-    textAlignVertical: 'top',
-    returnKeyType: 'done'
-  }))`
+  autoCapitalize: 'none',
+  clearButtonMode: 'while-editing',
+  textAlignVertical: 'top',
+  returnKeyType: 'done',
+  placeholderTextColor: colors.COLOR_BLACK50
+}))`
     color:${colors.COLOR_SECUNDARY_BLACK};
     background-color:${colors.COLOR_WHITE};
     border-radius:10px;

@@ -41,12 +41,7 @@ export const Transactions: React.FC = () => {
 				showsVerticalScrollIndicator={false}
 				renderItem={({ item }) =>
 					<View style={{ height: 60 }}>
-						<TransactionItem
-							influencer={item.partner_coupon_name}
-							date={item.checkouted_at?.ToDateFormat()}
-							coupon={item.coupon_code}
-							amount={item.checkout_amount}
-						/>
+						<TransactionItem {...item} />
 					</View>
 				}
 			/>}

@@ -130,7 +130,6 @@ export const MinimumTicket = styled(InputWithMask).attrs(({
 	color:${colors.COLOR_SECUNDARY_BLACK};
 	font-family: 'Nunito_Bold';
 	background-color: ${colors.COLOR_BLACK10};
-    text-align-vertical:center;
 `
 
 

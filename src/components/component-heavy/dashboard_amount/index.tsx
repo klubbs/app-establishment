@@ -2,9 +2,11 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Platform, RefreshControl } from 'react-native'
 import { Skeleton } from '@motify/skeleton'
 import { MotiView } from 'moti'
-import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton, BlurBox } from './styles';
+import {
+	ValueSubtitle,
+	Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton
+} from './styles';
 import colors from '../../../../assets/constants/colors';
-import { AuthContext } from '../../../contexts/auth-context';
 import { DashboardContext } from '../../../contexts/dashboard-context';
 import { RequestBalance } from '../requestBalance';
 import { IRequestBalanceRef } from '../requestBalance/@types';
@@ -12,7 +14,7 @@ import { IRequestBalanceRef } from '../requestBalance/@types';
 export const DashboardAmount: React.FC = () => {
 
 	const requestBalanceRef = useRef<IRequestBalanceRef>(null)
-	const { getDashboard, amount, refreshing, futureCheckouts } = useContext(DashboardContext)
+	const { getDashboard, walletAmount, refreshing } = useContext(DashboardContext)
 
 	const [showSkeleton, setShowSkeleton] = useState(true)
 
@@ -35,7 +37,8 @@ export const DashboardAmount: React.FC = () => {
 
 	return (
 		<Wrapper
-			refreshControl={
+			refreshControl=
+			{
 				<RefreshControl
 					refreshing={refreshing}
 					onRefresh={getDashboardWithSkeleton}
@@ -51,18 +54,15 @@ export const DashboardAmount: React.FC = () => {
 						<Amount>
 							{
 								Platform.select({
-									ios: amount
-										.toLocaleString('pt-br',
-											{ style: 'currency', currency: 'BRL' }),
-									android: `R$ ${amount}`
+									ios: walletAmount.toLocaleString('pt-br',
+										{ style: 'currency', currency: 'BRL' }),
+									android: `R$ ${walletAmount}`
 								})
 							}
 						</Amount>
 					</Skeleton>
 				</MotiView>
-				{!futureCheckouts &&
-					<DueDateSubtitle> Saldo insuficiente para novas transações 😰</DueDateSubtitle>
-				}
+				<DueDateSubtitle> Saldo insuficiente para novas transações 😰</DueDateSubtitle>
 			</WrapperAmount>
 			<PayButton disabled={false} onPress={() => requestBalanceRef.current?.openModal()} />
 			<RequestBalance ref={requestBalanceRef} />

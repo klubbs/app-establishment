@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Linking, Alert, Platform } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Linking, Alert, Platform, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import colors from '../../../../assets/constants/colors';
 import { Spinner } from '../../component/spinner';
 import { OfferService } from '../../../services/offer-service';
 import { Flash } from '../../../utils/flash';
 import * as Haptic from 'expo-haptics';
 import { IError } from '../../../settings/connection';
 import {
+	Wrapper,
+	KeyboardCheckoutAmount,
 	CenterWrapper,
 	Focused,
 	ScanSubtitle,
@@ -18,16 +19,18 @@ import {
 	SquareTop,
 	ScanDescSubtitle,
 	ScanOtherButton,
+	CheckoutAmount,
+	CheckoutDescSubtitle
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
-import { DashboardContext } from '../../../contexts/dashboard-context';
+
 
 export const QrCodeScanner: React.FC = () => {
 
 	const navigation = useNavigation();
-	const { futureCheckouts } = useContext(DashboardContext)
 
 	const [hasPermission, setHasPermission] = useState<boolean>(false);
+	const [amount, setAmount] = useState<string>('')
 	const [scanned, setScanned] = useState(false);
 	const [loading, setLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
@@ -63,23 +66,47 @@ export const QrCodeScanner: React.FC = () => {
 
 	async function handleBarCodeScanned({ type, data }: { type: any, data: any }) {
 
-		try {
+		if (scanned) {
+			return;
+		}
 
+		if (amount === '' || amount === 'R$0,00') {
+
+			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Medium);
+
+			Flash.customMessage(
+				'É necessário preencher o valor total do pedido para validar',
+				'Preencha o valor do pedido',
+				'NEUTRAL'
+			);
+
+			return;
+		}
+
+		const checkoutId = data.split('|')[1];
+
+		if (!checkoutId) {
+			setHasError(true)
+
+			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
+			Flash.customMessage(
+				"Este não um cupom válido klubbs",
+				"Cupom inválido",
+				"WARNING")
+			return;
+		}
+
+		try {
 			setScanned(true)
 			setLoading(true)
 
-			const splitedValues = data.split('|')
-
-			const couponId = splitedValues[0]
-			const userId = splitedValues[1]
-
-			if (!couponId || !userId) {
-				Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
-				setHasError(true)
-				Flash.customMessage("Esse não é um cupom válido", "Cupom inválido", "WARNING")
-				return;
-			}
-			await OfferService.scanCoupon(couponId, userId)
+			await OfferService.scanCoupon(
+				checkoutId,
+				amount
+					.replace('R$', '')
+					.replace('.', '')
+					.replace(',', '.')
+			)
 
 			Flash.customMessage(
 				"Você já pode validar outros cupons",
@@ -93,8 +120,8 @@ export const QrCodeScanner: React.FC = () => {
 			Middlewares.middlewareError(
 				() => {
 					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
-					setHasError(true)
 					OfferService.catchScanCoupon(error as IError)
+					setHasError(true)
 				}, error
 			)
 		} finally {
@@ -108,6 +135,10 @@ export const QrCodeScanner: React.FC = () => {
 		setScanned(false)
 	}
 
+	function handleSetAmount(newAmount: string) {
+		setAmount(newAmount == 'R$0,00' ? '' : newAmount)
+	}
+
 	if (hasPermission === false) {
 		return (<View />)
 	}
@@ -115,28 +146,20 @@ export const QrCodeScanner: React.FC = () => {
 	return (
 		<>
 			<Spinner loading={loading} />
-			<View
-				style={{
-					flex: 1, backgroundColor: colors.COLOR_SECUNDARY_BLACK,
-					justifyContent: 'center',
-					alignItems: 'center'
-				}}
-			>
+			<Wrapper>
+
 				<BarCodeScanner
-					onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+					onBarCodeScanned={handleBarCodeScanned}
 					style={
 						Platform.select({
 							ios: { ...StyleSheet.absoluteFillObject },
 							android: { width: '140%', height: '100%' }
 						})
 					}>
+
 					<SquareTop />
-					{futureCheckouts && <ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>}
-					<ScanDescSubtitle futureCheckouts={futureCheckouts}>{
-						futureCheckouts
-							? 'Escaneie o cupom para validar uma oferta'
-							: 'Saldo insuficiente para novas transações'
-					}</ScanDescSubtitle>
+					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
+					<ScanDescSubtitle >Escaneie o cupom para validar uma oferta</ScanDescSubtitle>
 					<CenterWrapper>
 						<SquareLeft />
 						<Focused />
@@ -144,15 +167,25 @@ export const QrCodeScanner: React.FC = () => {
 					</CenterWrapper>
 					<SquareBottom />
 
+					<KeyboardCheckoutAmount>
+						<CheckoutAmount
+							value={amount}
+							onChangeText={handleSetAmount}
+						/>
+						<CheckoutDescSubtitle >
+							Valor total do pedido ( Podendo arredondar )
+						</CheckoutDescSubtitle>
+
+					</KeyboardCheckoutAmount>
 				</BarCodeScanner>
 				{
 					(scanned && !loading) &&
 					<ScanOtherButton
 						error={hasError}
-						onPress={() => handleResetValues()}
+						onPress={handleResetValues}
 					/>
 				}
-			</View>
+			</Wrapper>
 		</>
 	);
 }

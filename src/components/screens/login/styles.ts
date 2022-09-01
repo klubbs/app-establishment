@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 import colors from '../../../../assets/constants/colors';
 import { InputWithIcon } from '../../component/input-with-icon';
 import Button from '../../component/button';
-import { Dimensions, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { isSmallAndroid } from '../../../utils/dimensions';
 
 export const Wrapper = styled.View`
@@ -26,17 +26,14 @@ export const Subtitle = styled.Text`
 
 const InputBase = styled(InputWithIcon)`
     width:100%;
-    height:${Platform
-    .select({
-      ios: '60px',
-      android: isSmallAndroid() ? '45px' : '60px'
-    })};
+    height:${Platform.select({ ios: '60px', android: isSmallAndroid() ? '45px' : '60px' })};
     margin-bottom: 30px;
     text-align-vertical:center;
 `
 export const Username = styled(InputBase).attrs(() => ({
   placeholder: 'e-mail',
-  keyboardType: 'email-address'
+  keyboardType: 'email-address',
+  placeholderColor: '#3434'
 }))`
     margin-top:40%;
 `

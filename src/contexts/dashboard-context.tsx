@@ -8,21 +8,18 @@ import { AuthContext } from "./auth-context";
 export const DashboardContext = createContext(
     {} as {
         getDashboard: () => Promise<void>,
-        amount: number,
+        walletAmount: number,
         checkouts: ITransactionItems[] | null,
-        refreshing: boolean,
-        futureCheckouts: boolean
+        refreshing: boolean
     }
 )
 
 const DashboardProvider: React.FC = ({ children }: any) => {
-
     const { reloadProfileInCloud, establishment } = useContext(AuthContext)
 
 
-    const [amount, setAmount] = useState(0.00)
+    const [walletAmount, setWalletAmount] = useState(0.00)
     const [checkouts, setCheckouts] = useState<ITransactionItems[] | null>(null)
-    const [futureCheckouts, setFutureCheckouts] = useState(true)
 
     const [refreshing, setRefreshing] = useState(false)
 
@@ -35,16 +32,17 @@ const DashboardProvider: React.FC = ({ children }: any) => {
 
             const response = await FinanceService.GetDashboardBalance();
 
-            setAmount(response.wallet_amount);
+            setWalletAmount(response.wallet_amount);
             setCheckouts(response.checkouts);
-            // setFutureCheckouts(response.checkout_in_future)
 
         } catch (error) {
             Middlewares.middlewareError(
                 () => Flash
                     .customMessage(
                         "Ocorreu um erro ao recuperar seu painel",
-                        "Desculpe", "NEUTRAL"), error
+                        "Desculpe",
+                        "NEUTRAL"
+                    ), error
             )
 
         } finally {
@@ -55,7 +53,7 @@ const DashboardProvider: React.FC = ({ children }: any) => {
 
     return (
         <DashboardContext.Provider value={{
-            getDashboard, amount, checkouts, refreshing, futureCheckouts
+            getDashboard, walletAmount, checkouts, refreshing
         }}>
             {children}
         </DashboardContext.Provider>
