@@ -26,7 +26,6 @@ import {
 	ApproximateAmountDesc
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
-import { DashboardDocs } from '../../component-heavy/dashboardDocs';
 import { DashboardContext } from '../../../contexts/dashboard-context';
 
 export const QrCodeScanner: React.FC = () => {

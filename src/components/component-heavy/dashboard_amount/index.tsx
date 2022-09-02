@@ -65,7 +65,7 @@ export const DashboardAmount: React.FC = () => {
 					</Skeleton>
 				</MotiView>
 				<DueDateSubtitle>
-					Análise seu saldo antes de fazer uma validação 👋
+					Analise seu saldo antes de fazer uma validação 👋
 				</DueDateSubtitle>
 			</WrapperAmount>
 			<PayButton disabled={false} onPress={() => requestBalanceRef.current?.openModal()} />
