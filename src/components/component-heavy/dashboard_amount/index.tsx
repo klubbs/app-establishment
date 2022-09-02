@@ -62,7 +62,9 @@ export const DashboardAmount: React.FC = () => {
 						</Amount>
 					</Skeleton>
 				</MotiView>
-				<DueDateSubtitle> Saldo insuficiente para novas transações 😰</DueDateSubtitle>
+				<DueDateSubtitle>
+					Análise seu saldo antes de fazer uma validação 👋
+				</DueDateSubtitle>
 			</WrapperAmount>
 			<PayButton disabled={false} onPress={() => requestBalanceRef.current?.openModal()} />
 			<RequestBalance ref={requestBalanceRef} />

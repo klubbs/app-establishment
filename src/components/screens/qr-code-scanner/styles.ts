@@ -46,19 +46,37 @@ export const Focused = styled.View`
 export const ScanSubtitle = styled.Text`
   color:${colors.COLOR_WHITE};
   position: absolute;
-  top: 20%;
+  top: 12%;
   left: ${Platform.select({ ios: '30%', android: '35%' })};
   font-size:20px;
   font-family:'Nunito_SemiBold';
 `
 
 export const ScanDescSubtitle = styled.Text`
-  color:${colors.COLOR_WHITE_80};
+  color:${colors.COLOR_WHITE_40};
   position: absolute;
-  top: 24%;
-  left: ${Platform.select({ ios: '18%', android: '23%' })};
+  top: 16%;
+  left: ${Platform.select({ ios: '14%', android: '20%' })};
   font-size:15px;
   font-family:'Nunito_Regular';
+`
+
+export const ApproximateAmount = styled.Text.attrs(({
+    numberOfLines: 1
+}))`
+  color:${colors.COLOR_YELLOW};
+  font-size:18px;
+  font-family:'Nunito_Bold';
+`
+
+export const ApproximateAmountDesc = styled.Text`
+  color:${colors.COLOR_WHITE_80};
+  align-items:center;
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  font-size:14px;
+  font-family:'Nunito_Light';
 `
 
 export const CheckoutDescSubtitle = styled.Text`
@@ -105,4 +123,19 @@ export const KeyboardCheckoutAmount = styled.KeyboardAvoidingView.attrs(({
     behavior: 'position'
 }))`
     bottom:20%;   
+`
+
+export const WrapperApproxAmount = styled.View`
+    align-items:center;
+    justify-content:center ;
+    width: 40%;
+    position:absolute;
+    top: 24%;
+    left: 30%;
+    background-color: ${colors.COLOR_WHITE_20};
+    border-radius:5px ;
+    padding-left: 25px ;
+    padding-right: 25px ;
+    padding-top: 12px ;
+    padding-bottom: 12px ;
 `

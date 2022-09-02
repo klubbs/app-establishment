@@ -20,10 +20,12 @@ import {
 	ScanDescSubtitle,
 	ScanOtherButton,
 	CheckoutAmount,
-	CheckoutDescSubtitle
+	CheckoutDescSubtitle,
+	ApproximateAmount,
+	WrapperApproxAmount,
+	ApproximateAmountDesc
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
-
 
 export const QrCodeScanner: React.FC = () => {
 
@@ -139,6 +141,34 @@ export const QrCodeScanner: React.FC = () => {
 		setAmount(newAmount == 'R$0,00' ? '' : newAmount)
 	}
 
+	function RenderTopSubtitles() {
+
+		const convertedAmount = amount
+			.replace('R$', '')
+			.replaceAll('.', '')
+			.replaceAll(',', '.')
+
+		const approxAmount = Number(convertedAmount) * 0.08
+
+		return (
+			<>
+				<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
+				<ScanDescSubtitle >Escaneie o cupom para completar um checkout</ScanDescSubtitle>
+				<WrapperApproxAmount>
+					<ApproximateAmount>~ {
+						approxAmount
+							.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+					}
+					</ApproximateAmount>
+				</WrapperApproxAmount>
+				<ApproximateAmountDesc>
+					Esse será o valor aproximadamente
+				</ApproximateAmountDesc>
+			</>
+		)
+
+	}
+
 	if (hasPermission === false) {
 		return (<View />)
 	}
@@ -158,8 +188,7 @@ export const QrCodeScanner: React.FC = () => {
 					}>
 
 					<SquareTop />
-					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-					<ScanDescSubtitle >Escaneie o cupom para validar uma oferta</ScanDescSubtitle>
+					<RenderTopSubtitles />
 					<CenterWrapper>
 						<SquareLeft />
 						<Focused />
