@@ -13,10 +13,12 @@ import { IRequestBalanceRef } from '../requestBalance/@types';
 
 export const DashboardAmount: React.FC = () => {
 
+	const { getDashboard, walletStore, refreshing } = useContext(DashboardContext)
 	const requestBalanceRef = useRef<IRequestBalanceRef>(null)
-	const { getDashboard, walletAmount, refreshing } = useContext(DashboardContext)
 
 	const [showSkeleton, setShowSkeleton] = useState(true)
+
+	const walletAmount = walletStore?.wallet_amount ?? 0
 
 	useEffect(() => {
 		getDashboardWithSkeleton();
@@ -54,8 +56,8 @@ export const DashboardAmount: React.FC = () => {
 						<Amount>
 							{
 								Platform.select({
-									ios: walletAmount.toLocaleString('pt-br',
-										{ style: 'currency', currency: 'BRL' }),
+									ios: walletAmount.toLocaleString(
+											'pt-br', { style: 'currency', currency: 'BRL' }),
 									android: `R$ ${walletAmount}`
 								})
 							}

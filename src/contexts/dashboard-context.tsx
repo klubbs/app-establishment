@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { ITransactionItems } from "../components/component-heavy/transactions/interfaces";
+import { GetDashboardResponse } from "../services/@types/@finance-service";
 import { FinanceService } from "../services/finance-service";
 import { Flash } from "../utils/flash";
 import { Middlewares } from "../utils/middlewares";
@@ -8,17 +9,16 @@ import { AuthContext } from "./auth-context";
 export const DashboardContext = createContext(
     {} as {
         getDashboard: () => Promise<void>,
-        walletAmount: number,
+        walletStore: GetDashboardResponse,
         checkouts: ITransactionItems[] | null,
         refreshing: boolean
     }
 )
 
 const DashboardProvider: React.FC = ({ children }: any) => {
-    const { reloadProfileInCloud, establishment } = useContext(AuthContext)
+    const { reloadProfileInCloud } = useContext(AuthContext)
 
-
-    const [walletAmount, setWalletAmount] = useState(0.00)
+    const [walletStore, setWalletStore] = useState<GetDashboardResponse>({} as GetDashboardResponse)
     const [checkouts, setCheckouts] = useState<ITransactionItems[] | null>(null)
 
     const [refreshing, setRefreshing] = useState(false)
@@ -32,7 +32,7 @@ const DashboardProvider: React.FC = ({ children }: any) => {
 
             const response = await FinanceService.GetDashboardBalance();
 
-            setWalletAmount(response.wallet_amount);
+            setWalletStore(response);
             setCheckouts(response.checkouts);
 
         } catch (error) {
@@ -53,7 +53,7 @@ const DashboardProvider: React.FC = ({ children }: any) => {
 
     return (
         <DashboardContext.Provider value={{
-            getDashboard, walletAmount, checkouts, refreshing
+            getDashboard, walletStore, checkouts, refreshing
         }}>
             {children}
         </DashboardContext.Provider>

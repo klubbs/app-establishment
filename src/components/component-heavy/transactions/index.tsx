@@ -9,7 +9,7 @@ import { DashboardContext } from '../../../contexts/dashboard-context';
 
 export const Transactions: React.FC = () => {
 
-	const { checkouts, refreshing, getDashboard } = useContext(DashboardContext)
+	const { checkouts, refreshing } = useContext(DashboardContext)
 
 	return (
 		<Wrapper>
@@ -34,7 +34,6 @@ export const Transactions: React.FC = () => {
 
 			{checkouts && <FlatList
 				refreshing={refreshing}
-				onRefresh={getDashboard}
 				data={checkouts}
 				keyExtractor={item => `${item.id}`}
 				style={{ width: '100%' }}

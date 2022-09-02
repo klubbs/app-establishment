@@ -31,7 +31,7 @@ export class OfferService {
 			off_percentual: params.offPercentual,
 			valid_at: params.validAt.ToUnixEpoch(),
 			working_days: params.workingDays,
-			minimum_ticket: Number(params.minimumTicket.replace(",", "."))
+			minimum_ticket: Number(params.minimumTicket.replaceAll('.', '').replaceAll(",", "."))
 		}
 
 	}

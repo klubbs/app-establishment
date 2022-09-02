@@ -74,7 +74,7 @@ export const ApproximateAmountDesc = styled.Text`
   align-items:center;
   position: absolute;
   top: 30%;
-  left: 25%;
+  left: 24%;
   font-size:14px;
   font-family:'Nunito_Light';
 `
@@ -91,13 +91,16 @@ export const CheckoutDescSubtitle = styled.Text`
 
 
 export const ScanOtherButton = styled(Button).attrs((props: { error: boolean }) => ({
-    text: props.error ? 'Tentar novamente' : "Validar outro",
+    text: props.error ? 'TENTAR NOVAMENTE' : "VALIDAR OUTRO",
     styleContainer: {
-        position: 'absolute', bottom: '10%',
+        position: 'absolute',
+        bottom: '10%',
+        left: '5%',
         backgroundColor: props.error ? colors.COLOR_RED : colors.COLOR_YELLOW
     },
     styleButton: props.error ? { color: colors.COLOR_WHITE } : {}
-})) <{ error: boolean }>``
+})) <{ error: boolean }>`
+`
 
 
 export const CheckoutAmount = styled(InputWithMask).attrs(({

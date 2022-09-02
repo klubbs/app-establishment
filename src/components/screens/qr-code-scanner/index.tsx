@@ -26,8 +26,12 @@ import {
 	ApproximateAmountDesc
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
+import { DashboardDocs } from '../../component-heavy/dashboardDocs';
+import { DashboardContext } from '../../../contexts/dashboard-context';
 
 export const QrCodeScanner: React.FC = () => {
+
+	const { walletStore } = useContext(DashboardContext)
 
 	const navigation = useNavigation();
 
@@ -148,7 +152,8 @@ export const QrCodeScanner: React.FC = () => {
 			.replaceAll('.', '')
 			.replaceAll(',', '.')
 
-		const approxAmount = Number(convertedAmount) * 0.08
+		const approxAmount =
+			Number(convertedAmount) * (walletStore?.next_checkout_percentage ?? 0.08)
 
 		return (
 			<>
@@ -156,13 +161,16 @@ export const QrCodeScanner: React.FC = () => {
 				<ScanDescSubtitle >Escaneie o cupom para completar um checkout</ScanDescSubtitle>
 				<WrapperApproxAmount>
 					<ApproximateAmount>~ {
-						approxAmount
-							.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+						Platform.select({
+							ios: approxAmount
+								.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+							android: `R$ ${approxAmount}`
+						})
 					}
 					</ApproximateAmount>
 				</WrapperApproxAmount>
 				<ApproximateAmountDesc>
-					Esse será o valor aproximadamente
+					Próximo checkout aproximadamente
 				</ApproximateAmountDesc>
 			</>
 		)
@@ -196,23 +204,20 @@ export const QrCodeScanner: React.FC = () => {
 					</CenterWrapper>
 					<SquareBottom />
 
-					<KeyboardCheckoutAmount>
-						<CheckoutAmount
-							value={amount}
-							onChangeText={handleSetAmount}
-						/>
-						<CheckoutDescSubtitle >
-							Valor total do pedido ( Podendo arredondar )
-						</CheckoutDescSubtitle>
+					{
+						!scanned &&
+						<KeyboardCheckoutAmount>
+							<CheckoutAmount value={amount} onChangeText={handleSetAmount} />
+							<CheckoutDescSubtitle >
+								Valor total do pedido ( Podendo arredondar )
+							</CheckoutDescSubtitle>
 
-					</KeyboardCheckoutAmount>
+						</KeyboardCheckoutAmount>
+					}
 				</BarCodeScanner>
 				{
 					(scanned && !loading) &&
-					<ScanOtherButton
-						error={hasError}
-						onPress={handleResetValues}
-					/>
+					<ScanOtherButton error={hasError} onPress={handleResetValues} />
 				}
 			</Wrapper>
 		</>
