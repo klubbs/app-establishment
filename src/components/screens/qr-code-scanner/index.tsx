@@ -40,6 +40,8 @@ export const QrCodeScanner: React.FC = () => {
 	const [loading, setLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 
+	let messageButton = ''
+
 	useEffect(() => {
 		(async () => {
 			const { granted } = await BarCodeScanner.requestPermissionsAsync();
@@ -75,7 +77,11 @@ export const QrCodeScanner: React.FC = () => {
 			return;
 		}
 
+		setScanned(true)
+
 		if (amount === '' || amount === 'R$0,00') {
+
+			setHasError(true)
 
 			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Medium);
 
@@ -102,7 +108,6 @@ export const QrCodeScanner: React.FC = () => {
 		}
 
 		try {
-			setScanned(true)
 			setLoading(true)
 
 			await OfferService.scanCoupon(
@@ -122,6 +127,7 @@ export const QrCodeScanner: React.FC = () => {
 			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success)
 
 		} catch (error) {
+
 			Middlewares.middlewareError(
 				() => {
 					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
