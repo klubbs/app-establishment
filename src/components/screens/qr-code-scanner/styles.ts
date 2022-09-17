@@ -61,7 +61,7 @@ export const ScanDescSubtitle = styled.Text`
   font-family:'Nunito_Regular';
 `
 
-export const ApproximateAmount = styled.Text.attrs(({
+export const OffAmount = styled.Text.attrs(({
     numberOfLines: 1
 }))`
   color:${colors.COLOR_YELLOW};
@@ -74,7 +74,7 @@ export const ApproximateAmountDesc = styled.Text`
   align-items:center;
   position: absolute;
   top: 30%;
-  left: 24%;
+  left: 38%;
   font-size:14px;
   font-family:'Nunito_Light';
 `
@@ -128,14 +128,14 @@ export const KeyboardCheckoutAmount = styled.KeyboardAvoidingView.attrs(({
     bottom:20%;   
 `
 
-export const WrapperApproxAmount = styled.View`
+export const WrapperOffAmount = styled.View`
     align-items:center;
     justify-content:center ;
     width: 40%;
     position:absolute;
     top: 24%;
     left: 30%;
-    background-color: ${colors.COLOR_WHITE_20};
+    background-color: ${colors.COLOR_BLACK};
     border-radius:5px ;
     padding-left: 25px ;
     padding-right: 25px ;

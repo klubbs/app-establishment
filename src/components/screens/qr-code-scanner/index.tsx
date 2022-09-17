@@ -21,16 +21,13 @@ import {
 	ScanOtherButton,
 	CheckoutAmount,
 	CheckoutDescSubtitle,
-	ApproximateAmount,
-	WrapperApproxAmount,
+	OffAmount,
+	WrapperOffAmount,
 	ApproximateAmountDesc
 } from './styles';
 import { Middlewares } from '../../../utils/middlewares';
-import { DashboardContext } from '../../../contexts/dashboard-context';
 
 export const QrCodeScanner: React.FC = () => {
-
-	const { walletStore } = useContext(DashboardContext)
 
 	const navigation = useNavigation();
 
@@ -39,8 +36,9 @@ export const QrCodeScanner: React.FC = () => {
 	const [scanned, setScanned] = useState(false);
 	const [loading, setLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
+	const [discount, setDiscount] = useState(0)
 
-	let messageButton = ''
+	const successScanned = scanned && !loading && !hasError
 
 	useEffect(() => {
 		(async () => {
@@ -69,7 +67,6 @@ export const QrCodeScanner: React.FC = () => {
 			}
 		})();
 	}, []);
-
 
 	async function handleBarCodeScanned({ type, data }: { type: any, data: any }) {
 
@@ -110,13 +107,15 @@ export const QrCodeScanner: React.FC = () => {
 		try {
 			setLoading(true)
 
-			await OfferService.scanCoupon(
+			const checkoutResponse = await OfferService.scanCoupon(
 				checkoutId,
 				amount
 					.replace('R$', '')
 					.replace('.', '')
 					.replace(',', '.')
 			)
+
+			setDiscount(checkoutResponse.discountAmount)
 
 			Flash.customMessage(
 				"Você já pode validar outros cupons",
@@ -144,42 +143,36 @@ export const QrCodeScanner: React.FC = () => {
 	function handleResetValues() {
 		setHasError(false)
 		setScanned(false)
+		setAmount('')
+		setDiscount(0)
 	}
 
 	function handleSetAmount(newAmount: string) {
 		setAmount(newAmount == 'R$0,00' ? '' : newAmount)
 	}
 
-	function RenderTopSubtitles() {
+	function RenderDiscountAmount() {
+		if (successScanned) {
+			return (
+				<>
+					<WrapperOffAmount>
+						<OffAmount>{
+							Platform.select({
+								ios: discount
+									.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
+								android: `R$ ${discount}`
+							})
+						}
+						</OffAmount>
+					</WrapperOffAmount>
+					<ApproximateAmountDesc>
+						Desconto aplicado
+					</ApproximateAmountDesc>
+				</>
+			)
+		}
 
-		const convertedAmount = amount
-			.replace('R$', '')
-			.replaceAll('.', '')
-			.replaceAll(',', '.')
-
-		const approxAmount =
-			Number(convertedAmount) * (walletStore?.next_checkout_percentage ?? 0.08)
-
-		return (
-			<>
-				<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-				<ScanDescSubtitle >Escaneie o cupom para completar um checkout</ScanDescSubtitle>
-				<WrapperApproxAmount>
-					<ApproximateAmount>~ {
-						Platform.select({
-							ios: approxAmount
-								.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-							android: `R$ ${approxAmount}`
-						})
-					}
-					</ApproximateAmount>
-				</WrapperApproxAmount>
-				<ApproximateAmountDesc>
-					Próximo checkout aproximadamente
-				</ApproximateAmountDesc>
-			</>
-		)
-
+		return null
 	}
 
 	if (hasPermission === false) {
@@ -190,7 +183,6 @@ export const QrCodeScanner: React.FC = () => {
 		<>
 			<Spinner loading={loading} />
 			<Wrapper>
-
 				<BarCodeScanner
 					onBarCodeScanned={handleBarCodeScanned}
 					style={
@@ -201,7 +193,13 @@ export const QrCodeScanner: React.FC = () => {
 					}>
 
 					<SquareTop />
-					<RenderTopSubtitles />
+					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
+					{!successScanned &&
+						<ScanDescSubtitle>
+							Escaneie o cupom para completar um checkout
+						</ScanDescSubtitle>
+					}
+					<RenderDiscountAmount />
 					<CenterWrapper>
 						<SquareLeft />
 						<Focused />

@@ -47,8 +47,10 @@ export class OfferService {
 	}
 
 	static async scanCoupon(checkoutId: string, storeAmount: string) {
-		await connectionHandler('KLUBBS_API_URL')
-			.put('checkouts', { checkout_id: checkoutId, store_checkout_amount: storeAmount })
+		const { data } = await connectionHandler('KLUBBS_API_URL')
+			.put<IResponseMessage<{ discountAmount: number, checkoutAmount: number }>>('checkouts', { checkout_id: checkoutId, store_checkout_amount: storeAmount })
+
+		return data.message
 	}
 
 	static catchScanCoupon(errors: IError) {
