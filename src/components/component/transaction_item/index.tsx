@@ -1,6 +1,7 @@
 import React from 'react';
 import colors from '../../../../assets/constants/colors';
 import { MoneyIcon } from '../../../../assets/icons/money_icon';
+import { formatUserCouponCode } from '../../../utils/formatter';
 import { ITransactionItems } from '../../component-heavy/transactions/interfaces';
 import {
 	GreenContainer,
@@ -23,7 +24,7 @@ export const TransactionItem: React.FC<ITransactionItems> = (props) => {
 			</WrapperLeft>
 
 			<WrapperMiddle>
-				<Influencer>{props.partner_coupon_name}</Influencer>
+				<Influencer>{formatUserCouponCode(props.partner_coupon_name)}</Influencer>
 				<Subtitle>{
 					props
 						.checkouted_at
@@ -36,7 +37,7 @@ export const TransactionItem: React.FC<ITransactionItems> = (props) => {
 								hour: '2-digit',
 								minute: '2-digit'
 							})
-				} &#xB7; {props.coupon_code}</Subtitle>
+				} &#xB7; {formatUserCouponCode(props.coupon_code)}</Subtitle>
 			</WrapperMiddle>
 
 			<WrapperRight>

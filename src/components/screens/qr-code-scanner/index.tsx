@@ -166,7 +166,7 @@ export const QrCodeScanner: React.FC = () => {
 						</OffAmount>
 					</WrapperOffAmount>
 					<ApproximateAmountDesc>
-						Desconto aplicado
+						Desconto ao cliente
 					</ApproximateAmountDesc>
 				</>
 			)

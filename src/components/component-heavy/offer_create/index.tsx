@@ -103,8 +103,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 
 		Alert.alert(
 			"Criar oferta ?",
-			`Você só pode criar uma oferta de cupom a cada período de 24 horas:
-			${'\n'}${'\n'}Porcentagem de desconto : ${offValue}%
+			`Porcentagem de desconto : ${offValue}%
 			${'\n'}Válido até: ${dateValidAt.toLocaleDateString("pt-br",
 				{ year: 'numeric', month: 'long', day: 'numeric' })}
 			${'\n'}Valor mínimo: R$${minimumTicket.length === 0 ? "0,00" : minimumTicket}

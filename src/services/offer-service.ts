@@ -61,8 +61,8 @@ export class OfferService {
 			switch (actualError) {
 				case 'checkout completed':
 					Flash.customMessage(
-						"Esse checkout já foi validado",
-						"Checkout já validado",
+						"Esse checkout já foi concluido",
+						"Checkout já concluido",
 						'NEUTRAL'
 					)
 					break;
@@ -93,8 +93,8 @@ export class OfferService {
 
 				case 'balance':
 					Flash.customMessage(
-						"O saldo é inválido para completar este checkout",
-						"Saldo inválido",
+						"Saldo insuficiente para esse checkout",
+						"Sem saldo",
 						'NEUTRAL'
 					)
 					break;
