@@ -6,7 +6,6 @@ export interface IEstablishmentRegister {
 	phone: string,
 	openedAt: Date,
 	closedAt: Date,
-	description: string,
 	ownerName: string,
 	ownerCpf: string,
 	businessCategoryId: string,
