@@ -1,6 +1,6 @@
 export interface ILogin {
 	mail: string;
-	password: string
+	password: string;
 }
 
 export interface ILoginResponse {
@@ -18,5 +18,9 @@ export interface ILoginResponse {
 	longitude: number;
 	token: string;
 	refresh_token: string;
-	documentation_status: string
+	documentation_status: string;
 }
+
+export type TStoreResponse = ILoginResponse & {
+	can_show_users_home?: boolean | undefined;
+};

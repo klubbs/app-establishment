@@ -51,9 +51,9 @@ export const RegisterScreen: React.FC = () => {
 		name: [true, "Qual o nome do estabelecimento:"],
 		phone: [false, "Telefone de contato do estabelecimento:"],
 		cnpj: [false, "CNPJ do estabelecimento:"],
-		ownerName: [false, "Nome do responsável pelo estabelecimento ?"],
-		ownerCpf: [false, "CPF do responsável pelo estabelecimento ?"],
-		businessCategoryId: [false, "Em qual categoria se enquadra ?"],
+		ownerName: [false, "Nome do responsável pelo estabelecimento :"],
+		ownerCpf: [false, "CPF do responsável pelo estabelecimento :"],
+		businessCategoryId: [false, "Em qual categoria se enquadra :"],
 		//O componente de horas por si só não permite horários menores que o inicio
 		closedAt: [false, "Que horas o estabelecimento abre e fecha:"],
 		//Latitude depende de longitude, validar somente um aqui já funciona

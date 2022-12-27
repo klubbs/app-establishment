@@ -14,22 +14,22 @@ export const Wrapper = styled.View`
 
 export const SquareTop = styled.View`
     flex:1;
-    background-color: ${colors.COLOR_BLACK80};
+    background-color: ${colors.COLOR_BLACK95};
 `
 
 export const SquareLeft = styled.View`
     flex:1;
-    background-color: ${colors.COLOR_BLACK80};
+    background-color: ${colors.COLOR_BLACK95};
 `
 
 export const SquareRight = styled.View`
     flex:1;
-    background-color: ${colors.COLOR_BLACK80};
+    background-color: ${colors.COLOR_BLACK95};
 `
 
 export const SquareBottom = styled.View`
     flex:1;
-    background-color: ${colors.COLOR_BLACK80};
+    background-color: ${colors.COLOR_BLACK95};
 `
 
 
