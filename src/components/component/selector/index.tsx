@@ -1,49 +1,51 @@
-import React,
-{ useState, useImperativeHandle, ForwardRefRenderFunction, forwardRef, useEffect } from 'react';
-import * as Haptic from 'expo-haptics';
-import { SelectionTouch } from './styles';
-import { ISelectorProps, ISelectorRefs } from './@types';
+import React, {
+	useState,
+	useImperativeHandle,
+	ForwardRefRenderFunction,
+	forwardRef,
+	useEffect,
+} from "react";
+import * as Haptic from "expo-haptics";
+import { SelectionTouch } from "./styles";
+import { ISelectorProps, ISelectorRefs } from "./@types";
 
-export const SelectorForwardRef: ForwardRefRenderFunction<ISelectorRefs, ISelectorProps> =
-	(props, ref) => {
+export const SelectorForwardRef: ForwardRefRenderFunction<
+	ISelectorRefs,
+	ISelectorProps
+> = (props, ref) => {
+	const [selected, setSelected] = useState<boolean>(false);
 
-		const [selected, setSelected] = useState<boolean>(false)
+	useImperativeHandle(ref, () => ({
+		disabledSelect: () => setSelected(false),
+		selection: () => setSelected(true),
+	}));
 
-		useImperativeHandle(ref, () => ({
-			disabledSelect: () => setSelected(false),
-		}));
-
-		useEffect(() => {
-
-			if (props.toggle !== undefined) {
-
-				if (props.toggle)
-					setSelected(true)
-				else
-					setSelected(false)
-
-			}
-
-		}, [props.toggle])
-
-		function handlePress() {
-
-			if (props.toggle !== undefined && selected)
-				return
-
-			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light)
-
-			setSelected(!selected);
-
-			props.onPress(!selected);
-
+	useEffect(() => {
+		if (props.toggle !== undefined) {
+			if (props.toggle) setSelected(true);
+			else setSelected(false);
 		}
+	}, [props.toggle]);
 
-		return (
-			<SelectionTouch onPress={handlePress} active={selected} style={props.style} />
-		);
+	function handlePress() {
+		if (props.toggle !== undefined && selected) return;
+
+		Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Light);
+
+		setSelected(!selected);
+
+		props.onPress(!selected);
 	}
 
-const Selector = forwardRef(SelectorForwardRef)
+	return (
+		<SelectionTouch
+			onPress={handlePress}
+			active={selected}
+			style={props.style}
+		/>
+	);
+};
 
-export { Selector }
+const Selector = forwardRef(SelectorForwardRef);
+
+export { Selector };

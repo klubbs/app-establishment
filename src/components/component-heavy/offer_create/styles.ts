@@ -118,7 +118,8 @@ export const DashedBorder = styled.View`
 	align-items: center;
 	justify-content: space-between;
 	width: 90%;
-    padding-vertical:5px;
+	margin-bottom: 40%;
+    /* padding-vertical:5px; */
 	border-style: dashed;
 	border-width: 1px;
 	border-color: ${colors.COLOR_YELLOW};

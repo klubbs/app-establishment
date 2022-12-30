@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Alert, Modal, Platform } from "react-native";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
 import { OfferService } from "../../../services/offer-service";
@@ -44,14 +44,17 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 
 	const [offValue, setOffValue] = useState(5);
 	const [dateValidAt, setdateValidAt] = useState(new Date());
-	const [daysOfWeek, setDaysOfWeek] = useState<number[]>([]);
 	const [minimumTicket, setMinimumTicket] = useState("");
+	const [daysOfWeek, setDaysOfWeek] = useState<number[]>([
+		0, 1, 2, 3, 4, 5, 6,
+	]);
 
 	const ticketIsEditable = offValue > 5;
 
 	useEffect(() => {
 		if (offValue === 5) {
 			setMinimumTicket("");
+			setDaysOfWeek([0, 1, 2, 3, 4, 5, 6]);
 		}
 	}, [offValue]);
 
@@ -68,6 +71,8 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 		async function onCreate() {
 			try {
 				setLoading(true);
+
+				console.log(daysOfWeek);
 
 				const fields: IOffer = {
 					description: "",
@@ -215,27 +220,30 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 					{!ticketIsEditable && (
 						<DashedBorder>
 							<DashedText>
-								OFERTAS COM O MENOR DESCONTO,{"\n"} NÃO PODEM TER VALOR
-								MÍNIMO
+								DESCONTOS DE 5%,{"\n"} NÃO DEVEM CONTER REGRAS
 							</DashedText>
 						</DashedBorder>
 					)}
 
 					{ticketIsEditable && (
-						<WrapperMinimumTicket>
-							<SubtitleMinimumTicket>Valor mínimo</SubtitleMinimumTicket>
-							<MinimumTicket
-								editable={ticketIsEditable}
-								value={minimumTicket}
-								onChangeText={(e: string) => setMinimumTicket(e)}
-							/>
-						</WrapperMinimumTicket>
-					)}
+						<>
+							<WrapperMinimumTicket>
+								<SubtitleMinimumTicket>
+									Valor mínimo
+								</SubtitleMinimumTicket>
+								<MinimumTicket
+									editable={ticketIsEditable}
+									value={minimumTicket}
+									onChangeText={(e: string) => setMinimumTicket(e)}
+								/>
+							</WrapperMinimumTicket>
 
-					<WrapperWeeks>
-						<SubtitleWeeks>Dias da semana: </SubtitleWeeks>
-						<DaysOfWeek cb={handleDaysWeek} />
-					</WrapperWeeks>
+							<WrapperWeeks>
+								<SubtitleWeeks>Dias da semana: </SubtitleWeeks>
+								<DaysOfWeek cb={handleDaysWeek} />
+							</WrapperWeeks>
+						</>
+					)}
 				</Container>
 
 				<Button

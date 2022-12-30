@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Linking, Alert, Platform, KeyboardAvoidingView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Spinner } from '../../component/spinner';
-import { OfferService } from '../../../services/offer-service';
-import { Flash } from '../../../utils/flash';
-import * as Haptic from 'expo-haptics';
-import { IError } from '../../../settings/connection';
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Linking, Alert, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { BarCodeScanner } from "expo-barcode-scanner";
+import { Spinner } from "../../component/spinner";
+import { OfferService } from "../../../services/offer-service";
+import { Flash } from "../../../utils/flash";
+import * as Haptic from "expo-haptics";
+import { IError } from "../../../settings/connection";
 import {
 	Wrapper,
 	KeyboardCheckoutAmount,
@@ -23,22 +23,21 @@ import {
 	CheckoutDescSubtitle,
 	OffAmount,
 	WrapperOffAmount,
-	ApproximateAmountDesc
-} from './styles';
-import { Middlewares } from '../../../utils/middlewares';
+	ApproximateAmountDesc,
+} from "./styles";
+import { Middlewares } from "../../../utils/middlewares";
 
 export const QrCodeScanner: React.FC = () => {
-
 	const navigation = useNavigation();
 
 	const [hasPermission, setHasPermission] = useState<boolean>(false);
-	const [amount, setAmount] = useState<string>('')
+	const [amount, setAmount] = useState<string>("");
 	const [scanned, setScanned] = useState(false);
-	const [loading, setLoading] = useState(false)
-	const [hasError, setHasError] = useState(false)
-	const [discount, setDiscount] = useState(0)
+	const [loading, setLoading] = useState(false);
+	const [hasError, setHasError] = useState(false);
+	const [discount, setDiscount] = useState(0);
 
-	const successScanned = scanned && !loading && !hasError
+	const successScanned = scanned && !loading && !hasError;
 
 	useEffect(() => {
 		(async () => {
@@ -54,101 +53,99 @@ export const QrCodeScanner: React.FC = () => {
 						{
 							text: "Não",
 							onPress: () => navigation.goBack(),
-							style: "cancel"
+							style: "cancel",
 						},
 						{
-							text: "OK", onPress: () => {
+							text: "OK",
+							onPress: () => {
 								Linking.openSettings();
-								navigation.goBack()
-							}
-						}
+								navigation.goBack();
+							},
+						},
 					]
-				)
+				);
 			}
 		})();
 	}, []);
 
-	async function handleBarCodeScanned({ type, data }: { type: any, data: any }) {
-
+	async function handleBarCodeScanned({
+		type,
+		data,
+	}: {
+		type: any;
+		data: any;
+	}) {
 		if (scanned) {
 			return;
 		}
 
-		setScanned(true)
+		setScanned(true);
 
-		if (amount === '' || amount === 'R$0,00') {
-
-			setHasError(true)
+		if (amount === "" || amount === "R$0,00") {
+			setHasError(true);
 
 			Haptic.impactAsync(Haptic.ImpactFeedbackStyle.Medium);
 
 			Flash.customMessage(
-				'É necessário preencher o valor total do pedido para validar',
-				'Preencha o valor do pedido',
-				'NEUTRAL'
+				"É necessário preencher o valor total do pedido para validar",
+				"Preencha o valor do pedido",
+				"NEUTRAL"
 			);
 
 			return;
 		}
 
-		const checkoutId = data.split('|')[1];
+		const checkoutId = data.split("|")[1];
 
 		if (!checkoutId) {
-			setHasError(true)
+			setHasError(true);
 
-			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
+			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning);
 			Flash.customMessage(
 				"Este não um cupom válido klubbs",
 				"Cupom inválido",
-				"WARNING")
+				"WARNING"
+			);
 			return;
 		}
 
 		try {
-			setLoading(true)
+			setLoading(true);
 
 			const checkoutResponse = await OfferService.scanCoupon(
 				checkoutId,
-				amount
-					.replace('R$', '')
-					.replace('.', '')
-					.replace(',', '.')
-			)
+				amount.replace("R$", "").replace(".", "").replace(",", ".")
+			);
 
-			setDiscount(checkoutResponse.discountAmount)
+			setDiscount(checkoutResponse.discountAmount);
 
 			Flash.customMessage(
 				"Você já pode validar outros cupons",
 				"Cupom validado com sucesso",
-				'SUCCESS'
-			)
+				"SUCCESS"
+			);
 
-			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success)
-
+			Haptic.notificationAsync(Haptic.NotificationFeedbackType.Success);
 		} catch (error) {
-
-			Middlewares.middlewareError(
-				() => {
-					Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning)
-					OfferService.catchScanCoupon(error as IError)
-					setHasError(true)
-				}, error
-			)
+			Middlewares.middlewareError(() => {
+				Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning);
+				OfferService.catchScanCoupon(error as IError);
+				setHasError(true);
+			}, error);
 		} finally {
-			setLoading(false)
+			setLoading(false);
 		}
-
-	};
+	}
 
 	function handleResetValues() {
-		setHasError(false)
-		setScanned(false)
-		setAmount('')
-		setDiscount(0)
+		setHasError(false);
+		setScanned(false);
+		setAmount("");
+		setDiscount(0);
 	}
 
 	function handleSetAmount(newAmount: string) {
-		setAmount(newAmount == 'R$0,00' ? '' : newAmount)
+		setAmount(newAmount == "R$0,00" ? "" : newAmount);
 	}
 
 	function RenderDiscountAmount() {
@@ -156,27 +153,28 @@ export const QrCodeScanner: React.FC = () => {
 			return (
 				<>
 					<WrapperOffAmount>
-						<OffAmount>{
-							Platform.select({
-								ios: discount
-									.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
-								android: `R$ ${discount}`
-							})
-						}
+						<OffAmount>
+							{Platform.select({
+								ios: discount.toLocaleString("pt-br", {
+									style: "currency",
+									currency: "BRL",
+								}),
+								android: `R$ ${discount}`,
+							})}
 						</OffAmount>
 					</WrapperOffAmount>
 					<ApproximateAmountDesc>
 						Desconto ao cliente
 					</ApproximateAmountDesc>
 				</>
-			)
+			);
 		}
 
-		return null
+		return null;
 	}
 
 	if (hasPermission === false) {
-		return (<View />)
+		return <View />;
 	}
 
 	return (
@@ -185,20 +183,18 @@ export const QrCodeScanner: React.FC = () => {
 			<Wrapper>
 				<BarCodeScanner
 					onBarCodeScanned={handleBarCodeScanned}
-					style={
-						Platform.select({
-							ios: { ...StyleSheet.absoluteFillObject },
-							android: { width: '140%', height: '100%' }
-						})
-					}>
-
+					style={Platform.select({
+						ios: { ...StyleSheet.absoluteFillObject },
+						android: { width: "140%", height: "100%" },
+					})}
+				>
 					<SquareTop />
 					<ScanSubtitle>VALIDAR CUPOM</ScanSubtitle>
-					{!successScanned &&
+					{!successScanned && (
 						<ScanDescSubtitle>
 							Escaneie o cupom para completar um checkout
 						</ScanDescSubtitle>
-					}
+					)}
 					<RenderDiscountAmount />
 					<CenterWrapper>
 						<SquareLeft />
@@ -207,22 +203,22 @@ export const QrCodeScanner: React.FC = () => {
 					</CenterWrapper>
 					<SquareBottom />
 
-					{
-						!scanned &&
+					{!scanned && (
 						<KeyboardCheckoutAmount>
-							<CheckoutAmount value={amount} onChangeText={handleSetAmount} />
-							<CheckoutDescSubtitle >
+							<CheckoutAmount
+								value={amount}
+								onChangeText={handleSetAmount}
+							/>
+							<CheckoutDescSubtitle>
 								Valor total do pedido ( Podendo arredondar )
 							</CheckoutDescSubtitle>
-
 						</KeyboardCheckoutAmount>
-					}
+					)}
 				</BarCodeScanner>
-				{
-					(scanned && !loading) &&
+				{scanned && !loading && (
 					<ScanOtherButton error={hasError} onPress={handleResetValues} />
-				}
+				)}
 			</Wrapper>
 		</>
 	);
-}
+};

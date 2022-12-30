@@ -46,12 +46,10 @@ export const DashboardAmount: React.FC = () => {
 
 	function handleEnableForUsers() {
 		Flash.customMessage(
-			"Crie ao menos uma oferta mínima de 5%",
+			"Crie ao menos uma oferta de 5%",
 			"Crie uma oferta mínima"
 		);
 	}
-
-	console.log(establishment);
 
 	return (
 		<Wrapper
@@ -66,9 +64,7 @@ export const DashboardAmount: React.FC = () => {
 		>
 			{!establishment?.can_show_users_home && (
 				<OnlineStoreContainer onPress={handleEnableForUsers}>
-					<OnlineText>
-						Você não esta visível para os usuários
-					</OnlineText>
+					<OnlineText>Você não esta visível para os usuários</OnlineText>
 				</OnlineStoreContainer>
 			)}
 			<ValueSubtitle>Seu saldo</ValueSubtitle>
@@ -86,9 +82,13 @@ export const DashboardAmount: React.FC = () => {
 						</Amount>
 					</Skeleton>
 				</MotiView>
-				{/* <MessageSubtitle>
-					Analise seu saldo antes de validar um cupom 👋
-				</MessageSubtitle> */}
+				{establishment?.can_show_users_home && (
+					<MessageSubtitle>
+						{walletAmount == 0
+							? "Seu saldo está zerado, adicione para poder validar ofertas 😞"
+							: "Analise seu saldo antes de validar um cupom 👋"}
+					</MessageSubtitle>
+				)}
 			</WrapperAmount>
 			<PayButton
 				disabled={false}
