@@ -1,36 +1,54 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import { Platform, RefreshControl } from 'react-native'
-import { Skeleton } from '@motify/skeleton'
-import { MotiView } from 'moti'
-import { ValueSubtitle, Wrapper, Amount, DueDateSubtitle, WrapperAmount, PayButton, BlurBox } from './styles';
-import colors from '../../../../assets/constants/colors';
-import { AuthContext } from '../../../contexts/auth-context';
-import { DashboardContext } from '../../../contexts/dashboard-context';
-import { RequestBalance } from '../requestBalance';
-import { IRequestBalanceRef } from '../requestBalance/@types';
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { Platform, RefreshControl } from "react-native";
+import { Skeleton } from "@motify/skeleton";
+import { MotiView } from "moti";
+import {
+	ValueSubtitle,
+	Wrapper,
+	Amount,
+	MessageSubtitle,
+	WrapperAmount,
+	PayButton,
+	OnlineStoreContainer,
+	OnlineText,
+} from "./styles";
+import colors from "../../../../assets/constants/colors";
+import { DashboardContext } from "../../../contexts/dashboard-context";
+import { RequestBalance } from "../requestBalance";
+import { IRequestBalanceRef } from "../requestBalance/@types";
+import { Flash } from "../../../utils/flash";
+import { AuthContext } from "../../../contexts/auth-context";
 
 export const DashboardAmount: React.FC = () => {
+	const { establishment } = useContext(AuthContext);
+	const { getDashboard, walletStore, refreshing } =
+		useContext(DashboardContext);
 
-	const requestBalanceRef = useRef<IRequestBalanceRef>(null)
-	const { getDashboard, amount, refreshing, futureCheckouts } = useContext(DashboardContext)
+	const requestBalanceRef = useRef<IRequestBalanceRef>(null);
 
-	const [showSkeleton, setShowSkeleton] = useState(true)
+	const [showSkeleton, setShowSkeleton] = useState(true);
+
+	const walletAmount = walletStore?.wallet_amount ?? 0;
 
 	useEffect(() => {
 		getDashboardWithSkeleton();
-	}, [])
+	}, []);
 
 	async function getDashboardWithSkeleton() {
-
 		try {
-			setShowSkeleton(true)
+			setShowSkeleton(true);
 
 			await getDashboard();
-
 		} finally {
-			setShowSkeleton(false)
+			setShowSkeleton(false);
 		}
+	}
 
+	function handleEnableForUsers() {
+		Flash.customMessage(
+			"Crie ao menos uma oferta de 5%",
+			"Crie uma oferta mínima"
+		);
 	}
 
 	return (
@@ -44,28 +62,39 @@ export const DashboardAmount: React.FC = () => {
 				/>
 			}
 		>
+			{!establishment?.can_show_users_home && (
+				<OnlineStoreContainer onPress={handleEnableForUsers}>
+					<OnlineText>Você não esta visível para os usuários</OnlineText>
+				</OnlineStoreContainer>
+			)}
 			<ValueSubtitle>Seu saldo</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
-					<Skeleton show={showSkeleton} colorMode={'light'}>
+					<Skeleton show={showSkeleton} colorMode={"light"}>
 						<Amount>
-							{
-								Platform.select({
-									ios: amount
-										.toLocaleString('pt-br',
-											{ style: 'currency', currency: 'BRL' }),
-									android: `R$ ${amount}`
-								})
-							}
+							{Platform.select({
+								ios: walletAmount.toLocaleString("pt-br", {
+									style: "currency",
+									currency: "BRL",
+								}),
+								android: `R$ ${walletAmount}`,
+							})}
 						</Amount>
 					</Skeleton>
 				</MotiView>
-				{!futureCheckouts &&
-					<DueDateSubtitle> Saldo insuficiente para novas transações 😰</DueDateSubtitle>
-				}
+				{establishment?.can_show_users_home && (
+					<MessageSubtitle>
+						{walletAmount == 0
+							? "Seu saldo está zerado, adicione para poder validar ofertas 😞"
+							: "Analise seu saldo antes de validar um cupom 👋"}
+					</MessageSubtitle>
+				)}
 			</WrapperAmount>
-			<PayButton disabled={false} onPress={() => requestBalanceRef.current?.openModal()} />
+			<PayButton
+				disabled={false}
+				onPress={() => requestBalanceRef.current?.openModal()}
+			/>
 			<RequestBalance ref={requestBalanceRef} />
-		</Wrapper >
+		</Wrapper>
 	);
-}
+};

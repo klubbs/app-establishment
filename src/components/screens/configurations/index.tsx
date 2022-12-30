@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Linking } from 'react-native';
+import { Linking, StatusBar } from 'react-native';
+import colors from '../../../../assets/constants/colors';
 import { MenuItem } from '../../component/menuItem';
 
 import { Wrapper, ContainerScroll } from './styles';
 
 export const ConfigurationsScreen: React.FC = () => {
 
-	const [configs, setConfig] = useState([])
-
-
 	return (
 		<Wrapper>
+			<StatusBar
+				backgroundColor={colors.COLOR_WHITE}
+				barStyle={'dark-content'}
+				animated={true} />
 			<ContainerScroll>
 
 				<MenuItem

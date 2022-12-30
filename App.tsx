@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from './assets/constants/colors';
 import FlashComponent from 'flash-notify'
 
-LogBox.ignoreLogs(['Expected style']);
+LogBox.ignoreLogs(['Expected style', 'Require cycles']);
 
 export default function App() {
 

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { ITransactionItems } from "../components/component-heavy/transactions/interfaces";
+import { GetDashboardResponse } from "../services/@types/@finance-service";
 import { FinanceService } from "../services/finance-service";
 import { Flash } from "../utils/flash";
 import { Middlewares } from "../utils/middlewares";
@@ -8,21 +9,17 @@ import { AuthContext } from "./auth-context";
 export const DashboardContext = createContext(
     {} as {
         getDashboard: () => Promise<void>,
-        amount: number,
+        walletStore: GetDashboardResponse,
         checkouts: ITransactionItems[] | null,
-        refreshing: boolean,
-        futureCheckouts: boolean
+        refreshing: boolean
     }
 )
 
-const DashboardProvider: React.FC = ({ children }) => {
+const DashboardProvider: React.FC = ({ children }: any) => {
+    const { reloadProfileInCloud } = useContext(AuthContext)
 
-    const { reloadProfileInCloud, establishment } = useContext(AuthContext)
-
-
-    const [amount, setAmount] = useState(0.00)
+    const [walletStore, setWalletStore] = useState<GetDashboardResponse>({} as GetDashboardResponse)
     const [checkouts, setCheckouts] = useState<ITransactionItems[] | null>(null)
-    const [futureCheckouts, setFutureCheckouts] = useState(true)
 
     const [refreshing, setRefreshing] = useState(false)
 
@@ -35,16 +32,17 @@ const DashboardProvider: React.FC = ({ children }) => {
 
             const response = await FinanceService.GetDashboardBalance();
 
-            setAmount(response.amount);
+            setWalletStore(response);
             setCheckouts(response.checkouts);
-            setFutureCheckouts(response.checkout_in_future)
 
         } catch (error) {
             Middlewares.middlewareError(
                 () => Flash
                     .customMessage(
                         "Ocorreu um erro ao recuperar seu painel",
-                        "Desculpe", "NEUTRAL"), error
+                        "Desculpe",
+                        "NEUTRAL"
+                    ), error
             )
 
         } finally {
@@ -55,7 +53,7 @@ const DashboardProvider: React.FC = ({ children }) => {
 
     return (
         <DashboardContext.Provider value={{
-            getDashboard, amount, checkouts, refreshing, futureCheckouts
+            getDashboard, walletStore, checkouts, refreshing
         }}>
             {children}
         </DashboardContext.Provider>

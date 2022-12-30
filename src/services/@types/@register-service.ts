@@ -5,7 +5,6 @@ export type IRegisterRequest = {
 	phone: string
 	opened_at: number
 	closed_at: number
-	description: string
 	owner_name: string
 	owner_cpf: string
 	business_category_id: string

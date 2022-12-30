@@ -73,7 +73,7 @@ export const HomeScreen: React.FC = ({ }) => {
 				</Wrapper>
 				<OfferCreate
 					visible={visibleOffer}
-					onCancellCb={() => setVisibleOffer(!visibleOffer)}
+					onCancellCb={() => setVisibleOffer(false)}
 				/>
 			</>
 		)

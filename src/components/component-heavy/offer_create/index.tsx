@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Alert, TouchableOpacity, Modal, Platform, GestureResponderHandlers } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, Modal, Platform } from "react-native";
 import { CouponCreateImage } from "../../../../assets/images/coupon-create-svg";
 import { OfferService } from "../../../services/offer-service";
 import { IOffer } from "../../../services/@types/@offer-service";
@@ -7,7 +7,7 @@ import { isEmpty, nameof } from "../../../utils/extensions/object_extensions";
 import { Flash } from "../../../utils/flash";
 import Button from "../../component/button";
 import { PickerNumber } from "../../component/picker_number";
-import FlashComponent from 'flash-notify';
+import FlashComponent from "flash-notify";
 import { Spinner } from "../../component/spinner";
 import {
 	Wrapper,
@@ -25,145 +25,150 @@ import {
 	WrapperWeeks,
 	SubtitleWeeks,
 	AndroidTime,
-	TouchablePickerAndroid
+	TouchablePickerAndroid,
+	DashedBorder,
+	DashedText,
 } from "./styles";
 import { IError } from "../../../settings/connection";
 import { Middlewares } from "../../../utils/middlewares";
 import { DaysOfWeek } from "../../component/DaysOfWeek";
-import { Feather } from '@expo/vector-icons'
+import { Feather } from "@expo/vector-icons";
 import colors from "../../../../assets/constants/colors";
 
-
-
-export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (props) => {
-
-
-	const [loading, setLoading] = useState(false)
-	const [visibleComponent, setVisibleComponent] = useState(false)
-	const [showAndroidPicker, setShowAndroidPicker] = useState(false)
+export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
+	props
+) => {
+	const [loading, setLoading] = useState(false);
+	const [visibleComponent, setVisibleComponent] = useState(false);
+	const [showAndroidPicker, setShowAndroidPicker] = useState(false);
 
 	const [offValue, setOffValue] = useState(5);
 	const [dateValidAt, setdateValidAt] = useState(new Date());
-	const [daysOfWeek, setDaysOfWeek] = useState<number[]>([])
-	const [minimumTicket, setMinimumTicket] = useState("")
+	const [minimumTicket, setMinimumTicket] = useState("");
+	const [daysOfWeek, setDaysOfWeek] = useState<number[]>([
+		0, 1, 2, 3, 4, 5, 6,
+	]);
 
+	const ticketIsEditable = offValue > 5;
 
-	const onChangeDate = (event: any, selectedDate: any) => {
+	useEffect(() => {
+		if (offValue === 5) {
+			setMinimumTicket("");
+			setDaysOfWeek([0, 1, 2, 3, 4, 5, 6]);
+		}
+	}, [offValue]);
+
+	function onChangeDate(event: any, selectedDate: any) {
 		const currentDate: Date = selectedDate || dateValidAt;
 
-		setShowAndroidPicker(Platform.OS === 'ios');
+		setShowAndroidPicker(Platform.OS === "ios");
 		setdateValidAt(currentDate);
-	};
+	}
 
+	async function onCreateCoupon() {
+		setVisibleComponent(true);
 
-	const onCreateCoupon = async () => {
-		setVisibleComponent(true)
-
-		const onCreate = async () => {
+		async function onCreate() {
 			try {
+				setLoading(true);
 
-				setLoading(true)
+				console.log(daysOfWeek);
 
 				const fields: IOffer = {
-					description: '',
+					description: "",
 					offPercentual: offValue,
 					validAt: dateValidAt,
 					workingDays: daysOfWeek,
-					minimumTicket: minimumTicket
-				}
+					minimumTicket: minimumTicket,
+				};
 
 				const validFields = OfferService.validate(fields);
 
 				if (!isEmpty(validFields)) {
-
 					if (validFields.hasOwnProperty(nameof<IOffer>("workingDays")))
 						Flash.customMessage(
-							'Defina os dias da semana válidos para esta oferta', ''
-						)
-
+							"Defina os dias da semana válidos para esta oferta",
+							""
+						);
 
 					return;
 				}
 
-				await OfferService.createOffer(fields)
+				await OfferService.createOffer(fields);
 
-				Flash.congratulationCreateOffer()
+				Flash.congratulationCreateOffer();
 
-				clearClose()
-
+				clearClose();
 			} catch (error) {
 				Middlewares.middlewareError(
 					() => OfferService.catchCreateOffer(error as IError),
 					error
-				)
+				);
 			} finally {
-				setLoading(false)
+				setLoading(false);
 			}
 		}
 
 		Alert.alert(
-			"Criar oferta ?",
-			`Você só pode criar uma oferta de cupom a cada período de 24 horas:
-			${'\n'}${'\n'}Porcentagem de desconto : ${offValue}%
-			${'\n'}Válido até: ${dateValidAt.toLocaleDateString("pt-br",
-				{ year: 'numeric', month: 'long', day: 'numeric' })}
-			${'\n'}Valor mínimo: R$${minimumTicket.length === 0 ? "0,00" : minimumTicket}
+			"Criar oferta",
+			`Porcentagem de desconto : ${offValue}%
+			${"\n"}Válido até: ${dateValidAt.toLocaleDateString("pt-br", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+			})}
+			${"\n"}Valor mínimo: R$${minimumTicket.length === 0 ? "0,00" : minimumTicket}
 			`,
 			[
 				{
-					text: 'Sim',
-					onPress: () => onCreate()
+					text: "Sim",
+					onPress: () => onCreate(),
 				},
 				{
-					text: 'Não',
-					onPress: () => { },
-					style: 'cancel'
-				}
+					text: "Não",
+					onPress: () => {},
+					style: "cancel",
+				},
 			]
 		);
+	}
 
-	};
+	function clearClose() {
+		setOffValue(5);
 
-	const clearClose = () => {
-		setOffValue(5)
+		setdateValidAt(new Date());
 
-		setdateValidAt(new Date())
+		setDaysOfWeek([]);
 
-		setDaysOfWeek([])
+		setMinimumTicket("");
 
-		setMinimumTicket("")
-
-		setVisibleComponent(false)
+		setVisibleComponent(false);
 
 		props.onCancellCb();
 	}
 
 	function handleDaysWeek(day: number) {
-		const already = daysOfWeek.includes(day)
+		const already = daysOfWeek.includes(day);
 
 		if (already) {
-			const newState = daysOfWeek.filter(item => item !== day);
-			setDaysOfWeek(newState)
+			const newState = daysOfWeek.filter((item) => item !== day);
+			setDaysOfWeek(newState);
 		} else {
-			setDaysOfWeek([...daysOfWeek, day])
+			setDaysOfWeek([...daysOfWeek, day]);
 		}
-
 	}
 
 	return (
-
 		<Modal
-			presentationStyle={'overFullScreen'}
+			presentationStyle={"overFullScreen"}
 			animationType={"slide"}
 			transparent={true}
 			visible={props.visible}
 		>
-
 			<Spinner loading={loading} />
 			{visibleComponent && <FlashComponent />}
 
 			<Wrapper>
-
 				<CancelClick onPress={() => clearClose()}>
 					<Cancel />
 				</CancelClick>
@@ -177,59 +182,68 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 
 				<Container>
 					<WrapperCoupon>
-						<CouponCreateImage
-							width={'90%'}
-							height={'85%'}
-						/>
+						<CouponCreateImage width={"90%"} height={"85%"} />
 						<Off>{offValue}%</Off>
 						<ValidSubtitle>Válido até</ValidSubtitle>
-						{
-							Platform.OS === 'ios' &&
+						{Platform.OS === "ios" && (
 							<DatePicker
-								display={'spinner'}
+								display={"spinner"}
 								minimumDate={new Date()}
 								value={dateValidAt}
 								onChange={onChangeDate}
 							/>
-						}
-						{
-							Platform.OS === 'android' &&
+						)}
+						{Platform.OS === "android" && (
 							<TouchablePickerAndroid
 								onPress={() => setShowAndroidPicker(true)}
 							>
 								<AndroidTime>
-									{dateValidAt.toCustomLocaleDateString()}{'  '}
-									<Feather name={'chevron-down'} size={15} />
+									{dateValidAt.toCustomLocaleDateString()}
+									{"  "}
+									<Feather name={"chevron-down"} size={15} />
 								</AndroidTime>
 							</TouchablePickerAndroid>
-						}
-						{
-							Platform.OS === 'android' && showAndroidPicker &&
+						)}
+						{Platform.OS === "android" && showAndroidPicker && (
 							<DatePicker
 								style={{
-									backgroundColor: colors.COLOR_YELLOW
+									backgroundColor: colors.COLOR_YELLOW,
 								}}
-								display={'default'}
+								display={"default"}
 								minimumDate={new Date()}
 								value={dateValidAt}
 								onChange={onChangeDate}
 							/>
-						}
+						)}
 					</WrapperCoupon>
 
-					<WrapperMinimumTicket>
-						<SubtitleMinimumTicket>Valor mínimo</SubtitleMinimumTicket>
-						<MinimumTicket
-							value={minimumTicket}
-							onChangeText={(e: string) => setMinimumTicket(e)}
-						/>
-					</WrapperMinimumTicket>
+					{!ticketIsEditable && (
+						<DashedBorder>
+							<DashedText>
+								DESCONTOS DE 5%,{"\n"} NÃO DEVEM CONTER REGRAS
+							</DashedText>
+						</DashedBorder>
+					)}
 
+					{ticketIsEditable && (
+						<>
+							<WrapperMinimumTicket>
+								<SubtitleMinimumTicket>
+									Valor mínimo
+								</SubtitleMinimumTicket>
+								<MinimumTicket
+									editable={ticketIsEditable}
+									value={minimumTicket}
+									onChangeText={(e: string) => setMinimumTicket(e)}
+								/>
+							</WrapperMinimumTicket>
 
-					<WrapperWeeks>
-						<SubtitleWeeks>Dias da semana: </SubtitleWeeks>
-						<DaysOfWeek cb={handleDaysWeek} />
-					</WrapperWeeks>
+							<WrapperWeeks>
+								<SubtitleWeeks>Dias da semana: </SubtitleWeeks>
+								<DaysOfWeek cb={handleDaysWeek} />
+							</WrapperWeeks>
+						</>
+					)}
 				</Container>
 
 				<Button
@@ -238,6 +252,6 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (pr
 					onPress={() => onCreateCoupon()}
 				/>
 			</Wrapper>
-		</Modal >
+		</Modal>
 	);
 };

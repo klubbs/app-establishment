@@ -1,129 +1,131 @@
-import { Flash } from '../utils/flash';
-import { connectionHandler, IError } from '../settings/connection';
-import { IOffer, IOfferRequest } from './@types/@offer-service'
-import { Validator } from 'fluentvalidation-ts'
-import { ValidationErrors } from 'fluentvalidation-ts/dist/ValidationErrors'
-import { IResponseMessage } from '../settings/connection'
+import { Flash } from "../utils/flash";
+import { connectionHandler, IError } from "../settings/connection";
+import { IOffer, IOfferRequest } from "./@types/@offer-service";
+import { Validator } from "fluentvalidation-ts";
+import { ValidationErrors } from "fluentvalidation-ts/dist/ValidationErrors";
+import { IResponseMessage } from "../settings/connection";
 
 export class OfferService {
-
 	static validate(params: IOffer): ValidationErrors<IOffer> {
-		const validator = new OfferValidator()
+		const validator = new OfferValidator();
 
-		return validator.validate(params)
+		return validator.validate(params);
 	}
 
 	static async createOffer(params: IOffer): Promise<string> {
+		const contract = this.contractCreateOffer(params);
 
-		const contract = this.contractCreateOffer(params)
-
-		const { data } = await connectionHandler('KLUBBS_API_URL')
-			.post<IResponseMessage<string>>('stores/coupon/create', contract)
+		const { data } = await connectionHandler("KLUBBS_API_URL").post<
+			IResponseMessage<string>
+		>("stores/coupon/create", contract);
 
 		return data.message;
 	}
 
 	static contractCreateOffer(params: IOffer): IOfferRequest {
-		params.validAt.setHours(12)
+		params.validAt.setHours(12);
 
 		return {
 			description: params.description,
 			off_percentual: params.offPercentual,
 			valid_at: params.validAt.ToUnixEpoch(),
 			working_days: params.workingDays,
-			minimum_ticket: Number(params.minimumTicket.replace(",", "."))
-		}
-
+			minimum_ticket: Number(
+				params.minimumTicket.replaceAll(".", "").replaceAll(",", ".")
+			),
+		};
 	}
 
 	static catchCreateOffer(errors: IError) {
 		if (errors) {
 			if (errors.statusCode === 412) {
-				Flash.permissionCreateManyOffers()
+				Flash.permissionCreateManyOffers();
 			} else {
-				Flash.someoneBullshit()
+				Flash.someoneBullshit();
 			}
 		}
 	}
 
-	static async scanCoupon(couponId: string, userId: string) {
-		await connectionHandler('KLUBBS_API_URL')
-			.post('checkouts', { coupon_id: couponId, user_id: userId })
+	static async scanCoupon(checkoutId: string, storeAmount: string) {
+		const { data } = await connectionHandler("KLUBBS_API_URL").put<
+			IResponseMessage<{ discountAmount: number; checkoutAmount: number }>
+		>("checkouts", {
+			checkout_id: checkoutId,
+			store_checkout_amount: storeAmount,
+		});
+
+		return data.message;
 	}
 
 	static catchScanCoupon(errors: IError) {
-
 		if (errors.statusCode === 412) {
 			const actualError = errors.error[0].field.toLowerCase();
 
 			switch (actualError) {
-				case 'coupon':
-					Flash.customMessage("Cupom inválido", "Esse não é um cupom válido", 'WARNING')
-					break;
-
-				case 'wallet':
+				case "checkout completed":
 					Flash.customMessage(
-						"Cupom não está na carteira",
-						"O cliente não adicionou o cupom a carteira", 'WARNING')
+						"Esse checkout já foi concluido",
+						"Checkout já concluido",
+						"NEUTRAL"
+					);
 					break;
 
-				case 'ineligible':
+				case "responsible checkout":
 					Flash.customMessage(
-						"Este cupom não é válido no seu estabelecimento",
-						"Não existe oferta do seu estabelecimento neste cupom",
-						'WARNING')
+						"Checkout em andamento é de outro estabelecimento",
+						"Não responsável pelo checkout",
+						"WARNING"
+					);
 					break;
 
-				case 'rules':
+				case "range amount":
 					Flash.customMessage(
-						"Oferta Inválida",
-						"Esta oferta não é válida no dia de hoje",
-						'WARNING')
-
+						"O valor informado entre vocês está muito incosistente",
+						"Valor informado é inconsistente",
+						"NEUTRAL"
+					);
 					break;
 
-				case 'establishment':
+				case "store permission":
 					Flash.customMessage(
 						"Seu estabelecimento ainda não esta adequado a fazer checkouts",
 						"Establecimento rejeitado",
-						'WARNING')
-
+						"WARNING"
+					);
 					break;
 
-				case 'balance':
-
+				case "balance":
 					Flash.customMessage(
-						"Saldo baixo",
-						"Saldo insuficiente para novas transações",
-						'WARNING')
-
+						"Saldo insuficiente para esse checkout",
+						"Sem saldo",
+						"NEUTRAL"
+					);
 					break;
 
 				default:
-
 					break;
 			}
-
-
-
-
 		} else {
-			Flash.someoneBullshit()
+			Flash.someoneBullshit();
 		}
 	}
 }
 
 class OfferValidator extends Validator<IOffer> {
 	constructor() {
-		super()
+		super();
 
-		this.ruleFor('workingDays').must((item) => {
-			return item.length > 0
-		})
+		this.ruleFor("workingDays").must((item, model) => {
+			if (model.offPercentual === 5) {
+				return model.workingDays.length === 7;
+			}
 
-		this.ruleFor('offPercentual').must((item) => {
-			return item >= 5
-		})
+			return item.length > 0;
+		});
+
+		this.ruleFor("offPercentual").must((item) => {
+			return item >= 5;
+		});
 
 		//TODO VAlidar numeros da semana com must()
 	}

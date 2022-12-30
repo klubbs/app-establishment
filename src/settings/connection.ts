@@ -41,6 +41,8 @@ export const connectionHandler = (type: 'KLUBBS_API_URL') => {
 	instance.interceptors.response.use(
 		(response) => response,
 		async (error): Promise<{ message: string; error: any; statusCode: number }> => {
+			
+				console.log(error)
 			if (isAPIException(error?.response?.data)) {
 				// console.log("ERRO DA API => ", error.response.data)
 				const statusCode = error.response.data?.statusCode
