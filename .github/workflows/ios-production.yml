@@ -44,16 +44,16 @@ jobs:
       - name: 📦 Install dependencies
         run: yarn install
 
-      - name: 🚀 Build Version
-        run: |
-          ENVIRONMENT_KLUBBS_API_URL=${{ secrets.ENVIRONMENT_KLUBBS_API_URL }} ENVIRONMENT_PLACES_API=${{ secrets.ENVIRONMENT_PLACES_API}} ENVIRONMENT_KLUBBS_AUTHZN_URL=${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }} ENVIRONMENT_PROJECT_EAS_ID=${{ secrets.ENVIRONMENT_PROJECT_EAS_ID }} eas build --platform ios --profile production --non-interactive
+      # - name: 🚀 Build Version
+      #   run: |
+      #     ENVIRONMENT_KLUBBS_API_URL=${{ secrets.ENVIRONMENT_KLUBBS_API_URL }} ENVIRONMENT_PLACES_API=${{ secrets.ENVIRONMENT_PLACES_API}} ENVIRONMENT_KLUBBS_AUTHZN_URL=${{ secrets.ENVIRONMENT_KLUBBS_AUTHZN_URL }} ENVIRONMENT_PROJECT_EAS_ID=${{ secrets.ENVIRONMENT_PROJECT_EAS_ID }} eas build --platform ios --profile production --non-interactive
         # Use in-line environment because using this mode can pass to eas server for using in build
 
       - name: 📦 Download Build IPA
         run: |
           sudo apt-get update
           sudo apt-get install wget
-          wget -O app.ipa $(eas build:list --json --limit=1 --platform=ios | jq '.[0].artifacts.buildUrl' | sed 's/"//g')
+          wget -O app.ipa $(eas build:list --json --non-interactive --limit=1 --platform=ios | jq '.[0].artifacts.buildUrl' | sed 's/"//g')
 
       - name: 📦 Upload do artefato
         uses: actions/upload-artifact@v2
