@@ -50,6 +50,8 @@ jobs:
         # Use in-line environment because using this mode can pass to eas server for using in build
 
       - name: 📦 Download Build IPA
+        env:
+          ENVIRONMENT_PROJECT_EAS_ID: ${{ secrets.ENVIRONMENT_PROJECT_EAS_ID }} 
         run: |
           sudo apt-get update
           sudo apt-get install wget
