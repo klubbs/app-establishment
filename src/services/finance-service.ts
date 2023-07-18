@@ -11,6 +11,10 @@ export class FinanceService {
 		return data.message
 	}
 
+	/**
+	 * 
+	 * @deprecated 
+	 */
 	static async RequestBalance(balance: string): Promise<void> {
 		await connectionHandler('KLUBBS_API_URL')
 			.post('finance/stores/balance', null, { params: { balance: balance } })

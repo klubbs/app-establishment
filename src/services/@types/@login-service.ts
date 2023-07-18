@@ -19,6 +19,7 @@ export interface ILoginResponse {
 	token: string;
 	refresh_token: string;
 	documentation_status: string;
+	subscription:string
 }
 
 export type TStoreResponse = ILoginResponse & {
