@@ -7,6 +7,7 @@ import colors from '../../../assets/constants/colors'
 import { DocumentsScreen } from '../../components/screens/documents'
 import { ConfigurationsScreen } from '../../components/screens/configurations'
 import { HelpScreen } from '../../components/screens/help'
+import { PaymentsScreen } from '../../components/screens/payments'
 
 const AppStack = createStackNavigator<IAppStackParams>()
 
@@ -28,6 +29,11 @@ export const AppStackNavigator: React.FC = () => {
 			<AppStack.Screen
 				name="Configurations"
 				component={ConfigurationsScreen}
+				options={{ headerTintColor: colors.COLOR_YELLOW }}
+			/>
+			<AppStack.Screen
+				name="Payments"
+				component={PaymentsScreen}
 				options={{ headerTintColor: colors.COLOR_YELLOW }}
 			/>
 			<AppStack.Screen

@@ -8,14 +8,11 @@ import {
 	Amount,
 	MessageSubtitle,
 	WrapperAmount,
-	PayButton,
 	OnlineStoreContainer,
 	OnlineText,
 } from "./styles";
 import colors from "../../../../assets/constants/colors";
 import { DashboardContext } from "../../../contexts/dashboard-context";
-import { RequestBalance } from "../requestBalance";
-import { IRequestBalanceRef } from "../requestBalance/@types";
 import { Flash } from "../../../utils/flash";
 import { AuthContext } from "../../../contexts/auth-context";
 
@@ -24,11 +21,9 @@ export const DashboardAmount: React.FC = () => {
 	const { getDashboard, walletStore, refreshing } =
 		useContext(DashboardContext);
 
-	const requestBalanceRef = useRef<IRequestBalanceRef>(null);
-
 	const [showSkeleton, setShowSkeleton] = useState(true);
 
-	const walletAmount = walletStore?.wallet_amount ?? 0;
+	const walletAmount = walletStore?.checkouts_amount ?? 0;
 
 	useEffect(() => {
 		getDashboardWithSkeleton();
@@ -67,7 +62,7 @@ export const DashboardAmount: React.FC = () => {
 					<OnlineText>Você não esta visível para os usuários</OnlineText>
 				</OnlineStoreContainer>
 			)}
-			<ValueSubtitle>Seu saldo</ValueSubtitle>
+			<ValueSubtitle>Total de checkouts</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={showSkeleton} colorMode={"light"}>
@@ -90,11 +85,6 @@ export const DashboardAmount: React.FC = () => {
 					</MessageSubtitle>
 				)}
 			</WrapperAmount>
-			<PayButton
-				disabled={false}
-				onPress={() => requestBalanceRef.current?.openModal()}
-			/>
-			<RequestBalance ref={requestBalanceRef} />
 		</Wrapper>
 	);
 };
