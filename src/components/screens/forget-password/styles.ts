@@ -54,7 +54,7 @@ export const Password = styled(InputWithIcon).attrs(({
 }))`
     width:80%;
     height:60px;
-	 margin-top: 15%;
+		margin-top: 15%;
     margin-bottom: 15%;
 `
 

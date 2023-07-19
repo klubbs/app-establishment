@@ -80,8 +80,8 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 					minimumTicket: minimumTicket,
 				};
 
-				if(fields.offPercentual <= 5){
-					fields.workingDays = [0,1,2,3,4,5,6]
+				if (fields.offPercentual <= 5) {
+					fields.workingDays = [0, 1, 2, 3, 4, 5, 6]
 				}
 
 				const validFields = OfferService.validate(fields);
@@ -128,7 +128,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 				},
 				{
 					text: "Não",
-					onPress: () => {},
+					onPress: () => { },
 					style: "cancel",
 				},
 			]
