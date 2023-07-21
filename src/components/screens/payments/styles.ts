@@ -6,12 +6,14 @@ import { InputWithIcon } from '../../component/input-with-icon';
 
 export const CreditCardNumber = styled(InputWithMask).attrs({
 	type: "credit-card",
+	placeholder: 'Número do cartão',
 	options: {
 		obfuscated: false
 	},
 })`
 	text-align: center;
 	width: 100%;
+	height:60px;
 	color: ${colors.COLOR_SECUNDARY_BLACK};
 	background-color: ${colors.COLOR_BLACK10};
 `;
@@ -21,6 +23,7 @@ export const NameUserInput = styled(InputWithIcon).attrs(({
 }))`
 	text-align: center;
 	width: 100%;
+	height:60px;
 	background-color: ${colors.COLOR_SECUNDARY_WHITE};
 	color: ${colors.COLOR_SECUNDARY_BLACK};
 `;
@@ -29,7 +32,8 @@ export const DateCardInput = styled(InputWithIcon).attrs(({
 	placeholder: 'MÊS/ANO'
 }))`
 	text-align: center;
-	width: 50%;
+	width: 49%;
+	height:60px;
 	background-color: ${colors.COLOR_SECUNDARY_WHITE};
 	color: ${colors.COLOR_SECUNDARY_BLACK};
 `
@@ -38,7 +42,8 @@ export const CVCCardInput = styled(InputWithIcon).attrs(({
 	placeholder: 'CVC'
 }))`
 	text-align: center;
-	width: 50%;
+	width: 49%;
+	height:60px;
 	background-color: ${colors.COLOR_SECUNDARY_WHITE};
 	color: ${colors.COLOR_SECUNDARY_BLACK};
 `
