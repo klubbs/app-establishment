@@ -11,7 +11,7 @@ import { PaymentsScreen } from '../../components/screens/payments'
 
 const AppStack = createStackNavigator<IAppStackParams>()
 
-export const AppStackNavigator: React.FC = () => {
+export const AppStackNavigator: React.FC<{}> = () => {
 	return (
 		<AppStack.Navigator
 			screenOptions={({ navigation, route }) => ({

@@ -97,7 +97,7 @@ export const DocumentsScreen: React.FC = () => {
 				</FileContainer>
 			</Container>
 			<SendButton disabled={!(cpfFill() && cnpjFill())} onPress={handleUpload} />
-			<Subtitle>Você será informado por email assim que analisarmos!</Subtitle>
+			<Subtitle>Você será informado por email assim que a análise for concluida!</Subtitle>
 		</Wrapper>
 	);
 }

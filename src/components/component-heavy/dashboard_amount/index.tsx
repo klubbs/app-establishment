@@ -6,7 +6,6 @@ import {
 	ValueSubtitle,
 	Wrapper,
 	Amount,
-	MessageSubtitle,
 	WrapperAmount,
 	OnlineStoreContainer,
 	OnlineText,
@@ -23,7 +22,7 @@ export const DashboardAmount: React.FC = () => {
 
 	const [showSkeleton, setShowSkeleton] = useState(true);
 
-	const walletAmount = walletStore?.checkouts_amount ?? 0;
+	const amountCheckouts = walletStore?.checkouts_amount ?? 0;
 
 	useEffect(() => {
 		getDashboardWithSkeleton();
@@ -62,28 +61,21 @@ export const DashboardAmount: React.FC = () => {
 					<OnlineText>Você não esta visível para os usuários</OnlineText>
 				</OnlineStoreContainer>
 			)}
-			<ValueSubtitle>Total de checkouts</ValueSubtitle>
+			<ValueSubtitle>Transacionado em checkouts</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={showSkeleton} colorMode={"light"}>
 						<Amount>
 							{Platform.select({
-								ios: walletAmount.toLocaleString("pt-br", {
+								ios: amountCheckouts.toLocaleString("pt-br", {
 									style: "currency",
 									currency: "BRL",
 								}),
-								android: `R$ ${walletAmount}`,
+								android: `R$ ${amountCheckouts}`,
 							})}
 						</Amount>
 					</Skeleton>
 				</MotiView>
-				{establishment?.can_show_users_home && (
-					<MessageSubtitle>
-						{walletAmount == 0
-							? "Seu saldo está zerado, adicione para poder validar ofertas 😞"
-							: "Analise seu saldo antes de validar um cupom 👋"}
-					</MessageSubtitle>
-				)}
 			</WrapperAmount>
 		</Wrapper>
 	);

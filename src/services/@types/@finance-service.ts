@@ -5,3 +5,10 @@ export type GetDashboardResponse = {
 	checkouts_amount: number,
 	checkouts: ITransactionItems[]
 }
+
+export type GetPaymentMethodResponse = {
+	store_id: string,
+	last_4: number
+	exp_year: number;
+	exp_month: number
+}

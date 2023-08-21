@@ -5,53 +5,57 @@ import { InputWithIcon } from '../../component/input-with-icon';
 import Button from '../../component/button';
 
 
-export const CreditCardNumber = styled(InputWithMask).attrs<{ editable: boolean }>((({ editable }) => ({
+export const CreditCardNumber = styled(InputWithMask as any).attrs<{ editable: boolean }>((({ editable }) => ({
 	type: "credit-card",
 	placeholder: 'Número do cartão',
 	placeholderTextColor: colors.COLOR_BLACK50,
 	options: {
 		obfuscated: editable ? false : true
 	},
-})))`
+}))) <{ editable: boolean }>`
 	text-align: center;
 	width: 100%;
 	height:60px;
-	color: ${colors.COLOR_SECUNDARY_BLACK};
+	color: ${({ editable }) => editable ? colors.COLOR_SECUNDARY_BLACK : colors.COLOR_BLACK40};
+	font-family: 'Nunito_Bold';
 	background-color: ${colors.COLOR_BLACK10};
 `;
 
-export const NameUserInput = styled(InputWithIcon).attrs(({
+export const NameUserInput = styled(InputWithIcon as any).attrs(({
 	placeholder: 'Nome no cartão de crédito',
-}))`
+})) <{ editable: boolean }>`
 	text-align: center;
 	width: 100%;
+	font-family: 'Nunito_Bold';
 	height:60px;
-	background-color: ${colors.COLOR_SECUNDARY_WHITE};
-	color: ${colors.COLOR_SECUNDARY_BLACK};
-`;
+	background-color: ${colors.COLOR_BLACK10};
+	color: ${({ editable }) => editable ? colors.COLOR_SECUNDARY_BLACK : colors.COLOR_BLACK40};
+	`;
 
-export const DateCardInput = styled(InputWithIcon).attrs(({
+export const DateCardInput = styled(InputWithIcon as any).attrs(({
 	placeholder: 'MÊS/ANO',
 	inputMode: 'numeric'
-}))`
+})) <{ editable: boolean }>`
 	text-align: center;
+	font-family: 'Nunito_Bold';
 	width: 49%;
 	height:60px;
-	background-color: ${colors.COLOR_SECUNDARY_WHITE};
-	color: ${colors.COLOR_SECUNDARY_BLACK};
+	background-color: ${colors.COLOR_BLACK10};
+	color: ${({ editable }) => editable ? colors.COLOR_SECUNDARY_BLACK : colors.COLOR_BLACK40};
 `
 
-export const CVCCardInput = styled(InputWithIcon).attrs(({
+export const CVCCardInput = styled(InputWithIcon as any).attrs(({
 	placeholder: 'CVC',
 	inputMode: 'numeric'
-}))`
+})) <{ editable: boolean }>`
 	text-align: center;
 	width: 49%;
 	height:60px;
-	background-color: ${colors.COLOR_SECUNDARY_WHITE};
-	color: ${colors.COLOR_SECUNDARY_BLACK};
+	font-family: 'Nunito_Bold';
+	background-color: ${colors.COLOR_BLACK10};
+	color: ${({ editable }) => editable ? colors.COLOR_SECUNDARY_BLACK : colors.COLOR_BLACK40};
 `
-export const SaveButton = styled(Button).attrs<{ enable: boolean }>(({ enable }) => ({
+export const SaveButton = styled(Button as any).attrs<{ enable: boolean }>(({ enable }) => ({
 	styleContainer: { backgroundColor: enable ? colors.COLOR_GREEN : colors.COLOR_YELLOW },
 	styleButton: { color: enable ? colors.COLOR_SECUNDARY_GREEN : colors.COLOR_YELLOW_BUTTON_TEXT }
 }))`

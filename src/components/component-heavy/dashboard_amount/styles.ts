@@ -29,12 +29,6 @@ export const Amount = styled.Text`
 	font-family: "Nunito_Bold";
 `;
 
-export const MessageSubtitle = styled.Text`
-	color: ${colors.COLOR_WHITE_80};
-	font-size: 12px;
-	font-family: "Nunito_Light";
-`;
-
 export const DocsButton = styled(Button).attrs((props) => ({
 	text: "Comprovar documentação",
 	styleContainer: {

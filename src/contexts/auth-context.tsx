@@ -15,7 +15,6 @@ import {
 } from "../services/@types/@login-service";
 import { EventEmitter } from "../utils/emitter";
 import { ProfileService } from "../services/profile-service";
-import { Flash } from "../utils/flash";
 
 export const AuthContext = createContext(
 	{} as {

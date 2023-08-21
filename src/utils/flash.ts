@@ -81,11 +81,11 @@ export class Flash {
 		})
 
 
-	static permissionCreateManyOffers = () =>
+	static paymentMethodNotCreated = () =>
 		showFlash({
 			type: 'NEUTRAL',
-			title: 'Limite de ofertas atingido !',
-			desc: 'Aguarde até amanhã para poder criar mais'
+			title: 'Defina um método de pagamento ',
+			desc: 'Para criar ofertas defina um método de pagamento antes '
 		})
 
 	static congratulationCreateOffer = () => {
