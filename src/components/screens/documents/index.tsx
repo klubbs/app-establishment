@@ -30,8 +30,8 @@ export const DocumentsScreen: React.FC = () => {
 	const navigation = useNavigation();
 	const { reloadProfileInCloud } = useContext(AuthContext)
 
-	const cpfFill = useCallback(() => imageCpf?.cancelled === false, [imageCpf])
-	const cnpjFill = useCallback(() => imageCnpj?.cancelled === false, [imageCnpj])
+	const cpfFill = useCallback(() => imageCpf?.canceled === false, [imageCpf])
+	const cnpjFill = useCallback(() => imageCnpj?.canceled === false, [imageCnpj])
 
 
 	async function handleImage(isCnpj: boolean) {
@@ -47,7 +47,7 @@ export const DocumentsScreen: React.FC = () => {
 			quality: 0.5
 		});
 
-		if (result.cancelled) {
+		if (result.canceled) {
 			return
 		}
 

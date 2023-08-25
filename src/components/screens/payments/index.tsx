@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView } from 'react-native';
-import { CVCCardInput, CardBackground, CardTexts, CreditCardNumber, DateCardInput, NameUserInput, SaveButton } from './styles';
+import { AlertContainer, AlertText, CVCCardInput, CardBackground, CardTexts, ContainerTop, CreditCardNumber, DateCardInput, NameUserInput, SaveButton, Wrapper } from './styles';
 import { FinanceService } from '../../../services/finance-service';
 import { Flash } from '../../../utils/flash';
 import { Spinner } from '../../component/spinner';
@@ -10,6 +10,8 @@ import { AuthContext } from '../../../contexts/auth-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { IAppStackParams } from '../../../settings/@types/iapp-stack-params';
+import { StatusBar } from 'expo-status-bar';
+import colors from '../../../../assets/constants/colors';
 
 const PaymentsScreen: React.FC = () => {
 
@@ -170,15 +172,31 @@ const PaymentsScreen: React.FC = () => {
 		setDate(`${month}/${year}`)
 	}
 
+	function RenderAlert() {
+
+		if (!creditCardNumber && !userNameCard && !cvc && !date && !editable) {
+			return (
+				<AlertContainer>
+					<AlertText>Cadastre seu meio de pagamento</AlertText>
+				</AlertContainer>
+			)
+		}
+
+		return <></>
+
+	}
+
 	return (
-		<View style={{ flex: 1, padding: 10 }} >
+		<Wrapper>
+			<StatusBar style='dark' animated={true} />
 			<Spinner loading={loading} />
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<ContainerTop>
+				<RenderAlert />
 				<CardBackground>
 					<CardTexts>●●●● ●●●● ●●●● {showWhenMoreThan12()}</CardTexts>
 					<CardTexts>	CARTÃO DE CRÉDITO</CardTexts>
 				</CardBackground>
-			</View>
+			</ContainerTop>
 			<KeyboardAvoidingView behavior={'padding'} style={{
 				alignItems: 'center', flex: 1, rowGap: 10, justifyContent: 'center'
 			}}>
@@ -205,7 +223,7 @@ const PaymentsScreen: React.FC = () => {
 					/>
 				</View>
 			</KeyboardAvoidingView>
-		</View >
+		</Wrapper >
 	);
 }
 

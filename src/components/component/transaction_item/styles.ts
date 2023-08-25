@@ -59,3 +59,9 @@ export const Amount = styled.Text`
   font-size:14px;
   font-family:'Nunito_Bold';
 `
+
+export const DiscountAmount = styled.Text`
+  color:${colors.COLOR_BLACK50};
+  font-size:13px;
+  font-family:'Nunito_Bold';
+`

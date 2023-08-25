@@ -39,7 +39,7 @@ export class OfferService {
 	static catchCreateOffer(errors: IError) {
 		if (errors) {
 			if (errors.statusCode === 412) {
-				Flash.permissionCreateManyOffers();
+				Flash.customMessage("Antes deve definir o meio de pagamento", "Defina um cartão de crédito", "WARNING");
 			} else {
 				Flash.someoneBullshit();
 			}

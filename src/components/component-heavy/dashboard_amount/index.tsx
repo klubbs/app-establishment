@@ -40,7 +40,7 @@ export const DashboardAmount: React.FC = () => {
 
 	function handleEnableForUsers() {
 		Flash.customMessage(
-			"Crie ao menos uma oferta de 5%",
+			"Necessário ter um oferta de 5% ativa",
 			"Crie uma oferta mínima"
 		);
 	}
@@ -61,7 +61,7 @@ export const DashboardAmount: React.FC = () => {
 					<OnlineText>Você não esta visível para os usuários</OnlineText>
 				</OnlineStoreContainer>
 			)}
-			<ValueSubtitle>Transacionado em checkouts</ValueSubtitle>
+			<ValueSubtitle>Valor em checkouts</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={showSkeleton} colorMode={"light"}>

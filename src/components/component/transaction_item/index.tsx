@@ -11,8 +11,10 @@ import {
 	WrapperLeft,
 	WrapperMiddle,
 	WrapperRight,
-	Amount
+	Amount,
+	DiscountAmount
 } from './styles';
+import { View } from 'react-native';
 
 export const TransactionItem: React.FC<ITransactionItems> = (props) => {
 	return (
@@ -27,7 +29,7 @@ export const TransactionItem: React.FC<ITransactionItems> = (props) => {
 				<Influencer>{formatUserCouponCode(props.partner_coupon_name)}</Influencer>
 				<Subtitle>{
 					props
-						.checkouted_at
+						.checkout_at
 						.ToDateFormat()
 						.toLocaleTimeString("pt-br",
 							{
@@ -39,10 +41,14 @@ export const TransactionItem: React.FC<ITransactionItems> = (props) => {
 							})
 				} &#xB7; {formatUserCouponCode(props.coupon_code)}</Subtitle>
 			</WrapperMiddle>
-
-			<WrapperRight>
-				<Amount>R$ {props.checkout_amount}</Amount>
-			</WrapperRight>
+			<View>
+				<WrapperRight>
+					<Amount>R$ {props.checkout_amount}</Amount>
+				</WrapperRight>
+				<WrapperRight>
+					<DiscountAmount>R$ {props.discount}</DiscountAmount>
+				</WrapperRight>
+			</View>
 		</Wrapper>
 	);
 }

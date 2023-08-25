@@ -4,6 +4,34 @@ import colors from '../../../../assets/constants/colors';
 import { InputWithIcon } from '../../component/input-with-icon';
 import Button from '../../component/button';
 
+export const Wrapper = styled.View`
+	flex: 1;
+	padding: 10px;
+	background-color: ${colors.COLOR_SECUNDARY_WHITE};
+`
+
+export const ContainerTop = styled.View`
+	flex: 1;
+	align-items: center;
+	justify-content: space-evenly;
+`
+
+export const AlertContainer = styled.View.attrs({
+	activeOpacity: 0.8,
+})`
+	justify-content: center;
+	align-items: center;
+	padding-horizontal: 25px;
+	padding-vertical: 5px;
+	border-radius: 5px;
+	background-color: ${`${colors.COLOR_YELLOW}60`};
+`;
+
+export const AlertText = styled.Text`
+	color: ${colors.COLOR_YELLOW_BUTTON_TEXT};
+	font-size: 12px;
+	font-family: "Nunito_Bold";
+`;
 
 export const CreditCardNumber = styled(InputWithMask as any).attrs<{ editable: boolean }>((({ editable }) => ({
 	type: "credit-card",
