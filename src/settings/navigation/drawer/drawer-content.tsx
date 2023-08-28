@@ -102,6 +102,11 @@ export const DrawerContent: React.FC = () => {
 			/>
 
 			<MenuItem
+				label="Minhas Ofertas"
+				onPress={() => navigation.navigate('MyOffers')}
+			/>
+
+			<MenuItem
 				label="Pagamentos"
 				onPress={() => navigation.navigate('Payments')}
 			/>

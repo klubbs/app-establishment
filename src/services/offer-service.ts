@@ -1,6 +1,6 @@
 import { Flash } from "../utils/flash";
 import { connectionHandler, IError } from "../settings/connection";
-import { IOffer, IOfferRequest } from "./@types/@offer-service";
+import { IGetStoreOffers, IOffer, IOfferRequest } from "./@types/@offer-service";
 import { Validator } from "fluentvalidation-ts";
 import { ValidationErrors } from "fluentvalidation-ts/dist/ValidationErrors";
 import { IResponseMessage } from "../settings/connection";
@@ -17,9 +17,16 @@ export class OfferService {
 
 		const { data } = await connectionHandler("KLUBBS_API_URL").post<
 			IResponseMessage<string>
-		>("stores/coupon/create", contract);
+		>("stores/offers/create", contract);
 
 		return data.message;
+	}
+
+	static async disableOffer(offerId: string): Promise<void> {
+		await connectionHandler('KLUBBS_API_URL').put("stores/offers/disable", {
+			offer_id: offerId
+		})
+
 	}
 
 	static contractCreateOffer(params: IOffer): IOfferRequest {
@@ -34,6 +41,14 @@ export class OfferService {
 				params.minimumTicket.replaceAll(".", "").replaceAll(",", ".")
 			),
 		};
+	}
+
+	static async getStoreOffers(): Promise<IGetStoreOffers[]> {
+		const { data } = await connectionHandler("KLUBBS_API_URL").get<
+			IResponseMessage<IGetStoreOffers[]>
+		>("stores/offers");
+
+		return data.message
 	}
 
 	static catchCreateOffer(errors: IError) {
@@ -99,6 +114,14 @@ export class OfferService {
 						"Saldo insuficiente para esse checkout",
 						"Sem saldo",
 						"NEUTRAL"
+					);
+					break;
+
+				case "payment method":
+					Flash.customMessage(
+						"Cadastre um método de pagamento antes",
+						"Método de pagamento",
+						"WARNING"
 					);
 					break;
 

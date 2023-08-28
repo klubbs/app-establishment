@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { IAppStackParams } from '../../../settings/@types/iapp-stack-params';
 import { StatusBar } from 'expo-status-bar';
-import colors from '../../../../assets/constants/colors';
 
 const PaymentsScreen: React.FC = () => {
 
@@ -62,8 +61,6 @@ const PaymentsScreen: React.FC = () => {
 				setUserNameCard("***** *****")
 				return
 			}
-
-			Flash.customMessage('Nenhum meio de pagamento cadastrado', "Cadastre seu cartão de crédito", 'NEUTRAL')
 
 		} catch (error) {
 

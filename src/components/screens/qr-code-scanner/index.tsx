@@ -130,8 +130,9 @@ export const QrCodeScanner: React.FC = () => {
 			Middlewares.middlewareError(() => {
 				Haptic.notificationAsync(Haptic.NotificationFeedbackType.Warning);
 				OfferService.catchScanCoupon(error as IError);
-				setHasError(true);
 			}, error);
+
+			setHasError(true);
 		} finally {
 			setLoading(false);
 		}

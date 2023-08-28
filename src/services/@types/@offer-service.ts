@@ -15,3 +15,13 @@ export interface IOfferRequest {
 	minimum_ticket: number
 }
 
+
+export interface IGetStoreOffers {
+	id: string
+	off_percentual: number
+	valid_at: number,
+	created_at: number,
+	is_invalidated: boolean,
+	minimum_ticket: number,
+	working_days: number[]
+}
