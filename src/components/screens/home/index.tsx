@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonCreateOffer } from '../../component/button_create_offer';
 import { ButtonDrawer } from '../../component/button_drawer';
 import { OfferCreate } from '../../component-heavy/offer_create';
-import { Wrapper } from './styles'
+import { SubscriptionContainer, SubscriptionTitle, SubscriptionWrapper, Wrapper } from './styles'
 import { AuthContext } from '../../../contexts/auth-context';
 import { DashboardDocs } from '../../component-heavy/dashboardDocs';
 import { Flash } from '../../../utils/flash';
@@ -66,6 +66,9 @@ export const HomeScreen: React.FC = ({ }) => {
 		(
 			<>
 				<Wrapper>
+					<SubscriptionWrapper>
+						<SubscriptionTitle>{establishment?.subscription}</SubscriptionTitle>
+					</SubscriptionWrapper>
 					{establishment?.documentation_status !== "OK" && <DashboardDocs />}
 					{establishment?.documentation_status === "OK" && <DashboardAmount />}
 					<Transactions />

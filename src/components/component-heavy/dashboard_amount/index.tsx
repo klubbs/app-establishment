@@ -61,7 +61,7 @@ export const DashboardAmount: React.FC = () => {
 					<OnlineText>Você não esta visível para os usuários</OnlineText>
 				</OnlineStoreContainer>
 			)}
-			<ValueSubtitle>Valor em checkouts</ValueSubtitle>
+			<ValueSubtitle>Transacionados no mês</ValueSubtitle>
 			<WrapperAmount>
 				<MotiView>
 					<Skeleton show={showSkeleton} colorMode={"light"}>

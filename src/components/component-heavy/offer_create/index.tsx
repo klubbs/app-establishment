@@ -222,7 +222,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 					{!ticketIsEditable && (
 						<DashedBorder>
 							<DashedText>
-								DESCONTOS DE 5%,{"\n"} NÃO DEVEM CONTER REGRAS
+								OFERTAS COM O MENOR DESCONTO, {"\n"} NÃO PODEM TER VALOR MÍNIMO
 							</DashedText>
 						</DashedBorder>
 					)}
