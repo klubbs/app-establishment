@@ -4,7 +4,7 @@ import Button from "../../component/button";
 
 export const Wrapper = styled.ScrollView.attrs({
 	contentContainerStyle: {
-		justifyContent: "space-around",
+		justifyContent: "space-evenly",
 		alignItems: "center",
 		flex: 1,
 	},
@@ -28,24 +28,6 @@ export const Amount = styled.Text`
 	font-size: 25px;
 	font-family: "Nunito_Bold";
 `;
-
-export const MessageSubtitle = styled.Text`
-	color: ${colors.COLOR_WHITE_80};
-	font-size: 12px;
-	font-family: "Nunito_Light";
-`;
-
-export const PayButton = styled(Button).attrs((props) => ({
-	styleContainer: {
-		width: "40%",
-		height: "15%",
-		backgroundColor: props.disabled
-			? colors.COLOR_WHITE_40
-			: colors.COLOR_YELLOW,
-	},
-	text: "Adicionar saldo",
-	styleButton: props.disabled ? { color: colors.COLOR_WHITE_80 } : {},
-}))``;
 
 export const DocsButton = styled(Button).attrs((props) => ({
 	text: "Comprovar documentação",

@@ -72,8 +72,6 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 			try {
 				setLoading(true);
 
-				console.log(daysOfWeek);
-
 				const fields: IOffer = {
 					description: "",
 					offPercentual: offValue,
@@ -81,6 +79,10 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 					workingDays: daysOfWeek,
 					minimumTicket: minimumTicket,
 				};
+
+				if (fields.offPercentual <= 5) {
+					fields.workingDays = [0, 1, 2, 3, 4, 5, 6]
+				}
 
 				const validFields = OfferService.validate(fields);
 
@@ -126,7 +128,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 				},
 				{
 					text: "Não",
-					onPress: () => {},
+					onPress: () => { },
 					style: "cancel",
 				},
 			]
@@ -220,7 +222,7 @@ export const OfferCreate: React.FC<{ visible: boolean; onCancellCb: any }> = (
 					{!ticketIsEditable && (
 						<DashedBorder>
 							<DashedText>
-								DESCONTOS DE 5%,{"\n"} NÃO DEVEM CONTER REGRAS
+								OFERTAS COM O MENOR DESCONTO, {"\n"} NÃO PODEM TER VALOR MÍNIMO
 							</DashedText>
 						</DashedBorder>
 					)}

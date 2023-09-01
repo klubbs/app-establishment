@@ -48,9 +48,9 @@ export const WrapperCoupon = styled.View`
 export const Off = styled.Text`
 	position: absolute;
 	top: ${Platform.select({
-		ios: "25%",
-		android: isSmallAndroid() ? "15%" : "25%",
-	})};
+	ios: "25%",
+	android: isSmallAndroid() ? "15%" : "25%",
+})};
 	left: 12%;
 	color: ${colors.COLOR_YELLOW_BUTTON_TEXT};
 	font-size: 25px;
@@ -74,7 +74,7 @@ export const ValidSubtitle = styled.Text`
 	position: absolute;
 	top: 36%;
 	right: 15%;
-	color: ${colors.COLOR_WHITE_40};
+	color: ${colors.COLOR_WHITE};
 	font-size: 13px;
 	font-family: "Nunito_Bold";
 `;
@@ -122,12 +122,12 @@ export const DashedBorder = styled.View`
     /* padding-vertical:5px; */
 	border-style: dashed;
 	border-width: 1px;
-	border-color: ${colors.COLOR_YELLOW};
+	border-color: ${colors.COLOR_BLACK50};
 	border-radius: 5px;
 `;
 
 export const DashedText = styled.Text`
-	color: ${colors.COLOR_YELLOW};
+	color: ${colors.COLOR_BLACK50};
     text-align: center;
 	font-size: 13px;
 	font-family: "Nunito_SemiBold";

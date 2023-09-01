@@ -19,7 +19,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	ios: {
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
-		buildNumber: "0.0.11",
+		buildNumber: "0.0.12",
 		icon: "./assets/images/icon.png",
 		infoPlist: {
 			NSPhotoLibraryUsageDescription:
@@ -30,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 8,
+		versionCode: 9,
 		adaptiveIcon: {
 			foregroundImage: "./assets/images/android-icon.png",
 			backgroundColor: "#1F1F1F",

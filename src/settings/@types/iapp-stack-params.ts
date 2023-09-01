@@ -1,10 +1,11 @@
-import { StackScreenProps } from "@react-navigation/stack";
 
 export type IAppStackParams = {
 	Home: undefined,
 	QrScanner: undefined,
 	Configurations: undefined,
+	Payments: undefined,
 	Documents: undefined,
-	Help: undefined
+	Help: undefined,
+	MyOffers: undefined
 };
 

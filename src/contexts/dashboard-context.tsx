@@ -7,57 +7,57 @@ import { Middlewares } from "../utils/middlewares";
 import { AuthContext } from "./auth-context";
 
 export const DashboardContext = createContext(
-    {} as {
-        getDashboard: () => Promise<void>,
-        walletStore: GetDashboardResponse,
-        checkouts: ITransactionItems[] | null,
-        refreshing: boolean
-    }
+	{} as {
+		getDashboard: () => Promise<void>,
+		walletStore: GetDashboardResponse,
+		checkouts: ITransactionItems[] | null,
+		refreshing: boolean
+	}
 )
 
-const DashboardProvider: React.FC = ({ children }: any) => {
-    const { reloadProfileInCloud } = useContext(AuthContext)
+const DashboardProvider: React.FC<{}> = ({ children }: any) => {
+	const { reloadProfileInCloud } = useContext(AuthContext)
 
-    const [walletStore, setWalletStore] = useState<GetDashboardResponse>({} as GetDashboardResponse)
-    const [checkouts, setCheckouts] = useState<ITransactionItems[] | null>(null)
+	const [walletStore, setWalletStore] = useState<GetDashboardResponse>({} as GetDashboardResponse)
+	const [checkouts, setCheckouts] = useState<ITransactionItems[] | null>(null)
 
-    const [refreshing, setRefreshing] = useState(false)
+	const [refreshing, setRefreshing] = useState(false)
 
-    async function getDashboard() {
+	async function getDashboard() {
 
-        try {
-            setRefreshing(true)
+		try {
+			setRefreshing(true)
 
-            await reloadProfileInCloud()
+			await reloadProfileInCloud()
 
-            const response = await FinanceService.GetDashboardBalance();
+			const response = await FinanceService.GetDashboardBalance();
 
-            setWalletStore(response);
-            setCheckouts(response.checkouts);
+			setWalletStore(response);
+			setCheckouts(response.checkouts);
 
-        } catch (error) {
-            Middlewares.middlewareError(
-                () => Flash
-                    .customMessage(
-                        "Ocorreu um erro ao recuperar seu painel",
-                        "Desculpe",
-                        "NEUTRAL"
-                    ), error
-            )
+		} catch (error) {
+			Middlewares.middlewareError(
+				() => Flash
+					.customMessage(
+						"Ocorreu um erro ao recuperar seu painel",
+						"Desculpe",
+						"NEUTRAL"
+					), error
+			)
 
-        } finally {
-            setRefreshing(false)
-        }
-    }
+		} finally {
+			setRefreshing(false)
+		}
+	}
 
 
-    return (
-        <DashboardContext.Provider value={{
-            getDashboard, walletStore, checkouts, refreshing
-        }}>
-            {children}
-        </DashboardContext.Provider>
-    )
+	return (
+		<DashboardContext.Provider value={{
+			getDashboard, walletStore, checkouts, refreshing
+		}}>
+			{children}
+		</DashboardContext.Provider>
+	)
 }
 
 export default DashboardProvider
