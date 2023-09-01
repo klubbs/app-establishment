@@ -30,12 +30,24 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	},
 	android: {
 		package: "app.klubbs.establishment",
-		versionCode: 9,
+		versionCode: 10,
 		adaptiveIcon: {
 			foregroundImage: "./assets/images/android-icon.png",
 			backgroundColor: "#1F1F1F",
 		},
 	},
+	plugins: [
+		[
+			'expo-build-properties',
+			{
+				android: {
+					compileSdkVersion: 33,
+					targetSdkVersion: 33,
+					buildToolsVersion: '33.0.0',
+				},
+			},
+		],
+	],
 	extra: {
 		eas: {
 			projectId: process.env.ENVIRONMENT_PROJECT_EAS_ID,
