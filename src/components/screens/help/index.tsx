@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Linking, StatusBar } from 'react-native';
 import colors from '../../../../assets/constants/colors';
 import { MenuItem } from '../../component/menuItem';
 
 import { Wrapper, ContainerScroll } from './styles';
+import { AuthContext } from '../../../contexts/auth-context';
 
 export const HelpScreen: React.FC = () => {
+	const { establishment } = useContext(AuthContext)
+
+
 	return (
 		<Wrapper>
 			<StatusBar
@@ -30,7 +34,7 @@ export const HelpScreen: React.FC = () => {
 					icon='mail'
 					cb={
 						() => Linking
-							.openURL('mailto: fale-conosco-estabelecimentos@klubbs.com.br?subject=Oi, Klubbs tenho uma sugestão!')}
+							.openURL('mailto: suporteestabelecimentos@klubbs.com.br?subject=Oi, Klubbs tenho uma sugestão!')}
 				/>
 
 				<MenuItem
@@ -51,6 +55,16 @@ export const HelpScreen: React.FC = () => {
 						.openURL('https://enshrined-bubbler-645.notion.site/Privacy-Policy-klubbs-4be747dae70a451d805540db6fb24957')
 					}
 				/>
+				<MenuItem
+					key={'4'}
+					text='Cancelar conta'
+					description='Podemos te ajudar com isso'
+					icon='triangle'
+					cb={() => Linking
+						.openURL(`mailto: suportecontas@klubbs.com.br?subject=Sou o estabelecimento( ${establishment?.name} ) e gostaria de cancelar minha conta, meu e-mail é ${establishment?.mail}!`)
+					}
+				/>
+
 			</ContainerScroll>
 		</Wrapper>
 	);

@@ -19,11 +19,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	ios: {
 		supportsTablet: false,
 		bundleIdentifier: "app.klubbs.establishment",
-		buildNumber: "0.0.12",
+		buildNumber: "0.0.13",
 		icon: "./assets/images/icon.png",
 		infoPlist: {
 			NSPhotoLibraryUsageDescription:
-				"Necessistamos da sua autorização para que você consiga escolher uma imagem da sua galeria.",
+				"Precisamos da sua autorização para que você possa ter acesso a todas as funcionalidades do app após sua validação.",
 			NSCameraUsageDescription:
 				"Precisamos da sua autorização para que você possa validar vendas por QR Code.",
 		},
