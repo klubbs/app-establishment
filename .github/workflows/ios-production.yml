@@ -51,7 +51,7 @@ jobs:
 
       - name: 📦 Download Build IPA
         env:
-          ENVIRONMENT_PROJECT_EAS_ID: ${{ secrets.ENVIRONMENT_PROJECT_EAS_ID }} 
+          ENVIRONMENT_PROJECT_EAS_ID: ${{ secrets.ENVIRONMENT_PROJECT_EAS_ID }}
         run: |
           sudo apt-get update
           sudo apt-get install wget
@@ -92,19 +92,19 @@ jobs:
         with:
           name: appbuild
 
-      # PUT IF RELEASE BRANCHS
-      - name: 📦 Extract Branch Name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+      # # PUT IF RELEASE BRANCHS
+      # - name: 📦 Extract Branch Name
+      #   shell: bash
+      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      #   id: extract_branch
 
-      - name: 🔀 Automatic Merge Into Main
-        uses: mtanzi/action-automerge@v1
-        # if: github.ref == 'refs/heads/release'
-        with:
-          github_token: ${{ github.token }}
-          source: ${{ steps.extract_branch.outputs.branch }}
-          target: 'main'
-          webhook_url: #if present add the Slack webhook
+      # - name: 🔀 Automatic Merge Into Main
+      #   uses: mtanzi/action-automerge@v1
+      #   # if: github.ref == 'refs/heads/release'
+      #   with:
+      #     github_token: ${{ github.token }}
+      #     source: ${{ steps.extract_branch.outputs.branch }}
+      #     target: 'main'
+      #     webhook_url: #if present add the Slack webhook
 
 
